@@ -1,0 +1,47 @@
+<%- include('../includes/head.ejs') %>
+	<link rel="stylesheet" href="/css/auth-style.css">
+	<script src="/js/auth-script.js" defer></script>
+	</head>
+
+	<!-- <%- include('../includes/navigation') %> -->
+	<main class="main">
+		<div class="container">
+			<section class="wrapper">
+				<div class="heading">
+					<h1 class="text text-large">Rigester</h1>
+					<p class="text text-normal">New user? <span><a href="#" class="text text-links">Create an account</a></span>
+					</p>
+					<hr>
+				</div>
+				<form name="signin" class="form">
+					<div class="input-control">
+						<label for="userName" class="input-label" hidden>User Name</label>
+						<input type="userName" name="userName" id="userName" class="input-field" placeholder="User Name">
+					</div>
+					<div class="input-control">
+						<label for="email" class="input-label" hidden>Email Address</label>
+						<input type="email" name="email" id="email" class="input-field" placeholder="Email Address">
+					</div>
+					<div class="input-control">
+						<label for="password" class="input-label" hidden>Password</label>
+						<input type="password" name="password" id="password" class="input-field" placeholder="Password">
+					</div>
+					<div class="input-control">
+						<label for="confirmPassword" class="input-label" hidden>Confirm Password</label>
+						<input type="confirmPassword" name="confirmPassword" id="confirmPassword" class="input-field"
+							placeholder="Confirm Password">
+					</div>
+					<div class="input-control">
+						<a href="#" class="text text-links">Forgot Password</a>
+						<input type="submit" name="submit" class="input-submit" value="Sign In">
+					</div>
+				</form>
+				<div class="striped">
+					<span class="striped-line"></span>
+
+			</section>
+		</div>
+	</main>
+
+
+	<%- include('../includes/end') %>
