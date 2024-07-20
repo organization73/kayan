@@ -26,12 +26,6 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getRegister = async (req, res, next) => {
-  // const admin = new Admin({
-  //   userName: "abdo",
-  //   email: "abdo@gmail.com",
-  //   password: "12345678",
-  // });
-  // const result = await admin.save();
   console.log("GET /auth/register");
   res.render("auth/register", {
     pageTitle: "Register",
@@ -107,3 +101,12 @@ exports.postRegister = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getLogin = async (req, res, next) => {
+  console.log("loading login page");
+  res.render("auth/login", {
+    pageTitle: "login",
+    path: "login",
+    isAuthenticated: false,
+  });
+}
