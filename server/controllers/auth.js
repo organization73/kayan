@@ -150,12 +150,46 @@ exports.postLogin = async (req, res, next) => {
     );
     admin.authenticationToken = token;
     await admin.save();
+    console.log(admin)
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 2,
     });
-    res.redirect("/");
+    res.status(200).json({ message: "Admin logged in successfully" });
+    
   } catch (error) {
     next(error);
   }
 };
+
+exports.getResetPassword = async (req, res, next) => {
+  console.log("GET /auth/reset-password");
+  res.render("auth/reset-password", {
+    pageTitle: "Reset Password",
+    isAuthenticated: false,
+    path: "/reset-password",
+  });
+};
+
+exports.postResetPassword = async (req, res, next) => {
+  const { email } = req.body;
+  console.log(email);
+  try{
+    if (!email) {
+      const error = new Error("Email is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    //check if admin exists
+    const admin = await Admin.findOne({email});
+    if(!admin){
+      const error = new Error("Admin not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({message: "Reset password link was sent successfully check your emails."});
+  }
+  catch(error){
+    next(error);
+  }
+}
