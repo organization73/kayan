@@ -5,6 +5,7 @@ const crypto = require("crypto");
 
 const Admin = require("../models/admin");
 const domain = require("../utilities/domain");
+const e = require("express");
 
 const registerSchema = yup.object().shape({
   userName: yup.string().min(3).max(30).required(),
@@ -69,7 +70,7 @@ exports.postRegister = async (req, res, next) => {
     const newAdmin = new Admin({
       userName,
       email,
-      password:hashedPassword,
+      password: hashedPassword,
       // confirmToken: token,
       // confirmTokenExpiration: Date.now() + TOKEN_VALID_MIN * 60 * 1000,
     });
@@ -103,10 +104,44 @@ exports.postRegister = async (req, res, next) => {
 };
 
 exports.getLogin = async (req, res, next) => {
+  const register = req.query.register;
+  console.log("register:", register);
   console.log("loading login page");
   res.render("auth/login", {
     pageTitle: "login",
     path: "login",
     isAuthenticated: false,
+    register: register,
   });
-}
+};
+
+exports.postLogin = async (req, res, next) => {
+  const { email, password } = req.body;
+
+  try {
+    //check if admin exists
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
+      const error = new Error("Admin not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    //check password match
+    const isMatch = await bcrypt.compare(password, admin.password);
+    if (!isMatch) {
+      const error = new Error("Wrong password");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    //create cookies
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    res.cookie("token", token, {
+      httpOnly: true,
+      maxAge: 1000 * 60 * 60 * 24 * 2,
+    });
+  } catch (error) {
+    next(error);
+  }
+};

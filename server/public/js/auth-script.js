@@ -58,7 +58,7 @@ form.addEventListener("submit", async (event) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Admin registered successfully");
-    window.location.href = "/login";
+    window.location.href = "/login?register=true";
     return responseData;
   } catch (error) {
     console.error("Error:", error.message);
