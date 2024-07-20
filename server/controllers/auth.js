@@ -1,7 +1,8 @@
 const yup = require("yup");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-const crypto = require("crypto");
+// const crypto = require("crypto");"
+const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/admin");
 const domain = require("../utilities/domain");
@@ -30,7 +31,7 @@ exports.getRegister = async (req, res, next) => {
   console.log("GET /auth/register");
   res.render("auth/register", {
     pageTitle: "Register",
-    path: "register",
+    path: "/register",
     isAuthenticated: false,
   });
 };
@@ -109,7 +110,7 @@ exports.getLogin = async (req, res, next) => {
   console.log("loading login page");
   res.render("auth/login", {
     pageTitle: "login",
-    path: "login",
+    path: "/login",
     isAuthenticated: false,
     register: register,
   });
@@ -117,6 +118,7 @@ exports.getLogin = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   const { email, password } = req.body;
+  console.log(process.env.JWT_SECRET);
 
   try {
     //check if admin exists
@@ -136,11 +138,23 @@ exports.postLogin = async (req, res, next) => {
     }
 
     //create cookies
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const token = jwt.sign(
+      {
+        id: admin._id,
+        email: admin.email,
+      },
+      process.env.JWT_SECRET,
+      {
+        expiresIn: "2h",
+      }
+    );
+    admin.authenticationToken = token;
+    await admin.save();
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 2,
     });
+    res.redirect("/");
   } catch (error) {
     next(error);
   }
