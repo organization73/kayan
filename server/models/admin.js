@@ -24,6 +24,11 @@ const adminSchema = new Schema(
       type: String,
       default: "admin",
     },
+    isConfirm: { type: Boolean, default: false },
+    confirmToken: String,
+    confirmTokenExpiration: Date,
+    resetToken: String,
+    resetTokenExpiration: Date,
   },
   { timestamps: true }
 );
