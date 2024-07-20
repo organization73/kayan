@@ -8,6 +8,8 @@ const PORT = process.env.PORT || 8080;
 
 const authRoutes = require("./routes/auth");
 
+const adminRoutes = require("./routes/admin");
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 
@@ -20,7 +22,9 @@ app.use(morgan("dev"));
 
 app.use(authRoutes);
 
-app.get("/", (req, res) => {
+app.use(adminRoutes);
+
+app.get("/ping", (req, res) => {
   res.send("I am listening.");
 });
 
