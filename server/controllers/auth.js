@@ -287,3 +287,9 @@ exports.postResetPassword = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.postLogout = async (req, res, next) => {
+  console.log("POST /auth/logout");
+  res.clearCookie("token");
+  res.redirect("/login");
+};

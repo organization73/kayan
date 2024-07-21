@@ -4,8 +4,10 @@ const router = express.Router();
 
 const adminController = require("../controllers/admin");
 
-router.get("/", adminController.getHomePage)
+const authMiddleware = require("../middleware/auth");
 
-router.get("/add-product", adminController.getAddProduct);
+router.get("/", authMiddleware, adminController.getHomePage);
+
+router.get("/add-product", authMiddleware, adminController.getAddProduct);
 
 module.exports = router;
