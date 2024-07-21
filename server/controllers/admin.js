@@ -36,7 +36,7 @@ exports.postAddProduct = async (req, res, next) => {
   console.log(title, price, description, category, image, images);
   try {
     //Data validation
-    await productSchema.validate({ title, price, description,category });
+    await productSchema.validate({ title, price, description, category });
     //create object
     const product = new Product({
       title,
@@ -52,5 +52,20 @@ exports.postAddProduct = async (req, res, next) => {
     res.status(201).json({ message: "Product created successfully" });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.getProducts = async (req, res, next) => {
+  try {
+    const products = await Product.find().sort({ createdAt: -1 });
+    console.log(products);
+    res.render("shop/products", {
+      prods: products,
+      pageTitle: "Admin Products",
+      path: "/products",
+      isAuthenticated: req.admin ? true : false,
+    });
+  } catch (err) {
+    next(err);
   }
 };
