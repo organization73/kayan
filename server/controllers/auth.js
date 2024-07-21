@@ -1,7 +1,7 @@
 const yup = require("yup");
 const nodemailer = require("nodemailer");
 const bcrypt = require("bcrypt");
-// const crypto = require("crypto");"
+const crypto = require("crypto");
 const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/admin");
@@ -150,46 +150,140 @@ exports.postLogin = async (req, res, next) => {
     );
     admin.authenticationToken = token;
     await admin.save();
-    console.log(admin)
+    console.log(admin);
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * 60 * 24 * 2,
     });
     res.status(200).json({ message: "Admin logged in successfully" });
-    
   } catch (error) {
     next(error);
   }
 };
 
-exports.getResetPassword = async (req, res, next) => {
+exports.getForgetPassword = async (req, res, next) => {
   console.log("GET /auth/reset-password");
-  res.render("auth/reset-password", {
+  res.render("auth/forget-password", {
     pageTitle: "Reset Password",
     isAuthenticated: false,
     path: "/reset-password",
   });
 };
 
-exports.postResetPassword = async (req, res, next) => {
+exports.postForgetPassword = async (req, res, next) => {
   const { email } = req.body;
   console.log(email);
-  try{
+  try {
     if (!email) {
       const error = new Error("Email is required");
       error.statusCode = 422;
       throw error;
     }
     //check if admin exists
-    const admin = await Admin.findOne({email});
-    if(!admin){
+    const admin = await Admin.findOne({ email });
+    if (!admin) {
       const error = new Error("Admin not found");
       error.statusCode = 404;
       throw error;
     }
-    res.status(200).json({message: "Reset password link was sent successfully check your emails."});
-  }
-  catch(error){
+
+    //send confirmation email
+    const token = crypto.randomBytes(32).toString("hex");
+
+    //create admin object
+    admin.resetToken = token;
+    admin.resetTokenExpiration = Date.now() + TOKEN_VALID_MIN * 60 * 1000;
+
+    //send confirmation email
+    const info = await transporter.sendMail({
+      from: `"kayan🛋️"`,
+      to: email,
+      subject: "إعادة تعيين كلمة المرور ✔",
+      text: "مرحباً بك!",
+      html: `<h2>عزيزي ${admin.userName}</h2>
+       <p>لإعادة تعيين كلمة المرور الخاصة بك، يرجى النقر على الرابط أدناه: <a href='${domain(
+         req
+       )}/reset-password/${token}'> إعادة تعيين كلمة المرور </a> </p>
+       <p>إذا لم تقم بطلب إعادة تعيين كلمة المرور، يرجى تجاهل هذا البريد الإلكتروني.</p>
+       <p>شكراً لتعاونك.</p>
+       <p>مع خالص التحية،</p>
+       <p>فريق العمل</p>
+       `,
+    });
+    console.log("Message sent: %s", info.messageId);
+
+    await admin.save();
+
+    res.status(200).json({
+      message: "Reset password link was sent successfully check your emails.",
+    });
+  } catch (error) {
     next(error);
   }
-}
+};
+
+exports.getResetPassword = async (req, res, next) => {
+  const token = req.params.token;
+  try {
+    const admin = await Admin.findOne({
+      resetToken: token,
+      resetTokenExpiration: { $gt: Date.now() },
+    });
+
+    if (!admin) {
+      const error = new Error("Invalid token");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    console.log("GET /auth/reset-password");
+    res.render("auth/reset-password", {
+      pageTitle: "Reset Password",
+      isAuthenticated: false,
+      path: "/reset-password",
+      token,
+      adminId: admin._id,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postResetPassword = async (req, res, next) => {
+  const { adminId, token, password, confirmPassword } = req.body;
+  try{
+    //validate the date
+    if (!adminId || !token || !password || !confirmPassword) {
+      const error = new Error("All fields are required");
+      error.statusCode = 422;
+      throw error;
+    }
+    if (password !== confirmPassword) {
+      const error = new Error("Passwords do not match");
+      error.statusCode = 422;
+      throw error;
+    }
+
+    //check if admin exists
+    const admin = await Admin.findOne({
+      _id: adminId,
+      resetToken: token,
+      resetTokenExpiration: { $gt: Date.now() },
+    });
+    if (!admin) {
+      const error = new Error("Invalid token");
+      error.statusCode = 401;
+      throw error;
+    }
+
+    //hash password
+    const hashedPassword = await bcrypt.hash(password, 12);
+    admin.password = hashedPassword;
+    admin.resetToken = undefined;
+    admin.resetTokenExpiration = undefined;
+    await admin.save();
+    res.status(200).json({ message: "Password reset successfully" });
+  }catch(error){
+    next(error);
+  }
+};
