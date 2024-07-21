@@ -10,4 +10,6 @@ router.get("/", authMiddleware, adminController.getHomePage);
 
 router.get("/add-product", authMiddleware, adminController.getAddProduct);
 
+router.post("/add-product", authMiddleware, adminController.postAddProduct);
+
 module.exports = router;
