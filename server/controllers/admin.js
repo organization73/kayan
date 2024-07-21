@@ -1,5 +1,7 @@
-const Product = require("../models/product");
 const yup = require("yup");
+
+const Product = require("../models/product");
+const fileHelper = require("../utilities/file");
 
 const productSchema = yup.object().shape({
   title: yup.string().required(),
@@ -58,7 +60,6 @@ exports.postAddProduct = async (req, res, next) => {
 exports.getProducts = async (req, res, next) => {
   try {
     const products = await Product.find().sort({ createdAt: -1 });
-    console.log(products);
     res.render("shop/products", {
       prods: products,
       pageTitle: "Admin Products",
@@ -67,5 +68,28 @@ exports.getProducts = async (req, res, next) => {
     });
   } catch (err) {
     next(err);
+  }
+};
+
+exports.deleteProduct = async (req, res, next) => {
+  const { productId } = req.params;
+  console.log(productId);
+  try {
+    //delete product
+    const product = await Product.findByIdAndDelete(productId);
+    if (!product) {
+      const error = new Error("Product not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    //delete product images
+    fileHelper.deleteFile(product.mainImageUrl);
+    product.images.forEach((img) => fileHelper.deleteFile(img));
+    //delete product from offers
+
+    //send response
+    res.status(200).json({ message: "Product deleted successfully ", product });
+  } catch (error) {
+    next(error);
   }
 };

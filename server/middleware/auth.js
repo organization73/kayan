@@ -6,7 +6,6 @@ const authMiddleware = async (req, res, next) => {
   // Get the token from the request headers
   try {
     // token = req.headers.authorization.split(" ")[1];
-    console.log("req.cookies",req.cookies)
     let token = req.cookies.token;
     if (!token) {
       return res.status(403).render("auth/login", {

@@ -12,6 +12,8 @@ router.get("/add-product", authMiddleware, adminController.getAddProduct);
 
 router.post("/add-product", authMiddleware, adminController.postAddProduct);
 
+router.delete("/product/:productId", authMiddleware, adminController.deleteProduct);
+
 router.get("/products", authMiddleware, adminController.getProducts);
 
 module.exports = router;
