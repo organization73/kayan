@@ -26,6 +26,7 @@ const adminSchema = new Schema(
     },
     isConfirm: { type: Boolean, default: false },
     authenticationToken:{type:String},
+    authenticationTokenExpiration:{type:Date},
     confirmToken: String,
     confirmTokenExpiration: Date,
     resetToken: String,

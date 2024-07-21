@@ -19,9 +19,7 @@ const authMiddleware = async (req, res, next) => {
       });
     }
     // Verify and decode the token
-    console.log("11111")
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    console.log("222")
     // Check if the admin exists in the database
     const admin = await Admin.findById(decoded.id);
     if (!admin) {
@@ -30,6 +28,20 @@ const authMiddleware = async (req, res, next) => {
       throw error;
       // return res.status(401).json({ message: "Invalid token1" });
     }
+    //make sure the token is still valid
+    if (admin.authenticationTokenExpiration < new Date()) {
+      const error = new Error("Token expired login again");
+      error.statusCode = 500;
+      throw error;
+    }
+    //make sure the authetication token is the one in the db
+    if (admin.authenticationToken !== token) {
+      const error = new Error("Old token no longer work login again");
+      error.statusCode = 500;
+      throw error;
+    }
+    
+    // Attach the admin to the request
     req.admin = admin;
     req.isAuthenticated = true;
     // console.log('authorized requist:', req.admin)

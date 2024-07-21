@@ -6,7 +6,6 @@ const jwt = require("jsonwebtoken");
 
 const Admin = require("../models/admin");
 const domain = require("../utilities/domain");
-const e = require("express");
 
 const registerSchema = yup.object().shape({
   userName: yup.string().min(3).max(30).required(),
@@ -15,7 +14,7 @@ const registerSchema = yup.object().shape({
 });
 
 let from = process.env.EMAIL_FROM;
-TOKEN_VALID_MIN = 120;
+TOKEN_VALID_MIN = 1;
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",
@@ -149,11 +148,13 @@ exports.postLogin = async (req, res, next) => {
       }
     );
     admin.authenticationToken = token;
+    admin.authenticationTokenExpiration =
+      Date.now() + 1000 * 60 * TOKEN_VALID_MIN;
     await admin.save();
     console.log(admin);
     res.cookie("token", token, {
       httpOnly: true,
-      maxAge: 1000 * 60 * 60 * 24 * 2,
+      maxAge: 1000 * 60 * TOKEN_VALID_MIN,
     });
     res.status(200).json({ message: "Admin logged in successfully" });
   } catch (error) {
@@ -251,7 +252,7 @@ exports.getResetPassword = async (req, res, next) => {
 
 exports.postResetPassword = async (req, res, next) => {
   const { adminId, token, password, confirmPassword } = req.body;
-  try{
+  try {
     //validate the date
     if (!adminId || !token || !password || !confirmPassword) {
       const error = new Error("All fields are required");
@@ -283,7 +284,7 @@ exports.postResetPassword = async (req, res, next) => {
     admin.resetTokenExpiration = undefined;
     await admin.save();
     res.status(200).json({ message: "Password reset successfully" });
-  }catch(error){
+  } catch (error) {
     next(error);
   }
 };
