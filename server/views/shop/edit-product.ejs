@@ -15,6 +15,18 @@
             <input type="text" name="title" id="title"
               value="<% if (editing || hasErrors) { %><%= product.title %><% } %>">
           </div>
+          <label for="category">Category</label>
+          <select name="category" id="category">
+            <option value="">اختر فئة</option>
+            <option value="bedroom">غرف نوم</option>
+            <option value="office">مكتب</option>
+            <option value="kids-room">غرف أطفال</option>
+            <option value="dining-room">غرف سفرة</option>
+            <option value="sofas">ركنات</option>
+            <option value="salons">صالونات</option>
+            <option value="tables">طاولة</option>
+            <option value="cabinets">نيش</option>
+          </select>
           <div class="form-control">
             <label for="image">Image</label>
             <input type="file" name="image" id="image" %>">
@@ -51,4 +63,3 @@
 
 
       <%- include('../includes/end.ejs') %>
-      

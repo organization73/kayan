@@ -14,7 +14,7 @@ const registerSchema = yup.object().shape({
 });
 
 let from = process.env.EMAIL_FROM;
-TOKEN_VALID_MIN = 1;
+TOKEN_VALID_MIN = 120;
 const transporter = nodemailer.createTransport({
   service: "gmail",
   host: "smtp.gmail.com",

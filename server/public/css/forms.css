@@ -26,3 +26,17 @@
   border-color: red !important;
   border-radius: 20%;
 }
+
+#category {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.25rem;
+  border: 1px solid #a1a1a1;
+  font: inherit;
+  border-radius: 2px;
+}
+
+#category:focus {
+  outline-color: #00695c;
+}
+

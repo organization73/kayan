@@ -6,6 +6,7 @@ const imageInput = document.getElementById("image");
 const imagesInput = document.getElementById("images");
 const priceInput = document.getElementById("price");
 const descriptionInput = document.getElementById("description");
+const categoryInput = document.getElementById("category");
 console.log(form);
 
 function validateFileCount(input) {
@@ -23,20 +24,23 @@ form.addEventListener("submit", async (event) => {
   const imagesFiles = imagesInput.files;
   const priceValue = priceInput.value;
   const descriptionValue = descriptionInput.value;
+  const selectedCategory = categoryInput.value;
 
-  
-
-  try{
+  if (!titleValue || !priceValue || !descriptionValue || !selectedCategory) {
+    alert("Please fill in all fields");
+    return;
+  }
+  try {
     const response = await fetch("/add-product", {
       method: "POST",
       body: new FormData(form),
     });
-    
-    if(response.status !== 201){
+
+    if (response.status !== 201) {
       const errorData = await response.json();
       throw new Error(
         errorData.message ||
-        `Request failed with status code ${response.status}`
+          `Request failed with status code ${response.status}`
       );
     }
 
@@ -45,8 +49,7 @@ form.addEventListener("submit", async (event) => {
     alert("Product added successfully");
     window.location.href = "/products";
     return responseData;
-  }
-  catch(error){
+  } catch (error) {
     console.log(error);
     alert(`Error: ${error.message}`);
   }
