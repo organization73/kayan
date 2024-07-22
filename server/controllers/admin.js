@@ -1,4 +1,5 @@
 const yup = require("yup");
+const mongoose = require("mongoose");
 
 const fileHelper = require("../utilities/file");
 const Product = require("../models/product");
@@ -245,10 +246,10 @@ exports.getOffers = async (req, res, next) => {
 exports.deleteOffer = async (req, res, next) => {
   const { offerId } = req.params;
   console.log(offerId);
-  try{
+  try {
     //delete offer
     const offer = await Offer.findByIdAndDelete(offerId);
-    if(!offer){
+    if (!offer) {
       const error = new Error("Offer not found");
       error.statusCode = 403;
       throw error;
@@ -256,8 +257,77 @@ exports.deleteOffer = async (req, res, next) => {
     //delete offer image
     await fileHelper.deleteFile(offer.Image);
     //send response
-    res.status(201).json({message: "Offer deleted successfully", offer});
-  }catch(error){
+    res.status(201).json({ message: "Offer deleted successfully", offer });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getManageOrders = async (req, res, next) => {
+  const { offerId } = req.params;
+  try {
+    //validate date
+    if (!offerId) {
+      const error = new Error("Offer id is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    //find offer
+    const offer = await Offer.findById(offerId).populate("products");
+    if (!offer) {
+      const error = new Error("Offer not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    console.log(offer);
+    console.log("weve get a problem");
+    //send response
+    res.render("shop/manage-offers", {
+      pageTitle: "Manage Offers",
+      path: "/manage-offers",
+      isAuthenticated: req.admin ? true : false,
+      offer,
+      errorMessage: null,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postAddProductOffer = async (req, res, next) => {
+  const { productId, offerId } = req.body;
+  console.log(productId, offerId);
+
+  try {
+    //validate data
+    if (!productId || !offerId) {
+      const error = new Error("Product and offer ids are required");
+      error.statusCode = 422;
+      throw error;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw new Error("Invalid product ID");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(offerId)) {
+      throw new Error("Invalid product ID");
+    }
+
+    //find product and offer
+    const product = await Product.findById(productId);
+    const offer = await Offer.findById(offerId);
+    if (!product || !offer) {
+      const error = new Error("Product or offer not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    //add product to offer
+    offer.products.push(product);
+    await offer.save();
+    //send response
+    res.status(201).json({ message: "Product added to offer successfully" });
+  } catch (error) {
     next(error);
   }
 };

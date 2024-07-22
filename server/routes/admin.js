@@ -28,5 +28,9 @@ router.get("/offers", authMiddleware, adminController.getOffers);
 
 router.delete("/offer/:offerId", authMiddleware, adminController.deleteOffer);
 
+router.get("/offer/:offerId", authMiddleware, adminController.getManageOrders);
+
+router.post("/add-product-offer", authMiddleware, adminController.postAddProductOffer);
+
 
 module.exports = router;
