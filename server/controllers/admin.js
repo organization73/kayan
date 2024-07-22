@@ -82,13 +82,100 @@ exports.deleteProduct = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    //delete product images
-    fileHelper.deleteFile(product.mainImageUrl);
-    product.images.forEach((img) => fileHelper.deleteFile(img));
-    //delete product from offers
+    // Delete product images
+    try {
+      await fileHelper.deleteFile(product.mainImageUrl);
+      await Promise.all(
+        product.images.map((img) => fileHelper.deleteFile(img))
+      );
+    } catch (fileError) {
+      console.error("Error deleting product images:", fileError);
+      // Handle the file deletion error, but continue
+      // Optionally, you can pass the error to the next middleware
+      next(fileError);
+    }
+    //delete prodcuct from offers.
 
     //send response
     res.status(200).json({ message: "Product deleted successfully ", product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getEditProduct = async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    //find product
+    const product = await Product.findById(productId);
+    if (!product) {
+      const error = new Error("Product not found");
+      error.statusCode = 404;
+      throw error;
+    }
+
+    //send response
+    res.render("shop/edit-product", {
+      pageTitle: "edit Product",
+      path: "/edit-product",
+      isAuthenticated: req.admin ? true : false,
+      editing: true,
+      product,
+      hasErrors: false,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.postEditProduct = async (req, res, next) => {
+  const { productId } = req.params;
+  const { title, price, category, description } = req.body;
+  const image = req.files["image"] ? req.files["image"][0] : undefined;
+  const images = req.files["images"]
+    ? req.files["images"].map((file) => file)
+    : undefined;
+  console.log(productId, title, price, description, category, image, images);
+  try {
+    //Data validation
+    await productSchema.validate({ title, price, description, category });
+    console.log(1);
+    //find product
+    const product = await Product.findById(productId);
+    console.log(product);
+    console.log(2);
+    if (!product) {
+      const error = new Error("Product not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    //update product
+    product.title = title;
+    product.price = price;
+    product.category = category;
+    product.description = description;
+    if (image) {
+      const oldImage = product.mainImageUrl;
+      product.mainImageUrl = image.path;
+      //delete old image
+      // fileHelper.deleteFile(oldImage);
+      // Delete product images
+      await fileHelper.deleteFile(oldImage);
+    }
+
+    if (images) {
+      const oldImages = [...product.images];
+      product.images = images.map((img) => img.path);
+      //delete old images
+      // oldImages.forEach((img) => fileHelper.deleteFile(img));
+      await Promise.all(oldImages.map((img) => fileHelper.deleteFile(img)));
+    }
+    console.log(3);
+    //save to database
+    await product.save();
+    console.log(4);
+    res.status(201).json({ message: "Product updated successfully" });
+    console.log(5);
   } catch (error) {
     next(error);
   }

@@ -1,8 +1,15 @@
 const fs = require("fs");
+const path = require("path");
 
 const deleteFile = (filePath) => {
-  fs.unlink(filePath, (err) => {
-    if (err) throw err;
+  return new Promise((resolve, reject) => {
+    fs.unlink(filePath, (err) => {
+      if (err) {
+        return reject(err);
+      }
+      resolve();
+    });
   });
 };
+
 exports.deleteFile = deleteFile;

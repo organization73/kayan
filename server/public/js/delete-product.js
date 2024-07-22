@@ -26,5 +26,6 @@ const deleteProduct = async (btn) => {
   } catch (error) {
     console.log(error);
     alert(`Error: ${error.message}`);
+    window.location.href = "/products";
   }
 };

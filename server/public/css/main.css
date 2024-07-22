@@ -126,7 +126,7 @@ form {
 .mobile-nav__item a.active,
 .mobile-nav__item button:hover,
 .mobile-nav__item button:active {
-  background: #00695c;
+  background:  #1a73e9;
   color: white;
   border-radius: 3px;
 }

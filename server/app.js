@@ -63,14 +63,14 @@ app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   let message = error.message;
   console.log(error);
-  if (status === 500) {
-    res.render("500", {
-      pageTitle: "500",
-      path: "/500",
-      isAuthenticated: req.admin ? true : false,
-      message
-    });
-  }
+  // if (status === 500) {
+  //   res.render("500", {
+  //     pageTitle: "500",
+  //     path: "/500",
+  //     isAuthenticated: req.admin ? true : false,
+  //     message
+  //   });
+  // }
   res.status(status).json({ message: message });
 });
 

@@ -18,14 +18,22 @@
           <label for="category">Category</label>
           <select name="category" id="category">
             <option value="">اختر فئة</option>
-            <option value="bedroom">غرف نوم</option>
-            <option value="office">مكتب</option>
-            <option value="kids-room">غرف أطفال</option>
-            <option value="dining-room">غرف سفرة</option>
-            <option value="sofas">ركنات</option>
-            <option value="salons">صالونات</option>
-            <option value="tables">طاولة</option>
-            <option value="cabinets">نيش</option>
+            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف
+              نوم</option>
+            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب
+            </option>
+            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %>
+              >غرف أطفال</option>
+            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : ''
+              %>>غرف سفرة</option>
+            <option value="sofas" <%=(editing || hasErrors) && product.category==='sofas' ? 'selected' : '' %> >ركنات
+            </option>
+            <option value="salons" <%=(editing || hasErrors) && product.category==='salons' ? 'selected' : '' %>
+              >صالونات</option>
+            <option value="tables" <%=(editing || hasErrors) && product.category==='tables' ? 'selected' : '' %> >طاولة
+            </option>
+            <option value="cabinets" <%=(editing || hasErrors) && product.category==='cabinets' ? 'selected' : '' %>
+              >نيش</option>
           </select>
           <div class="form-control">
             <label for="image">Image</label>
@@ -51,8 +59,9 @@
             <textarea name="description" id="description"
               rows="5"><% if (editing || hasErrors) { %><%= product.description %><% } %></textarea>
           </div>
+
           <% if (editing) { %>
-            <input type="hidden" value="<%= product._id %>" name="productId">
+            <input type="hidden" value="<%= product._id %>" name="productId" id="productId">
             <% } %>
 
               <button class="btn" type="submit">
@@ -60,6 +69,7 @@
               </button>
         </form>
       </main>
+
 
 
       <%- include('../includes/end.ejs') %>

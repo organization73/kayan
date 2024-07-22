@@ -8,14 +8,7 @@ const authMiddleware = async (req, res, next) => {
     // token = req.headers.authorization.split(" ")[1];
     let token = req.cookies.token;
     if (!token) {
-      return res.status(403).render("auth/login", {
-        errorMessage: "No token provided",
-        pageTitle: "Login",
-        isAuthenticated: false,
-        path: "/login",
-        validationErrors: [],
-        oldInput: {},
-      });
+      res.redirect('/login')
     }
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);

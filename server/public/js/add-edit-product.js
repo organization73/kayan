@@ -1,5 +1,3 @@
-console.log("working");
-
 const form = document.getElementById("add-edit-product");
 const titleInput = document.getElementById("title");
 const imageInput = document.getElementById("image");
@@ -7,6 +5,7 @@ const imagesInput = document.getElementById("images");
 const priceInput = document.getElementById("price");
 const descriptionInput = document.getElementById("description");
 const categoryInput = document.getElementById("category");
+const productId = document.getElementById("productId");
 console.log(form);
 
 function validateFileCount(input) {
@@ -25,13 +24,22 @@ form.addEventListener("submit", async (event) => {
   const priceValue = priceInput.value;
   const descriptionValue = descriptionInput.value;
   const selectedCategory = categoryInput.value;
+  if(productId){
+    var productIdValue = productId.value;
+  }
+  const editing = productIdValue ? true : false;
 
   if (!titleValue || !priceValue || !descriptionValue || !selectedCategory) {
     alert("Please fill in all fields");
     return;
   }
   try {
-    const response = await fetch("/add-product", {
+
+    const url = editing
+      ? `/edit-product/${productIdValue}`
+      : "/add-product";
+      console.log(url);
+    const response = await fetch(url, {
       method: "POST",
       body: new FormData(form),
     });
@@ -46,7 +54,11 @@ form.addEventListener("submit", async (event) => {
 
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
-    alert("Product added successfully");
+    if (editing) {
+      alert("Product was edited successfully");
+    }else{
+      alert("Product was added successfully");
+    }
     window.location.href = "/products";
     return responseData;
   } catch (error) {
