@@ -293,6 +293,41 @@ exports.getManageOrders = async (req, res, next) => {
     next(error);
   }
 };
+exports.putEditOffer = async (req, res, next) => {
+  const { offerId, title, categories } = req.body;
+  const image = req.files["image"] ? req.files["image"][0] : undefined;
+  console.log(offerId, title, categories, image);
+  try {
+    //validate data
+    if (!offerId) {
+      const error = new Error("Offer id is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    //find offer
+    const offer = await Offer.findById(offerId);
+
+    //update the offer
+    if (title) {
+      offer.title = title;
+    }
+    if (categories) {
+      offer.categories = categories;
+    }
+    if (image) {
+      const oldImage = offer.Image;
+      offer.Image = image.path;
+      //delete old image
+      await fileHelper.deleteFile(oldImage);
+    }
+    //save to database
+    await offer.save();
+    //send response
+    res.status(201).json({ message: "Offer updated successfully" });
+  } catch (error) {
+    next(error);
+  }
+};
 
 exports.postAddProductOffer = async (req, res, next) => {
   const { productId, offerId } = req.body;

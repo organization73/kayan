@@ -28,6 +28,7 @@
                 <label for="title">Title</label>
                 <input type="text" name="title" id="title" value="<%= offer.title %>">
               </div>
+              <input type="hidden" name="offerId" id="offerId" value="<%= offer._id %>">
               <div class="form-control">
                 <label for="image">Image</label>
                 <input type="file" name="image" id="image" %>">
@@ -41,13 +42,13 @@
                     <td><input type="checkbox" name="categories" value="cabinets"
                         <%=offer.categories.includes("cabinets")? 'checked' : '' %> > </td>
                     <td><span>غرف نوم</span></td>
-                    <td><input type="checkbox" name="categories" value="bedroomproduct-form <%=offer.categories.includes('bedroom')
-                    ? 'checked' : '' %> > </td>
-              </tr>
+                    <td><input type="checkbox" name="categories" value="bedroom" <%=offer.categories.includes('bedroom')
+                        ? 'checked' : '' %> > </td>
+                  </tr>
 
-              <tr>
-                <td><span>مكتب</span></td>
-                <td><input type=" checkbox" name="categories" value="office" <%=offer.categories.includes('office')
+                  <tr>
+                    <td><span>مكتب</span></td>
+                    <td><input type="checkbox" name="categories" value="office" <%=offer.categories.includes('office')
                         ? 'checked' : '' %>> </td>
                     <td><span>غرف أطفال</span></td>
                     <td><input type="checkbox" name="categories" value="kids-room"

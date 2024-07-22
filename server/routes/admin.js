@@ -30,6 +30,8 @@ router.delete("/offer/:offerId", authMiddleware, adminController.deleteOffer);
 
 router.get("/offer/:offerId", authMiddleware, adminController.getManageOrders);
 
+router.put("/edit-offer", authMiddleware, adminController.putEditOffer);
+
 router.post("/add-product-offer", authMiddleware, adminController.postAddProductOffer);
 
 

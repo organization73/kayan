@@ -2,10 +2,11 @@ console.log("hello, world!");
 const form = document.getElementById("add-offer");
 const titleInput = document.getElementById("title");
 const imageInput = document.getElementById("image");
-
+const offerIdInputfield = form.querySelector("#offerId");
 
 form.addEventListener("submit", async (event) => {
   event.preventDefault();
+  const offerId = offerIdInputfield.value;
 
   const categoriesInputs = document.querySelectorAll(
     'input[name="categories"]:checked'
@@ -15,21 +16,15 @@ form.addEventListener("submit", async (event) => {
   );
   const titleValue = titleInput.value;
   const imageFiles = imageInput.files;
-  if (
-    !titleValue ||
-    !selectedCategories ||
-    selectedCategories.length === 0 ||
-    !imageFiles ||
-    imageFiles.length === 0
-  ) {
+  if (!titleValue || !selectedCategories || selectedCategories.length === 0) {
     alert("Please fill in all fields");
     return;
   }
 
   console.log(categoriesInputs, selectedCategories, titleValue, imageFiles);
   try {
-    const response = await fetch("/add-offer", {
-      method: "POST",
+    const response = await fetch("/edit-offer", {
+      method: "PUT",
       body: new FormData(form),
     });
 
@@ -43,8 +38,8 @@ form.addEventListener("submit", async (event) => {
 
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
-    alert("Offer added successfully");
-    window.location.href = "/products";
+    alert("Offer updated successfully");
+    window.location.href = `/offer/${offerId}`;
     return responseData;
   } catch (error) {
     console.log(error);
