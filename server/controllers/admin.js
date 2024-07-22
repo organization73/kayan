@@ -193,7 +193,7 @@ exports.getAddOffer = async (req, res, next) => {
 exports.postAddOffer = async (req, res, next) => {
   const { title, categories } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
-   console.log(title, categories, image);
+  console.log(title, categories, image);
   try {
     //Data validation
     if (!image) {
@@ -218,6 +218,46 @@ exports.postAddOffer = async (req, res, next) => {
     await offer.save();
     res.status(201).json({ message: "Offer created successfully" });
   } catch (error) {
+    next(error);
+  }
+};
+
+exports.getOffers = async (req, res, next) => {
+  try {
+    let offers = await Offer.find().sort({ createdAt: -1 });
+    offers = offers.map((offer) => {
+      return {
+        ...offer._doc,
+        productsNumber: offer.products.length,
+      };
+    });
+    // console.log(offers);
+    res.render("shop/offers", {
+      pageTitle: "Offers",
+      path: "/offers",
+      isAuthenticated: req.admin ? true : false,
+      offers,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+exports.deleteOffer = async (req, res, next) => {
+  const { offerId } = req.params;
+  console.log(offerId);
+  try{
+    //delete offer
+    const offer = await Offer.findByIdAndDelete(offerId);
+    if(!offer){
+      const error = new Error("Offer not found");
+      error.statusCode = 403;
+      throw error;
+    }
+    //delete offer image
+    await fileHelper.deleteFile(offer.Image);
+    //send response
+    res.status(201).json({message: "Offer deleted successfully", offer});
+  }catch(error){
     next(error);
   }
 };

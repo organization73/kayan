@@ -11,6 +11,10 @@ const authRoutes = require("./routes/auth");
 
 const adminRoutes = require("./routes/admin");
 
+const errorController = require("./controllers/error");
+
+const authMiddleware = require("./middleware/auth");
+
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "images");
@@ -63,16 +67,10 @@ app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
   let message = error.message;
   console.log(error);
-  // if (status === 500) {
-  //   res.render("500", {
-  //     pageTitle: "500",
-  //     path: "/500",
-  //     isAuthenticated: req.admin ? true : false,
-  //     message
-  //   });
-  // }
   res.status(status).json({ message: message });
 });
+app.use("/404", authMiddleware, errorController.get404);
+app.use("/500", authMiddleware, errorController.get500);
 
 mongoose
   .connect(process.env.MONGO_URI)

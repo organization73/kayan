@@ -1,0 +1,40 @@
+<%- include('../includes/head.ejs') %>
+<!-- <link rel="stylesheet" href="/css/cart.css"> -->
+<link rel="stylesheet" href="/css/offers-list.css">
+<script src="/js/offers-list.js" defer></script>
+<script></script>
+</head>
+
+<body>
+  <%- include('../includes/navigation.ejs') %>
+  <main>
+    <% if (offers.length > 0) { %>
+    <ul class="cart__item-list">
+      <% offers.forEach(offer => { %>
+      <li class="cart__item">
+        <div class="item-details">
+          <h1><%= offer.title %></h1>
+          <h2>items: <%= offer.productsNumber %></h2>
+        </div>
+        <div class="item-actions">
+          <form action="/manage-offer"></form>
+          <input type="hidden" value="<%= offer._id %>" name="offerId">
+          <button class="btn" type="submit">Manage</button>
+        </form>
+          <form id="delete-offer">
+            <input type="hidden" value="<%= offer._id %>" name="offerId" id="offerId">
+            <button class="btn danger" type="submit">Delete</button>
+            <input type="text" class="delete_field" id="confirm">
+          </form>
+          <hr>
+        </div>
+      </li>
+      <% }) %>
+    </ul>
+    
+
+    <% } else { %>
+    <h1>No offers in Cart!</h1>
+    <% } %>
+  </main>
+  <%- include('../includes/end.ejs') %>
