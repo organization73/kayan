@@ -96,23 +96,61 @@ addProductForm.addEventListener("submit", async (event) => {
   }
 });
 
-const deletProductForm = document.getElementById("delete-product-offer");
-const productIdDeleteInput = deletProductForm.querySelector("#productId");
+// const deletProductForm = document.getElementById("delete-product-offer");
+// const productIdDeleteInput = deletProductForm.querySelector("#productId");
 // offerIdInputfield
 
-deletProductForm.addEventListener("submit", async (event) => {
-  event.preventDefault();
-  const productId = productIdDeleteInput.value;
-  const offerId = offerIdInputfield.value;
+// deletProductForm.addEventListener("submit", async (event) => {
+//   event.preventDefault();
+//   const productId = productIdDeleteInput.value;
+//   const offerId = offerIdInputfield.value;
 
-  if (!productId) {
-    alert("productId is missing");
-    return;
-  }
-  if (!offerId) {
-    alert("offerId is missing");
-    return;
-  }
+//   if (!productId) {
+//     alert("productId is missing");
+//     return;
+//   }
+//   if (!offerId) {
+//     alert("offerId is missing");
+//     return;
+//   }
+
+//   try {
+//     const response = await fetch(`/delete-product-offer`, {
+//       method: "DELETE",
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//       body: JSON.stringify({ productId, offerId }),
+//     });
+
+//     if (response.status !== 201) {
+//       const errorData = await response.json();
+//       throw new Error(
+//         errorData.message ||
+//           `Request failed with status code ${response.status}`
+//       );
+//     }
+
+//     const responseData = await response.json();
+//     console.log("Request succeeded with JSON response", responseData);
+//     alert("Product deleted from offer successfully");
+//     window.location.href = `/offer/${offerId}`;
+//     return responseData;
+//   } catch (error) {
+//     console.log(error);
+//     alert(`Error: ${error.message}`);
+//     window.location.href = `/offer/${offerId}`;
+//   }
+// });
+
+const deleteProductOffer = async (btn) => {
+  const productId = btn.parentNode.querySelector("[name=productId]").value;
+  console.log(productId);
+  // const csrf = btn.parentNode.querySelector('[name=_csrf]').value;
+
+  const productElement = btn.closest("div");
+  console.log(productElement);
+  const offerId = offerIdInputfield.value;
 
   try {
     const response = await fetch(`/delete-product-offer`, {
@@ -141,4 +179,4 @@ deletProductForm.addEventListener("submit", async (event) => {
     alert(`Error: ${error.message}`);
     window.location.href = `/offer/${offerId}`;
   }
-});
+};

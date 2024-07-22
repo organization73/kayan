@@ -101,12 +101,17 @@
                       <!-- <h2>items: <%= p.productsNumber %> -->
                       </h2>
                     </div>
-                    <div class="item-actions">
+                    <!-- <div class="item-actions">
                       <form id="delete-product-offer">
                         <input type="hidden" value="<%= p._id %>" name="productId" id="productId">
                         <button class="btn danger" type="submit">Delete</button>
-                        <!-- <input type="text" class="delete_field" id="confirm"> -->
-                      </form>
+                         <input type="text" class="delete_field" id="confirm"> </form> -->
+
+                      <div class="card__actions">
+                        <!-- <a href="/edit-product/<%= p._id %>?edit=true" class="btn">Edit</a> -->
+                        <input type="hidden" value="<%= p._id %>" name="productId">
+                        <button class="btn danger" type="button" onclick="deleteProductOffer(this)">Delete</button>
+                      </div>
                       <hr>
                     </div>
                   </li>

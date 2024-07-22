@@ -2,7 +2,6 @@
   <!-- <link rel="stylesheet" href="/css/cart.css"> -->
   <link rel="stylesheet" href="/css/offers-list.css">
   <script src="/js/offers-list.js" defer></script>
-  <script></script>
   </head>
 
   <body>
@@ -22,11 +21,16 @@
                 <div class="item-actions">
 
                   <a href="/offer/<%= offer._id %>" class="btn">Manage</a>
-                  <form id="delete-offer">
+                  <!-- <form id="delete-offer">
                     <input type="hidden" value="<%= offer._id %>" name="offerId" id="offerId">
                     <button class="btn danger" type="submit">Delete</button>
                     <input type="text" class="delete_field" id="confirm">
-                  </form>
+                  </form> -->
+                  <div class="card__actions">
+                    <input type="hidden" value="<%= offer._id %>" name="offerId" id="offerId">
+                    <button class="btn danger" type="button" onclick="deleteOffer(this)">Delete</button>
+                    <input type="text" class="delete_field" name="confirmation" id="confirm">
+                  </div>
                   <hr>
                 </div>
               </li>
