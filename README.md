@@ -1,2 +1,0 @@
-# kayan
-First furniture gallery
