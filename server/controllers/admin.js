@@ -1,7 +1,8 @@
 const yup = require("yup");
 
-const Product = require("../models/product");
 const fileHelper = require("../utilities/file");
+const Product = require("../models/product");
+const Offer = require("../models/offer");
 
 const productSchema = yup.object().shape({
   title: yup.string().required(),
@@ -187,5 +188,36 @@ exports.getAddOffer = async (req, res, next) => {
     path: "/add-offer",
     isAuthenticated: req.admin ? true : false,
   });
-}
-  
+};
+
+exports.postAddOffer = async (req, res, next) => {
+  const { title, categories } = req.body;
+  const image = req.files["image"] ? req.files["image"][0] : undefined;
+   console.log(title, categories, image);
+  try {
+    //Data validation
+    if (!image) {
+      const error = new Error("Image is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    if (categories.length < 1) {
+      const error = new Error("Categories are required");
+      error.statusCode = 422;
+      throw error;
+    }
+
+    //create offer
+    const offer = new Offer({
+      title,
+      categories,
+      Image: image.path,
+      creator: req.admin,
+    });
+    //save to database
+    await offer.save();
+    res.status(201).json({ message: "Offer created successfully" });
+  } catch (error) {
+    next(error);
+  }
+};

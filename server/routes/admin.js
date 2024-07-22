@@ -22,4 +22,6 @@ router.post("/edit-product/:productId", authMiddleware, adminController.postEdit
 
 router.get("/add-offer", authMiddleware, adminController.getAddOffer);
 
+router.post("/add-offer", authMiddleware, adminController.postAddOffer);
+
 module.exports = router;
