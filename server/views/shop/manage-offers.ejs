@@ -86,6 +86,37 @@
               <input type="text" placeholder="Porduct ID" name="productId" id="productId" class="add_field">
               <button type="submit" class="btn"> Add Product</button>
             </form>
+            <br>
+            <br>
+            <br>
+
+            <% if (offer.products.length> 0) { %>
+              <ul class="cart__item-list">
+                <% offer.products.forEach(p=> { %>
+                  <li class="cart__item">
+                    <div class="item-details">
+                      <h1>
+                        <%= p.title %>
+                      </h1>
+                      <!-- <h2>items: <%= p.productsNumber %> -->
+                      </h2>
+                    </div>
+                    <div class="item-actions">
+                      <form id="delete-product-offer">
+                        <input type="hidden" value="<%= p._id %>" name="productId" id="productId">
+                        <button class="btn danger" type="submit">Delete</button>
+                        <!-- <input type="text" class="delete_field" id="confirm"> -->
+                      </form>
+                      <hr>
+                    </div>
+                  </li>
+                  <% }) %>
+              </ul>
+
+
+              <% } else { %>
+                <h1>No product in this offer!</h1>
+                <% } %>
       </main>
 
       <%- include('../includes/end.ejs') %>

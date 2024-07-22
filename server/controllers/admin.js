@@ -366,3 +366,41 @@ exports.postAddProductOffer = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.deleteProductOffer = async (req, res, next) => {
+  const { productId, offerId } = req.body;
+
+  console.log(productId, offerId);
+  try{
+    //validate data
+    if (!productId || !offerId) {
+      const error = new Error("Product and offer ids are required");
+      error.statusCode = 422;
+      throw error;
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(productId)) {
+      throw new Error("Invalid product ID");
+    }
+
+    if (!mongoose.Types.ObjectId.isValid(offerId)) {
+      throw new Error("Invalid product ID");
+    }
+
+    //find product and offer
+    const product = await Product.findById(productId);
+    const offer = await Offer.findById(offerId);
+    if (!product || !offer) {
+      const error = new Error("Product or offer not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    //remove product from offer
+    offer.products = offer.products.filter(prod => prod.toString() !== productId);
+    await offer.save();
+    //send response
+    res.status(201).json({ message: "Product removed from offer successfully" });
+  }catch(error){
+    next(error);
+  }
+}

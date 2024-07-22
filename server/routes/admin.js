@@ -34,5 +34,7 @@ router.put("/edit-offer", authMiddleware, adminController.putEditOffer);
 
 router.post("/add-product-offer", authMiddleware, adminController.postAddProductOffer);
 
+router.delete("/delete-product-offer", authMiddleware, adminController.deleteProductOffer);
+
 
 module.exports = router;
