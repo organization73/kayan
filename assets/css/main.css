@@ -115,3 +115,30 @@ div {
 	font-weight: 900;
 	font-style: italic;
 }
+
+.hero {
+	background-color: #f3f5f7;
+}
+.hero .content {
+	max-width: 600px;
+}
+.hero .content h1 {
+	font-family: "Poppins", sans-serif;
+	font-weight: 400;
+	font-style: normal;
+	font-size: 4em;
+	letter-spacing: -2px;
+}
+.hero .content p {
+	font-size: 1.25rem;
+	margin: 20px 0;
+	font-weight: 400;
+}
+.hero .content .btn {
+	font-size: 1.2rem;
+	padding: 0.5em 2em;
+}
+.hero .image img {
+	max-width: 100%;
+	height: auto;
+}
