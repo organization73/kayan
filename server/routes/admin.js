@@ -20,4 +20,6 @@ router.get("/edit-product/:productId", authMiddleware, adminController.getEditPr
 
 router.post("/edit-product/:productId", authMiddleware, adminController.postEditProduct);
 
+router.get("/add-offer", authMiddleware, adminController.getAddOffer);
+
 module.exports = router;

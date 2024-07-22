@@ -180,3 +180,12 @@ exports.postEditProduct = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getAddOffer = async (req, res, next) => {
+  res.render("shop/add-offer", {
+    pageTitle: "Add Offer",
+    path: "/add-offer",
+    isAuthenticated: req.admin ? true : false,
+  });
+}
+  

@@ -1,0 +1,71 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/product.css">
+  <script src="/js/add-edit-product.js" defer></script>
+<style>
+  span {
+    text-align: right;
+    float: right;
+    padding-left: 30;
+  }
+
+  
+</style>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+
+        <form name="product" class="product-form" id="add-edit-product" enctype="multipart/form-data">
+          <div class="form-control">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="">
+          </div>
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" %>">
+          </div>
+
+          <div class="form-control">
+            <label for="category">Category</label>
+            <table>
+                <tr>
+                  <td><span>نيش</span></td>
+                  <td><input type="checkbox" name="category" value="cabinets"> </td>
+                  <td><span>غرف نوم</span></td>
+                <td><input type="checkbox" name="category" value="bedroom"> </td>
+                </tr>
+
+                <tr>
+                <td><span>مكتب</span></td>
+                <td><input type="checkbox" name="category" value="office"> </td>
+                <td><span>غرف أطفال</span></td>
+                <td><input type="checkbox" name="category" value="kids-room"> </td>
+                </tr>
+
+                <tr>
+                <td><span>غرف سفرة</span></td>
+                <td><input type="checkbox" name="category" value="dining-room"> </td>
+                <td><span>ركنات</span></td>
+                <td><input type="checkbox" name="category" value="sofas"> </td>
+                </tr>
+                
+                <tr>
+                <td><span>صالونات</span></td>
+                <td><input type="checkbox" name="category" value="salons"> </td>
+                <td><span>طاولة</span></td>
+                <td><input type="checkbox" name="category" value="tables"> </td>
+                </tr>
+
+
+            </table>
+
+          </div>
+
+          <button class="btn" type="submit"> Add Offer </button>
+        </form>
+      </main>
+
+      <%- include('../includes/end.ejs') %>
