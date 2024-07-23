@@ -97,6 +97,13 @@ div {
 	margin-top: 8px;
 }
 
+.card-custom-height {
+	height: 664px;
+}
+.card-custom-height-small {
+	height: 319px;
+}
+
 @media (max-width: 576px) {
 	.hero .content h1 {
 		font-weight: 400;
@@ -132,5 +139,11 @@ div {
 	}
 	.category-grid .col {
 		width: 50%;
+	}
+	.card-custom-height {
+		height: 380px;
+	}
+	.card-custom-height-small {
+		height: 250px;
 	}
 }
