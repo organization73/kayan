@@ -1,0 +1,116 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/css/forms.css">
+  <link rel="stylesheet" href="/css/product.css">
+  <style>
+    span {
+      text-align: right;
+      float: right;
+      padding-left: 30;
+    }
+  </style>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+
+        <form name="product" class="product-form" id="add-offer" enctype="multipart/form-data">
+          <div class="form-control">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" value="">
+          </div>
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" %>">
+          </div>
+
+          <div class="form-control">
+            <label for="categories">Categories</label>
+            <table>
+              <tr>
+                <td><span>نيش</span></td>
+                <td><input type="checkbox" name="categories" value="cabinets"> </td>
+                <td><span>غرف نوم</span></td>
+                <td><input type="checkbox" name="categories" value="bedroom"> </td>
+              </tr>
+
+              <tr>
+                <td><span>مكتب</span></td>
+                <td><input type="checkbox" name="categories" value="office"> </td>
+                <td><span>غرف أطفال</span></td>
+                <td><input type="checkbox" name="categories" value="kids-room"> </td>
+              </tr>
+
+              <tr>
+                <td><span>غرف سفرة</span></td>
+                <td><input type="checkbox" name="categories" value="dining-room"> </td>
+                <td><span>ركنات</span></td>
+                <td><input type="checkbox" name="categories" value="sofas"> </td>
+              </tr>
+
+              <tr>
+                <td><span>صالونات</span></td>
+                <td><input type="checkbox" name="categories" value="salons"> </td>
+                <td><span>طاولة</span></td>
+                <td><input type="checkbox" name="categories" value="tables"> </td>
+              </tr>
+
+
+            </table>
+
+          </div>
+
+          <button class="btn" type="submit"> Add Offer </button>
+        </form>
+      </main>
+
+      <script>
+        const form = document.getElementById("add-offer");
+        const titleInput = document.getElementById("title");
+        const imageInput = document.getElementById("image");
+
+        console.log(form);
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const categoriesInputs = document.querySelectorAll('input[name="categories"]:checked');
+          const selectedCategories = Array.from(categoriesInputs).map(input => input.value);
+          const titleValue = titleInput.value;
+          const imageFiles = imageInput.files;
+          if (!titleValue || !selectedCategories || selectedCategories.length === 0
+            || !imageFiles || imageFiles.length === 0) {
+            alert("Please fill in all fields");
+            return;
+          }
+
+
+          console.log(categoriesInputs, selectedCategories, titleValue, imageFiles);
+          try {
+            const response = await fetch("/add-offer", {
+              method: "POST",
+              body: new FormData(form),
+            });
+
+            if (response.status !== 201) {
+              const errorData = await response.json();
+              throw new Error(
+                errorData.message ||
+                `Request failed with status code ${response.status}`
+              );
+            }
+
+            const responseData = await response.json();
+            console.log("Request succeeded with JSON response", responseData);
+            alert("Offer added successfully");
+            window.location.href = "/products";
+            return responseData;
+          } catch (error) {
+            console.log(error);
+            alert(`Error: ${error.message}`);
+          }
+        });
+
+      </script>
+      <%- include('../includes/end.ejs') %>

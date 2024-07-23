@@ -1,0 +1,88 @@
+<%- include('../includes/head.ejs') %>
+<link rel="stylesheet" href="/css/auth-style.css">
+<link rel="stylesheet" href="/css/main.css">
+
+</head>
+
+<%- include('../includes/navigation') %>
+<main class="main">
+	<div class="container">
+		<section class="wrapper">
+			<div class="heading">
+				<h1 class="text text-large">Sign In</h1>
+				<p class="text text-normal">New user? <span><a href="/register" class="text text-links">Create an account</a></span>
+				</p>
+			</div>
+			<form name="login" class="form" action="/login" method="POST" >
+				<div class="input-control">
+					<label for="email" class="input-label" hidden>Email Address</label>
+					<input type="email" name="email" id="email" class="input-field" placeholder="Email Address">
+				</div>
+				<div class="input-control">
+					<label for="password" class="input-label" hidden>Password</label>
+					<input type="password" name="password" id="password" class="input-field" placeholder="Password">
+				</div>
+				<div class="input-control">
+					<a href="/forget-password" class="text text-links">Forgot Password</a>
+					<input type="submit" name="submit" class="input-submit" value="Sign In" >
+				</div>
+			</form>
+
+			<div class="striped">
+				<span class="striped-line"></span>
+				
+		</section>
+	</div>
+</main>
+
+<script>
+	const form = document.forms.login;
+	const submitButton = form.elements.submit;
+	const email = form.elements.email;
+	const password = form.elements.password;
+
+	form.addEventListener("submit", async (event) => {
+		event.preventDefault();
+
+		const emailValue = email.value;
+		const passwordValue = password.value;
+		console.log(emailValue,passwordValue);
+
+		if (!emailValue) {	
+			alert("Please enter your email address");
+			return;
+		}
+
+		try {
+			const response = await fetch("/login", {
+				method: "POST",
+				headers: {
+					"Content-Type": "application/json",
+				},
+				body: JSON.stringify({
+					email: emailValue,
+					password: passwordValue,
+				}),
+			});
+
+			if (response.status !== 200) {
+				const errorData = await response.json();
+				throw new Error(
+					errorData.message ||
+						`Request failed with status code ${response.status}`
+				);
+			}
+
+			const responseData = await response.json();
+			console.log("Request succeeded with JSON response", responseData);
+			
+			window.location.href = "/";
+			return responseData;
+		} catch (error) {
+			console.error("Error:", error.message);
+			alert(`Error: ${error.message}`);
+		}
+	});
+</script>
+
+<%- include('../includes/end') %>

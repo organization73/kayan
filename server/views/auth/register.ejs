@@ -1,0 +1,48 @@
+<%- include('../includes/head.ejs') %>
+	<link rel="stylesheet" href="/css/auth-style.css">
+	<link rel="stylesheet" href="/css/main.css">
+	<script src="/js/auth-script.js" defer></script>
+	</head>
+
+	<%- include('../includes/navigation') %>
+	<main class="main">
+		<div class="container">
+			<section class="wrapper">
+				<div class="heading">
+					<h1 class="text text-large">Rigester</h1>
+					<p class="text text-normal">Already has an account? <span><a href="/login" class="text text-links">Log In</a></span>
+					</p>
+					<hr>
+				</div>
+				<form name="signin" class="form">
+					<div class="input-control">
+						<label for="userName" class="input-label" hidden>User Name</label>
+						<input type="userName" name="userName" id="userName" class="input-field" placeholder="User Name">
+					</div>
+					<div class="input-control">
+						<label for="email" class="input-label" hidden>Email Address</label>
+						<input type="email" name="email" id="email" class="input-field" placeholder="Email Address">
+					</div>
+					<div class="input-control">
+						<label for="password" class="input-label" hidden>Password</label>
+						<input type="password" name="password" id="password" class="input-field" placeholder="Password">
+					</div>
+					<div class="input-control">
+						<label for="confirmPassword" class="input-label" hidden>Confirm Password</label>
+						<input type="password" name="confirmPassword" id="confirmPassword" class="input-field"
+							placeholder="Confirm Password">
+					</div>
+					<div class="input-control">
+						<a href="#" class="text text-links"></a>
+						<input type="submit" name="submit" class="input-submit" value="Rigester">
+					</div>
+				</form>
+				<div class="striped">
+					<span class="striped-line"></span>
+
+			</section>
+		</div>
+	</main>
+
+
+	<%- include('../includes/end') %>
