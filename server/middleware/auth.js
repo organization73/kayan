@@ -2,13 +2,12 @@ const jwt = require("jsonwebtoken");
 const Admin = require("../models/admin"); // Assuming you have a User model
 
 const authMiddleware = async (req, res, next) => {
-
   // Get the token from the request headers
   try {
     // token = req.headers.authorization.split(" ")[1];
     let token = req.cookies.token;
     if (!token) {
-      res.redirect('/login')
+      res.redirect("/login");
     }
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -32,7 +31,7 @@ const authMiddleware = async (req, res, next) => {
       error.statusCode = 500;
       throw error;
     }
-    
+
     // Attach the admin to the request
     req.admin = admin;
     req.isAuthenticated = true;
@@ -42,7 +41,7 @@ const authMiddleware = async (req, res, next) => {
     if (!error.statusCode) {
       error.statusCode = 500;
     }
-    next(error);
+    res.redirect("/login?mode=invalid_token");
   }
 };
 

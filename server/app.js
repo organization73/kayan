@@ -1,8 +1,13 @@
+const fs = require("fs");
+
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
+
+require('dotenv').config();
+
 const app = express();
 
 const PORT = process.env.PORT || 8080;
@@ -14,6 +19,12 @@ const adminRoutes = require("./routes/admin");
 const errorController = require("./controllers/error");
 
 const authMiddleware = require("./middleware/auth");
+
+// Check if the "images" folder exists, if not, create it
+const imagesDir = 'images';
+if (!fs.existsSync(imagesDir)) {
+  fs.mkdirSync(imagesDir);
+}
 
 const fileStorage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -60,7 +71,7 @@ app.use(authRoutes);
 app.use(adminRoutes);
 
 app.get("/ping", (req, res) => {
-  res.send("I am listening.");
+  res.status(200).json({ message: "I am working fine." });
 });
 
 app.use((error, req, res, next) => {

@@ -53,11 +53,18 @@
         <a class="<%= path === '/index' ? 'active' : '' %>" href="/">Home</a>
       </li>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/add-product">Add Product
-        </a>
-      <li class="mobile-nav__item">
         <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
       </li>
+      <li class="mobile-nav__item">
+        <a class="<%= path === '/offers' ? 'active' : '' %>" href="/offers">Offers</a>
+      </li>
+      <li class="mobile-nav__item">
+        <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/add-product">Add Product
+        </a>
+      </li>
+      <li class="mobile-nav__item">
+        <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/add-offer">Add Offer
+        </a>
       </li>
       <% } %>
         <% if (!isAuthenticated) { %>

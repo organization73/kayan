@@ -2,3 +2,4 @@ server/node_modules
 server/nodemon.json
 server/images
 server/test.js
+server/.env
