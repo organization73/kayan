@@ -69,8 +69,8 @@ app.use((error, req, res, next) => {
   console.log(error);
   res.status(status).json({ message: message });
 });
-app.use("/404", authMiddleware, errorController.get404);
-app.use("/500", authMiddleware, errorController.get500);
+app.use("/404",errorController.get404);
+app.use("/500",errorController.get500);
 
 mongoose
   .connect(process.env.MONGO_URI)
