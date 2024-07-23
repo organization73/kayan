@@ -85,7 +85,7 @@ div {
 	border-radius: 50%;
 }
 .category-card img {
-	width: 105px;
+	width: 150px;
 	height: auto;
 }
 .category-text {
@@ -102,6 +102,11 @@ div {
 }
 .card-custom-height-small {
 	height: 319px;
+}
+.VideoSection {
+	padding: 40px;
+	background-color: white;
+	width: 80%;
 }
 
 @media (max-width: 576px) {
