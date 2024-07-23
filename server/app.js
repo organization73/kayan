@@ -5,8 +5,9 @@ const morgan = require("morgan");
 const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
+const cors = require("cors");
 
-require('dotenv').config();
+require("dotenv").config();
 
 const app = express();
 
@@ -20,8 +21,10 @@ const errorController = require("./controllers/error");
 
 const authMiddleware = require("./middleware/auth");
 
+const Admin = require("./models/admin");
+
 // Check if the "images" folder exists, if not, create it
-const imagesDir = 'images';
+const imagesDir = "images";
 if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir);
 }
@@ -49,6 +52,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -70,8 +74,9 @@ app.use(authRoutes);
 
 app.use(adminRoutes);
 
-app.get("/ping", (req, res) => {
-  res.status(200).json({ message: "I am working fine." });
+app.get("/api/ping", async (req, res) => {
+  const admin = await Admin.find().select("-password");
+  res.status(200).json({ message: "I am working fine.", admin });
 });
 
 app.use((error, req, res, next) => {
@@ -80,8 +85,8 @@ app.use((error, req, res, next) => {
   console.log(error);
   res.status(status).json({ message: message });
 });
-app.use("/404",errorController.get404);
-app.use("/500",errorController.get500);
+app.use("/500", errorController.get500);
+app.use(errorController.get404);
 
 mongoose
   .connect(process.env.MONGO_URI)
