@@ -20,7 +20,6 @@ div {
 	font-weight: 400;
 	font-style: normal;
 	font-size: 4em;
-	letter-spacing: -2px;
 }
 .hero .content p {
 	font-size: 1.25rem;
@@ -58,13 +57,61 @@ div {
 	font-weight: 500;
 }
 .hero-text-large {
-	font-size: 4.5rem;
+	font-size: 4.1rem;
 	line-height: 1.2;
 	white-space: pre-wrap;
 	display: block;
 }
+.category-container {
+	width: 100%;
+	padding: 48px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	overflow: hidden;
+}
+.category-title {
+	text-align: center;
+	color: #23262f;
+	font-size: 1.7rem;
+	line-height: 44px;
+	margin-bottom: 24px;
+}
+.category-card {
+	text-align: center;
+}
+.img-container {
+	background-color: #f3f5f7;
+	border-radius: 50%;
+}
+.category-card img {
+	width: 105px;
+	height: auto;
+}
+.category-text {
+	color: #121212;
+	font-size: 1rem;
+	font-family: Inter, sans-serif;
+	font-weight: 500;
+	line-height: 22px;
+	margin-top: 8px;
+}
 
 @media (max-width: 576px) {
+	.hero .content h1 {
+		font-weight: 400;
+		font-style: normal;
+		font-size: 2.8em;
+		text-align: right;
+	}
+
+	.hero .content p {
+		font-size: 1rem;
+		margin: 20px 0;
+		font-weight: 400;
+		text-align: right;
+	}
+
 	.custom-carousel {
 		margin: 30px 30px;
 		border-radius: 30px;
@@ -78,5 +125,12 @@ div {
 	}
 	.hero-text-small {
 		text-align: right;
+	}
+	.category-grid {
+		flex-wrap: wrap;
+		justify-content: center;
+	}
+	.category-grid .col {
+		width: 50%;
 	}
 }
