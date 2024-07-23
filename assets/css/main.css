@@ -8,113 +8,6 @@ input,
 div {
 	font-family: "Poppins", sans-serif;
 }
-.poppins-thin {
-	font-family: "Poppins", sans-serif;
-	font-weight: 100;
-	font-style: normal;
-}
-
-.poppins-extralight {
-	font-family: "Poppins", sans-serif;
-	font-weight: 200;
-	font-style: normal;
-}
-
-.poppins-light {
-	font-family: "Poppins", sans-serif;
-	font-weight: 300;
-	font-style: normal;
-}
-
-.poppins-regular {
-	font-family: "Poppins", sans-serif;
-	font-weight: 400;
-	font-style: normal;
-}
-
-.poppins-medium {
-	font-family: "Poppins", sans-serif;
-	font-weight: 500;
-	font-style: normal;
-}
-
-.poppins-semibold {
-	font-family: "Poppins", sans-serif;
-	font-weight: 600;
-	font-style: normal;
-}
-
-.poppins-bold {
-	font-family: "Poppins", sans-serif;
-	font-weight: 700;
-	font-style: normal;
-}
-
-.poppins-extrabold {
-	font-family: "Poppins", sans-serif;
-	font-weight: 800;
-	font-style: normal;
-}
-
-.poppins-black {
-	font-family: "Poppins", sans-serif;
-	font-weight: 900;
-	font-style: normal;
-}
-
-.poppins-thin-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 100;
-	font-style: italic;
-}
-
-.poppins-extralight-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 200;
-	font-style: italic;
-}
-
-.poppins-light-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 300;
-	font-style: italic;
-}
-
-.poppins-regular-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 400;
-	font-style: italic;
-}
-
-.poppins-medium-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 500;
-	font-style: italic;
-}
-
-.poppins-semibold-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 600;
-	font-style: italic;
-}
-
-.poppins-bold-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 700;
-	font-style: italic;
-}
-
-.poppins-extrabold-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 800;
-	font-style: italic;
-}
-
-.poppins-black-italic {
-	font-family: "Poppins", sans-serif;
-	font-weight: 900;
-	font-style: italic;
-}
 
 .hero {
 	background-color: #f3f5f7;
@@ -141,4 +34,25 @@ div {
 .hero .image img {
 	max-width: 100%;
 	height: auto;
+}
+.custom-carousel {
+	max-width: 1120px;
+	max-height: 535px;
+	margin: 30px auto;
+	border-radius: 30px;
+	overflow: hidden;
+}
+
+.custom-carousel .carousel-inner img {
+	width: 100%;
+	height: auto;
+	object-fit: cover;
+	border-radius: 30px;
+}
+
+@media (max-width: 576px) {
+	.custom-carousel {
+		margin: 30px 30px;
+		border-radius: 30px;
+	}
 }
