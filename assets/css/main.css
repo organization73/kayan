@@ -109,6 +109,39 @@ div {
 	width: 80%;
 }
 
+.card-custom {
+	background: #f3f5f7;
+	padding: 48px 32px;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
+}
+.icon {
+	position: relative;
+	font-size: 35px;
+	margin-bottom: 35px;
+}
+.icon div {
+	position: absolute;
+}
+.text-right {
+	text-align: right;
+}
+.title {
+	color: #141718;
+	font-size: 1.25rem;
+	font-weight: 500;
+	line-height: 28px;
+	word-wrap: break-word;
+	margin: 10px 0;
+}
+.description {
+	color: #6c7275;
+	font-size: 0.9rem;
+	font-weight: 400;
+	line-height: 24px;
+	word-wrap: break-word;
+}
 @media (max-width: 576px) {
 	.hero .content h1 {
 		font-weight: 400;
@@ -150,5 +183,8 @@ div {
 	}
 	.card-custom-height-small {
 		height: 250px;
+	}
+	.VideoSection {
+		width: 100%;
 	}
 }
