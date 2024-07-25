@@ -17,7 +17,7 @@
                   </h1>
                 </header>
                 <div class="card__image">
-                  <img src="/<%= product.mainImageUrl %>" alt="<%= product.title %>"><!-- local/image/name -->
+                  <img src="/api/<%= product.mainImageUrl %>" alt="<%= product.title %>"><!-- local/image/name -->
                   <!-- <img src="<%= product.imageUrl %>" alt="<%= product.title %>"> //local/admin/image/name -->
                 </div>
                 <div class="card__content">
@@ -32,7 +32,7 @@
                   </p>
                 </div>
                 <div class="card__actions">
-                  <a href="/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+                  <a href="/api/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
                   <input type="hidden" value="<%= product._id %>" name="productId">
                   <button class="btn danger" type="button" onclick="deleteProduct(this)">Delete</button>
                 </div>

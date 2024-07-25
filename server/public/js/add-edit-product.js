@@ -36,8 +36,8 @@ form.addEventListener("submit", async (event) => {
   try {
 
     const url = editing
-      ? `/edit-product/${productIdValue}`
-      : "/add-product";
+      ? `/api/edit-product/${productIdValue}`
+      : "/api/add-product";
       console.log(url);
     const response = await fetch(url, {
       method: "POST",
@@ -59,7 +59,7 @@ form.addEventListener("submit", async (event) => {
     }else{
       alert("Product was added successfully");
     }
-    window.location.href = "/products";
+    window.location.href = "/api/products";
     return responseData;
   } catch (error) {
     console.log(error);

@@ -34,7 +34,7 @@ form.addEventListener("submit", async (event) => {
     return;
   }
   try {
-    const response = await fetch("/register", {
+    const response = await fetch("/api/register", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -58,7 +58,7 @@ form.addEventListener("submit", async (event) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Admin registered successfully");
-    window.location.href = "/login?mode=register";
+    window.location.href = "/api/login?mode=register";
     return responseData;
   } catch (error) {
     console.error("Error:", error.message);

@@ -52,7 +52,11 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
-app.use(cors());
+app.use(
+  cors({
+    origin: "*",
+  })
+);
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -65,19 +69,30 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use(express.static("public"));
-app.use("/images", express.static("images"));
+app.use("/api/",express.static("public"));
+app.use("/api/images", express.static("images"));
 
 app.use(morgan("dev"));
 
-app.use(authRoutes);
-
-app.use(adminRoutes);
-
 app.get("/api/ping", async (req, res) => {
   const admin = await Admin.find().select("-password");
-  res.status(200).json({ message: "I am working fine.", admin });
+  res
+    .status(200)
+    .json({
+      message: "I am working fine.",
+      admin,
+      email: process.env.EMAIL_FROM,
+    });
 });
+
+app.use("/api", authRoutes);
+
+app.use("/api", adminRoutes);
+
+app.use("/api/500", errorController.get500);
+
+// app.use(authMiddleware, errorController.get404);
+app.use("/", authMiddleware, errorController.get404);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
@@ -85,8 +100,6 @@ app.use((error, req, res, next) => {
   console.log(error);
   res.status(status).json({ message: message });
 });
-app.use("/500", errorController.get500);
-app.use(errorController.get404);
 
 mongoose
   .connect(process.env.MONGO_URI)

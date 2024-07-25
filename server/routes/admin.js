@@ -6,19 +6,39 @@ const adminController = require("../controllers/admin");
 
 const authMiddleware = require("../middleware/auth");
 
-router.get("/", authMiddleware, adminController.getHomePage);
+router.get(
+  "/",
+  (req, res,next) => {
+    console.log("here");
+    next();
+  },
+  authMiddleware,
+  adminController.getHomePage
+);
 
 router.get("/add-product", authMiddleware, adminController.getAddProduct);
 
 router.post("/add-product", authMiddleware, adminController.postAddProduct);
 
-router.delete("/product/:productId", authMiddleware, adminController.deleteProduct);
+router.delete(
+  "/product/:productId",
+  authMiddleware,
+  adminController.deleteProduct
+);
 
 router.get("/products", authMiddleware, adminController.getProducts);
 
-router.get("/edit-product/:productId", authMiddleware, adminController.getEditProduct);
+router.get(
+  "/edit-product/:productId",
+  authMiddleware,
+  adminController.getEditProduct
+);
 
-router.post("/edit-product/:productId", authMiddleware, adminController.postEditProduct);
+router.post(
+  "/edit-product/:productId",
+  authMiddleware,
+  adminController.postEditProduct
+);
 
 router.get("/add-offer", authMiddleware, adminController.getAddOffer);
 
@@ -32,9 +52,16 @@ router.get("/offer/:offerId", authMiddleware, adminController.getManageOrders);
 
 router.put("/edit-offer", authMiddleware, adminController.putEditOffer);
 
-router.post("/add-product-offer", authMiddleware, adminController.postAddProductOffer);
+router.post(
+  "/add-product-offer",
+  authMiddleware,
+  adminController.postAddProductOffer
+);
 
-router.delete("/delete-product-offer", authMiddleware, adminController.deleteProductOffer);
-
+router.delete(
+  "/delete-product-offer",
+  authMiddleware,
+  adminController.deleteProductOffer
+);
 
 module.exports = router;

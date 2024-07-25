@@ -13,6 +13,7 @@ const productSchema = yup.object().shape({
 });
 
 exports.getHomePage = async (req, res, next) => {
+  console.log("333")
   res.render("shop/index", {
     pageTitle: "Home",
     path: "/index",

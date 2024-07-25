@@ -6,20 +6,20 @@
 
       <% if (isAuthenticated) { %>
         <li class="main-header__item">
-          <a class="<%= path === '/index' ? 'active' : '' %>" href="/">Home</a>
+          <a class="<%= path === '/index' ? 'active' : '' %>" href="/api/">Home</a>
         </li>
         <li class="main-header__item">
-          <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+          <a class="<%= path === '/products' ? 'active' : '' %>" href="/api/products">Products</a>
         </li>
         <li class="main-header__item">
-          <a class="<%= path === '/offers' ? 'active' : '' %>" href="/offers">Offers</a>
+          <a class="<%= path === '/offers' ? 'active' : '' %>" href="/api/offers">Offers</a>
         </li>
         <li class="main-header__item">
-          <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/add-product">Add Product
+          <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/api/add-product">Add Product
           </a>
         </li>
         <li class="main-header__item">
-          <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/add-offer">Add Offer
+          <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/api/add-offer">Add Offer
           </a>
         </li>
 
@@ -28,14 +28,14 @@
     <ul class="main-header__item-list">
       <% if (!isAuthenticated) { %>
         <li class="main-header__item">
-          <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+          <a class="<%= path === '/login' ? 'active' : '' %>" href="/api/login">Login</a>
         </li>
         <li class="main-header__item">
-          <a class="<%= path === '/register' ? 'active' : '' %>" href="/register">Register</a>
+          <a class="<%= path === '/register' ? 'active' : '' %>" href="/api/register">Register</a>
         </li>
         <% } else { %>
           <li class="main-header__item">
-            <form action="/logout" method="post">
+            <form action="/api/logout" method="post">
               <button type="submit">Logout</button>
             </form>
           </li>
@@ -50,33 +50,33 @@
 
     <% if (isAuthenticated) { %>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/index' ? 'active' : '' %>" href="/">Home</a>
+        <a class="<%= path === '/index' ? 'active' : '' %>" href="/api/">Home</a>
       </li>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/products' ? 'active' : '' %>" href="/products">Products</a>
+        <a class="<%= path === '/products' ? 'active' : '' %>" href="/api/products">Products</a>
       </li>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/offers' ? 'active' : '' %>" href="/offers">Offers</a>
+        <a class="<%= path === '/offers' ? 'active' : '' %>" href="/api/offers">Offers</a>
       </li>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/add-product">Add Product
+        <a class="<%= path === '/add-product' ? 'active' : '' %>" href="/api/add-product">Add Product
         </a>
       </li>
       <li class="mobile-nav__item">
-        <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/add-offer">Add Offer
+        <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/api/add-offer">Add Offer
         </a>
       </li>
       <% } %>
         <% if (!isAuthenticated) { %>
           <li class="mobile-nav__item">
-            <a class="<%= path === '/login' ? 'active' : '' %>" href="/login">Login</a>
+            <a class="<%= path === '/login' ? 'active' : '' %>" href="/api/login">Login</a>
           </li>
           <li class="mobile-nav__item">
-            <a class="<%= path === '/signup' ? 'active' : '' %>" href="/signup">Signup</a>
+            <a class="<%= path === '/signup' ? 'active' : '' %>" href="/api/signup">Signup</a>
           </li>
           <% } else { %>
             <li class="mobile-nav__item">
-              <form action="/logout" method="post">
+              <form action="/api/logout" method="post">
                 <button type="submit">Logout</button>
               </form>
             </li>

@@ -1,6 +1,6 @@
 <%- include('../includes/head.ejs') %>
-<link rel="stylesheet" href="/css/auth-style.css">
-<link rel="stylesheet" href="/css/main.css">
+<link rel="stylesheet" href="/api/css/auth-style.css">
+<link rel="stylesheet" href="/api/css/main.css">
 
 </head>
 
@@ -10,10 +10,10 @@
 		<section class="wrapper">
 			<div class="heading">
 				<h1 class="text text-large">Sign In</h1>
-				<p class="text text-normal">New user? <span><a href="/register" class="text text-links">Create an account</a></span>
+				<p class="text text-normal">New user? <span><a href="/api/register" class="text text-links">Create an account</a></span>
 				</p>
 			</div>
-			<form name="login" class="form" action="/login" method="POST" >
+			<form name="login" class="form" action="/api/login" method="POST" >
 				<div class="input-control">
 					<label for="email" class="input-label" hidden>Email Address</label>
 					<input type="email" name="email" id="email" class="input-field" placeholder="Email Address">
@@ -23,7 +23,7 @@
 					<input type="password" name="password" id="password" class="input-field" placeholder="Password">
 				</div>
 				<div class="input-control">
-					<a href="/forget-password" class="text text-links">Forgot Password</a>
+					<a href="/api/forget-password" class="text text-links">Forgot Password</a>
 					<input type="submit" name="submit" class="input-submit" value="Sign In" >
 				</div>
 			</form>
@@ -54,7 +54,7 @@
 		}
 
 		try {
-			const response = await fetch("/login", {
+			const response = await fetch("/api/login", {
 				method: "POST",
 				headers: {
 					"Content-Type": "application/json",
@@ -76,7 +76,7 @@
 			const responseData = await response.json();
 			console.log("Request succeeded with JSON response", responseData);
 			
-			window.location.href = "/";
+			window.location.href = "/api/";
 			return responseData;
 		} catch (error) {
 			console.error("Error:", error.message);

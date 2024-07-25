@@ -7,7 +7,7 @@ const authMiddleware = async (req, res, next) => {
     // token = req.headers.authorization.split(" ")[1];
     let token = req.cookies.token;
     if (!token) {
-      res.redirect("/login");
+      res.redirect("/api/login");
     }
     // Verify and decode the token
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -41,8 +41,11 @@ const authMiddleware = async (req, res, next) => {
     if (!error.statusCode) {
       error.statusCode = 500;
     }
-    res.redirect("/login?mode=invalid_token");
+    if (!res.headersSent) {
+      console.log("unfortunately an error occured");
+      return res.redirect("/api/login?mode=invalid_token");
   }
+}
 };
 
 module.exports = authMiddleware;

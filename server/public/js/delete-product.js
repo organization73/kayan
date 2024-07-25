@@ -6,7 +6,7 @@ const deleteProduct = async (btn) => {
   const productElement = btn.closest("article");
 
   try {
-    const response = await fetch(`/product/${prodId}`, {
+    const response = await fetch(`/api/product/${prodId}`, {
       method: "DELETE",
     });
 
@@ -21,11 +21,11 @@ const deleteProduct = async (btn) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Product deleted successfully");
-    window.location.href = "/products";
+    window.location.href = "/api/products";
     return responseData;
   } catch (error) {
     console.log(error);
     alert(`Error: ${error.message}`);
-    window.location.href = "/products";
+    window.location.href = "/api/products";
   }
 };
