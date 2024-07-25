@@ -8,6 +8,9 @@ input,
 div {
 	font-family: "Poppins", sans-serif;
 }
+#mainNavElement {
+	margin: 0 20px;
+}
 
 .hero {
 	background-color: #f3f5f7;

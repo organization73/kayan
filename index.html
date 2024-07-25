@@ -23,111 +23,142 @@
 	</head>
 
 	<body>
-		<nav class="navbar navbar-expand-lg navbar-light">
-			<div class="container d-flex justify-content-between align-items-center">
-				<a class="navbar-brand logo h1 align-self-center" href="index.html">
-					كيان
-				</a>
-
+		<nav class="relative px-4 flex justify-between items-center">
+			<a class="text-lg leading-none" href="#">
+				<h4>كيان</h4>
+			</a>
+			<div class="lg:hidden">
 				<button
-					class="navbar-toggler border-0"
-					type="button"
-					data-bs-toggle="collapse"
-					data-bs-target="#templatemo_main_nav"
-					aria-controls="navbarSupportedContent"
-					aria-expanded="false"
-					aria-label="Toggle navigation"
+					class="navbar-burger flex items-center p-3"
+					title="hamburger menu"
 				>
-					<span class="navbar-toggler-icon"></span>
+					<svg
+						class="block h-4 w-4 fill-current"
+						viewBox="0 0 20 20"
+						xmlns="http://www.w3.org/2000/svg"
+					>
+						<title>Mobile menu</title>
+						<path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+					</svg>
 				</button>
+			</div>
+			<ul
+				class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto space-x-4 lg:space-x-6"
+			>
+				<li>
+					<a class="text-sm text-grey-600" href="#" id="mainNavElement"
+						>الصفحة الرئيسية</a
+					>
+				</li>
+				<li>
+					<a class="text-sm text-gray-400 hover:text-gray-500" href="shop.html"
+						>المتجر</a
+					>
+				</li>
+				<li>
+					<a class="text-sm text-gray-400 hover:text-gray-500" href="about.html"
+						>تواصل معنا</a
+					>
+				</li>
+			</ul>
 
-				<div
-					class="align-self-center navbar-collapse flex-fill d-lg-flex justify-content-lg-between"
-					id="templatemo_main_nav"
-				>
-					<div class="flex-fill">
-						<ul class="nav navbar-nav d-flex justify-content-center mx-lg-auto">
-							<li class="nav-item mx-2">
-								<a class="nav-link" href="index.html">الصفحة الرئيسية</a>
-							</li>
-							<li class="nav-item mx-2">
-								<a class="nav-link" href="shop.html">المتجر</a>
-							</li>
-							<li class="nav-item mx-2">
-								<a class="nav-link" href="contact.html">تواصل معنا</a>
-							</li>
-						</ul>
-					</div>
-					<div class="navbar align-self-center d-flex">
-						<div
-							class="d-lg-none flex-sm-fill mt-3 mb-4 col-7 col-sm-auto pr-3"
+			<div class="relative hidden lg:inline-block py-2 px-6 text-sm">
+				<label for="Search" class="sr-only"> Search </label>
+
+				<input
+					type="text"
+					id="Search"
+					placeholder="البحث ..."
+					class="w-full rounded-md py-2.5 pe-10 sm:text-sm"
+				/>
+
+				<span class="absolute inset-y-0 w-10 place-content-center">
+					<button type="button" class="text-gray-600 hover:text-gray-700">
+						<span class="sr-only">Search</span>
+
+						<svg
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke-width="1.5"
+							stroke="currentColor"
+							class="h-4 w-4"
 						>
-							<div class="input-group">
-								<input
-									type="text"
-									class="form-control"
-									id="inputMobileSearch"
-									placeholder="Search ..."
-								/>
-								<div class="input-group-text">
-									<i class="fa fa-fw fa-search"></i>
-								</div>
-							</div>
-						</div>
-						<a
-							class="nav-icon d-none d-lg-inline"
-							href="#"
-							data-bs-toggle="modal"
-							data-bs-target="#templatemo_search"
-							title="Open Search Modal"
-						>
-							<i class="fa fa-fw fa-search text-dark mr-2"></i>
-						</a>
-					</div>
-				</div>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+							/>
+						</svg>
+					</button>
+				</span>
 			</div>
 		</nav>
-
-		<!-- Modal -->
-		<div
-			class="modal fade bg-white"
-			id="templatemo_search"
-			tabindex="-1"
-			role="dialog"
-			aria-labelledby="exampleModalLabel"
-			aria-hidden="true"
-		>
-			<div class="modal-dialog modal-lg" role="document">
-				<div class="w-100 pt-1 mb-5 text-right">
-					<button
-						type="button"
-						class="btn-close"
-						data-bs-dismiss="modal"
-						aria-label="Close"
-					></button>
+		<div class="navbar-menu relative z-50 hidden">
+			<div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+			<nav
+				class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto"
+			>
+				<div class="flex items-center mb-8">
+					<a
+						class="mr-auto text-3xl font-bold leading-none"
+						href="#"
+						title="button"
+					>
+					</a>
+					<button class="navbar-close" title="close nav">
+						<svg
+							class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
+							xmlns="http://www.w3.org/2000/svg"
+							fill="none"
+							viewBox="0 0 24 24"
+							stroke="currentColor"
+						>
+							<path
+								stroke-linecap="round"
+								stroke-linejoin="round"
+								stroke-width="2"
+								d="M6 18L18 6M6 6l12 12"
+							></path>
+						</svg>
+					</button>
 				</div>
-				<form
-					action=""
-					method="get"
-					class="modal-content modal-body border-0 p-0"
-				>
-					<div class="input-group mb-2">
+				<div>
+					<ul>
+						<li class="mb-1">
+							<a
+								class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+								href="#"
+								>الصفحة الرئيسية</a
+							>
+						</li>
+						<li class="mb-1">
+							<a
+								class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+								href="shop.html"
+								>المتجر</a
+							>
+						</li>
+						<li class="mb-1">
+							<a
+								class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded"
+								href="contact.html"
+								>تواصل معنا</a
+							>
+						</li>
+					</ul>
+				</div>
+				<div class="mt-auto">
+					<div class="pt-6">
 						<input
 							type="text"
-							class="form-control"
-							id="inputModalSearch"
-							name="q"
-							placeholder="Search ..."
+							id="Search"
+							placeholder="البحث ..."
+							class="w-full rounded-md py-2.5 pe-10 sm:text-sm"
 						/>
-						<button
-							type="submit"
-							class="input-group-text bg-success text-light"
-						>
-							<i class="fa fa-fw fa-search text-white"></i>
-						</button>
 					</div>
-				</form>
-			</div>
+				</div>
+			</nav>
 		</div>
 
 		<div class="container-fluid hero p-4">
@@ -677,6 +708,7 @@
 			integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy"
 			crossorigin="anonymous"
 		></script>
+
 		<script src="assets/js/main.js"></script>
 	</body>
 </html>
