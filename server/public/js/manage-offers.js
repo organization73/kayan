@@ -23,7 +23,7 @@ form.addEventListener("submit", async (event) => {
 
   console.log(categoriesInputs, selectedCategories, titleValue, imageFiles);
   try {
-    const response = await fetch("/edit-offer", {
+    const response = await fetch("/api/edit-offer", {
       method: "PUT",
       body: new FormData(form),
     });
@@ -69,7 +69,7 @@ addProductForm.addEventListener("submit", async (event) => {
   console.log(productId);
 
   try {
-    const response = await fetch(`/add-product-offer`, {
+    const response = await fetch(`/api/add-product-offer`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -88,7 +88,7 @@ addProductForm.addEventListener("submit", async (event) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Product added to offer successfully");
-    window.location.href = `/offer/${offerId}`;
+    window.location.href = `/api/offer/${offerId}`;
     return responseData;
   } catch (error) {
     console.log(error);
@@ -153,7 +153,7 @@ const deleteProductOffer = async (btn) => {
   const offerId = offerIdInputfield.value;
 
   try {
-    const response = await fetch(`/delete-product-offer`, {
+    const response = await fetch(`/api/delete-product-offer`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -172,11 +172,11 @@ const deleteProductOffer = async (btn) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Product deleted from offer successfully");
-    window.location.href = `/offer/${offerId}`;
+    window.location.href = `/api/offer/${offerId}`;
     return responseData;
   } catch (error) {
     console.log(error);
     alert(`Error: ${error.message}`);
-    window.location.href = `/offer/${offerId}`;
+    window.location.href = `/api/offer/${offerId}`;
   }
 };

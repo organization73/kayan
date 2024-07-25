@@ -1,7 +1,7 @@
 <%- include('../includes/head.ejs') %>
   <!-- <link rel="stylesheet" href="/css/cart.css"> -->
-  <link rel="stylesheet" href="/css/offers-list.css">
-  <script src="/js/offers-list.js" defer></script>
+  <link rel="stylesheet" href="/api/css/offers-list.css">
+  <script src="/api/js/offers-list.js" defer></script>
   </head>
 
   <body>
@@ -20,7 +20,7 @@
                 </div>
                 <div class="item-actions">
 
-                  <a href="/offer/<%= offer._id %>" class="btn">Manage</a>
+                  <a href="/api/offer/<%= offer._id %>" class="btn">Manage</a>
                   <!-- <form id="delete-offer">
                     <input type="hidden" value="<%= offer._id %>" name="offerId" id="offerId">
                     <button class="btn danger" type="submit">Delete</button>

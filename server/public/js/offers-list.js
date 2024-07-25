@@ -70,7 +70,7 @@ const deleteOffer = async (btn) => {
   }
 
   try {
-    const response = await fetch(`/offer/${offerId}`, {
+    const response = await fetch(`/api/offer/${offerId}`, {
       method: "DELETE",
     });
 
@@ -89,7 +89,7 @@ const deleteOffer = async (btn) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Offer deleted successfully");
-    window.location.href = "/offers";
+    window.location.href = "/api/offers";
     return responseData;
   } catch (error) {
     console.log(error);
