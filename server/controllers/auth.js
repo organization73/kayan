@@ -55,9 +55,15 @@ exports.postRegister = async (req, res, next) => {
     //check if admin already exists
     const admin = await Admin.findOne({ email });
     if (admin) {
-      const error = new Error("Admin already exists");
+      const error = new Error("This email already in use.");
       error.statusCode = 422;
       throw error;
+    }
+    const admin2 = await Admin.findOne({ userName });
+    if (admin2) {
+      const error = new Error("This user name already in use.");
+      error.statusCode = 422;
+      throw error
     }
 
     //hash password

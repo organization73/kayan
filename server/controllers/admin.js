@@ -12,11 +12,15 @@ const productSchema = yup.object().shape({
   description: yup.string().required().min(5),
 });
 
+const PRODUCTS_PER_PAGE = 4;
+
+
 exports.getHomePage = async (req, res, next) => {
   console.log("333");
   res.render("shop/index", {
     pageTitle: "Home",
     path: "/index",
+    name:req.admin.userName,
     isAuthenticated: req.admin ? true : false,
   });
 };
@@ -61,7 +65,6 @@ exports.postAddProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-  const PRODUCTS_PER_PAGE = 1;
   const { category } = req.params;
   const page = req.query.page || 1;
 
@@ -303,6 +306,16 @@ exports.getManageOrders = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    // Sort offer products by category
+    offer.products.sort((a, b) => {
+      if (a.category < b.category) {
+        return -1;
+      }
+      if (a.category > b.category) {
+        return 1;
+      }
+      return 0;
+    });
     console.log(offer);
     console.log("weve get a problem");
     //send response
@@ -379,6 +392,13 @@ exports.postAddProductOffer = async (req, res, next) => {
     if (!product || !offer) {
       const error = new Error("Product or offer not found");
       error.statusCode = 404;
+      throw error;
+    }
+
+    //if product already in offer
+    if (offer.products.includes(product._id)) {
+      const error = new Error("Product already in offer");
+      error.statusCode = 403;
       throw error;
     }
     //add product to offer

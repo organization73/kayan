@@ -99,30 +99,23 @@
 
             <% if (offer.products.length> 0) { %>
               <ul class="cart__item-list">
-                <% offer.products.forEach(p=> { %>
+                <% let currentCategory = null %>
+                <% offer.products.forEach(p => { %>
+                  <% if (p.category !== currentCategory) { %>
+                    <% currentCategory = p.category %>
+                    <h2><%= currentCategory %>:</h2>
+                  <% } %>
                   <li class="cart__item">
                     <div class="item-details">
-                      <h1>
-                        <%= p.title %>
-                      </h1>
-                      <!-- <h2>items: <%= p.productsNumber %> -->
-                      </h2>
+                      <h1><%= p.title %></h1>
                     </div>
-                    <!-- <div class="item-actions">
-                      <form id="delete-product-offer">
-                        <input type="hidden" value="<%= p._id %>" name="productId" id="productId">
-                        <button class="btn danger" type="submit">Delete</button>
-                         <input type="text" class="delete_field" id="confirm"> </form> -->
-
-                      <div class="card__actions">
-                        <!-- <a href="/edit-product/<%= p._id %>?edit=true" class="btn">Edit</a> -->
-                        <input type="hidden" value="<%= p._id %>" name="productId">
-                        <button class="btn danger" type="button" onclick="deleteProductOffer(this)">Delete</button>
-                      </div>
-                      <hr>
+                    <div class="card__actions">
+                      <input type="hidden" value="<%= p._id %>" name="productId">
+                      <button class="btn danger" type="button" onclick="deleteProductOffer(this)">Delete</button>
                     </div>
+                    <hr>
                   </li>
-                  <% }) %>
+                <% }) %>
               </ul>
 
 
