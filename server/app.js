@@ -17,6 +17,8 @@ const authRoutes = require("./routes/auth");
 
 const adminRoutes = require("./routes/admin");
 
+const productRoutes = require("./routes/product");
+
 const errorController = require("./controllers/error");
 
 const authMiddleware = require("./middleware/auth");
@@ -88,6 +90,8 @@ app.get("/api/ping", async (req, res) => {
 app.use("/api", authRoutes);
 
 app.use("/api", adminRoutes);
+
+app.use("/api",productRoutes);
 
 app.use("/api/500", errorController.get500);
 

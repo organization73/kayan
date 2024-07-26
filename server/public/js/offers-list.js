@@ -49,8 +49,8 @@ console.log("works fine.");
 
 const deleteOffer = async (btn) => {
   const offerId = btn.parentNode.querySelector("[name=offerId]").value;
-  const confirmation = btn.parentNode.querySelector(
-    "[name=confirmation]"
+  const confirmation = btn.parentNode.parentNode.querySelector(
+    "#confirm"
   ).value;
   // const csrf = btn.parentNode.querySelector('[name=_csrf]').value;
 

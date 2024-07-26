@@ -13,7 +13,7 @@ const productSchema = yup.object().shape({
 });
 
 exports.getHomePage = async (req, res, next) => {
-  console.log("333")
+  console.log("333");
   res.render("shop/index", {
     pageTitle: "Home",
     path: "/index",
@@ -61,13 +61,36 @@ exports.postAddProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
+  const PRODUCTS_PER_PAGE = 1;
+  const { category } = req.params;
+  const page = req.query.page || 1;
+
   try {
-    const products = await Product.find().sort({ createdAt: -1 });
+    const products = await Product.find()
+      .skip(PRODUCTS_PER_PAGE * (page - 1))
+      .limit(PRODUCTS_PER_PAGE)
+      .sort({ createdAt: -1 });
+
+    const totalItems = await Product.find().countDocuments();
+
+    console.log("hasNextPage", PRODUCTS_PER_PAGE * page < totalItems);
+    console.log("totalItems", totalItems);
+    console.log("hasPreviousPage", page > 1);
+    console.log("nextPage", +page + 1);
+    console.log("previousPage", page - 1);
+    console.log("lastPage", Math.ceil(totalItems / PRODUCTS_PER_PAGE));
+
     res.render("shop/products", {
       prods: products,
       pageTitle: "Admin Products",
       path: "/products",
       isAuthenticated: req.admin ? true : false,
+      currentPage: +page,
+      hasNextPage: PRODUCTS_PER_PAGE * page < totalItems,
+      hasPreviousPage: page > 1,
+      nextPage: +page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalItems / PRODUCTS_PER_PAGE),
     });
   } catch (err) {
     next(err);
@@ -372,7 +395,7 @@ exports.deleteProductOffer = async (req, res, next) => {
   const { productId, offerId } = req.body;
 
   console.log(productId, offerId);
-  try{
+  try {
     //validate data
     if (!productId || !offerId) {
       const error = new Error("Product and offer ids are required");
@@ -397,11 +420,15 @@ exports.deleteProductOffer = async (req, res, next) => {
       throw error;
     }
     //remove product from offer
-    offer.products = offer.products.filter(prod => prod.toString() !== productId);
+    offer.products = offer.products.filter(
+      (prod) => prod.toString() !== productId
+    );
     await offer.save();
     //send response
-    res.status(201).json({ message: "Product removed from offer successfully" });
-  }catch(error){
+    res
+      .status(201)
+      .json({ message: "Product removed from offer successfully" });
+  } catch (error) {
     next(error);
   }
-}
+};

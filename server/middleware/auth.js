@@ -4,6 +4,7 @@ const Admin = require("../models/admin"); // Assuming you have a User model
 const authMiddleware = async (req, res, next) => {
   // Get the token from the request headers
   try {
+    console.log(req.cookies)
     // token = req.headers.authorization.split(" ")[1];
     let token = req.cookies.token;
     if (!token) {
@@ -21,7 +22,7 @@ const authMiddleware = async (req, res, next) => {
     }
     //make sure the token is still valid
     if (admin.authenticationTokenExpiration < new Date()) {
-      const error = new Error("Token expired login again");
+      const error = new Error("Token expired. login again");
       error.statusCode = 500;
       throw error;
     }
