@@ -25,14 +25,6 @@ const authMiddleware = require("./middleware/auth");
 
 const Admin = require("./models/admin");
 
-// Check if the "images" folder exists, if not, create it
-const imagesDir = "images";
-if (!fs.existsSync(imagesDir)) {
-  fs.mkdirSync(imagesDir);
-}
-
-
-
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||

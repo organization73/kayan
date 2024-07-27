@@ -12,15 +12,22 @@ const productSchema = yup.object().shape({
   description: yup.string().required().min(5),
 });
 
-const PRODUCTS_PER_PAGE = 4;
+const azureStorageConfig = {
+  accountName: process.env.ACCOUNT_NAME,
+  sasToken: process.env.SAS_TOKEN,
+  containerName: process.env.CONTAINER_NAME,
+};
 
+const AZURE_FILE_PATH = `https://${azureStorageConfig.accountName}.blob.core.windows.net/${azureStorageConfig.containerName}/`;
+
+const PRODUCTS_PER_PAGE = 4;
 
 exports.getHomePage = async (req, res, next) => {
   console.log("333");
   res.render("shop/index", {
     pageTitle: "Home",
     path: "/index",
-    name:req.admin.userName,
+    name: req.admin.userName,
     isAuthenticated: req.admin ? true : false,
   });
 };
@@ -37,6 +44,7 @@ exports.getAddProduct = async (req, res, next) => {
 
 exports.postAddProduct = async (req, res, next) => {
   const { title, price, category, description } = req.body;
+  //check if image and images are uploaded
   const image = req.files["image"] ? req.files["image"][0] : undefined;
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
@@ -46,14 +54,29 @@ exports.postAddProduct = async (req, res, next) => {
   try {
     //Data validation
     await productSchema.validate({ title, price, description, category });
+    //upload image
+    if (!image) {
+      const error = new Error("Image is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    if (images.length < 1) {
+      const error = new Error("Images are required");
+      error.statusCode = 422;
+      throw error;
+    }
+    await fileHelper.uploadToAzureHandler(image);
+    await Promise.all(
+      images.map((img) => fileHelper.uploadToAzureHandler(img))
+    );
     //create object
     const product = new Product({
       title,
       price,
       category,
       description,
-      mainImageUrl: image.path,
-      images: images.map((img) => img.path),
+      mainImageUrl: AZURE_FILE_PATH + image.originalname,
+      images: images.map((img) => AZURE_FILE_PATH + img.originalname),
       creator: req.admin,
     });
     //save to database

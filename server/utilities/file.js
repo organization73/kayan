@@ -42,7 +42,11 @@ exports.uploadToAzure = async (req, res, next) => {
       const blockBlobClient = containerClient.getBlockBlobClient(
         image[0].originalname
       );
-      await blockBlobClient.uploadData(image[0].buffer, image[0].size);
+      const result = await blockBlobClient.uploadData(
+        image[0].buffer,
+        image[0].size
+      );
+      console.log("result:", result);
     }
 
     if (images) {
@@ -60,6 +64,35 @@ exports.uploadToAzure = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
+};
+
+exports.uploadToAzureHandler = async (file) => {
+  return new Promise(async (resolve, reject) => {
+    if (!file) {
+      return reject(new Error("No files uploaded"));
+    }
+
+    try {
+      // Change the file name to a unique name
+      file.originalname =
+        new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname;
+      console.log(file.originalname, "is going to be uploaded");
+
+      // Upload the file to Azure
+      const blockBlobClient = containerClient.getBlockBlobClient(
+        file.originalname
+      );
+      const result = await blockBlobClient.uploadData(file.buffer, file.size);
+      console.log(result);
+      resolve({
+        message: "File uploaded successfully.",
+        fileName: file.originalname,
+        filePath: `https://${azureStorageConfig.accountName}.blob.core.windows.net/${azureStorageConfig.containerName}/${file.originalname}`,
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
 
 exports.deleteFromAzure = async (req, res, next) => {
