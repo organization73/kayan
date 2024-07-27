@@ -31,17 +31,8 @@ if (!fs.existsSync(imagesDir)) {
   fs.mkdirSync(imagesDir);
 }
 
-const fileStorage = multer.diskStorage({
-  destination: (req, file, cb) => {
-    cb(null, "images");
-  },
-  filename: (req, file, cb) => {
-    cb(
-      null,
-      new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname
-    );
-  },
-});
+
+
 const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||
@@ -54,6 +45,7 @@ const fileFilter = (req, file, cb) => {
   }
 };
 
+
 app.use(
   cors({
     origin: "*",
@@ -62,36 +54,41 @@ app.use(
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
+
+const upload = multer({
+  storage: multer.memoryStorage(),
+  fileFilter: fileFilter,
+});
+
 app.use(
-  multer({ storage: fileStorage, fileFilter: fileFilter }).fields([
+  upload.fields([
     { name: "image", maxCount: 1 },
     { name: "images", maxCount: 10 },
   ])
 );
+
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-app.use("/api/",express.static("public"));
+app.use("/api/", express.static("public"));
 app.use("/api/images", express.static("images"));
 
 app.use(morgan("dev"));
 
 app.get("/api/ping", async (req, res) => {
   const admin = await Admin.find().select("-password");
-  res
-    .status(200)
-    .json({
-      message: "I am working fine.",
-      admin,
-      email: process.env.EMAIL_FROM,
-    });
+  res.status(200).json({
+    message: "I am working fine.",
+    admin,
+    email: process.env.EMAIL_FROM,
+  });
 });
 
 app.use("/api", authRoutes);
 
 app.use("/api", adminRoutes);
 
-app.use("/api",productRoutes);
+app.use("/api", productRoutes);
 
 app.use("/api/500", errorController.get500);
 
