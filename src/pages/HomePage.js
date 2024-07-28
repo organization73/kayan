@@ -1,11 +1,13 @@
 import React from "react";
 import Hero from "../components/MainHero";
 import FooterSection from "../components/FooterSection";
+import Video from "../components/Video";
 
 const HomePage = () => {
 	return (
 		<>
 			<Hero></Hero>
+			<Video></Video>
 			<div>
 				<h1 className="font-poppins">about Page</h1>
 				<p>Browse wfwffffffffff products here.</p>
