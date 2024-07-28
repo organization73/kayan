@@ -5,6 +5,33 @@ const productController = require("../controllers/product");
 
 const authMiddleware = require("../middleware/auth");
 
+
+router.get("/add-product", authMiddleware, productController.getAddProduct);
+
+router.post("/add-product", authMiddleware, productController.postAddProduct);
+
+router.delete(
+  "/product/:productId",
+  authMiddleware,
+  productController.deleteProduct
+);
+
+router.get("/products", authMiddleware, productController.getProducts);
+
+router.get(
+  "/edit-product/:productId",
+  authMiddleware,
+  productController.getEditProduct
+);
+
+router.post(
+  "/edit-product/:productId",
+  authMiddleware,
+  productController.postEditProduct
+);
+
+
 router.post("/add-review", authMiddleware, productController.addReview);
+
 
 module.exports = router;

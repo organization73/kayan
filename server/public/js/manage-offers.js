@@ -39,7 +39,7 @@ form.addEventListener("submit", async (event) => {
     const responseData = await response.json();
     console.log("Request succeeded with JSON response", responseData);
     alert("Offer updated successfully");
-    window.location.href = `/offer/${offerId}`;
+    window.location.href = `/api/offer/${offerId}`;
     return responseData;
   } catch (error) {
     console.log(error);

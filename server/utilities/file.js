@@ -21,6 +21,8 @@ const azureStorageConfig = {
   containerName: process.env.CONTAINER_NAME,
 };
 
+const AZURE_FILE_PATH = `https://${azureStorageConfig.accountName}.blob.core.windows.net/${azureStorageConfig.containerName}/`;
+
 const blobServiceClient = new BlobServiceClient(
   `https://${azureStorageConfig.accountName}.blob.core.windows.net/?${azureStorageConfig.sasToken}`
 );
@@ -76,8 +78,7 @@ exports.uploadToAzureHandler = async (file) => {
       // Change the file name to a unique name
       file.originalname =
         new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname;
-      console.log(file.originalname, "is going to be uploaded");
-
+      file.path = AZURE_FILE_PATH + file.originalname;
       // Upload the file to Azure
       const blockBlobClient = containerClient.getBlockBlobClient(
         file.originalname
@@ -108,12 +109,14 @@ exports.deleteFromAzure = async (req, res, next) => {
   }
 };
 
-exports.deleteFromAzure = (imagePath) => {
+exports.deleteFromAzureHandler = (file) => {
   return new Promise(async (resolve, reject) => {
     try {
-      await deleteFile(imagePath);
+      const fileName = file.split("/").pop();
+      console.log(file, "1is going to be deleted");
+      console.log(fileName, "2is going to be deleted");
 
-      const blockBlobClient = containerClient.getBlockBlobClient(imagePath);
+      const blockBlobClient = containerClient.getBlockBlobClient(fileName);
       await blockBlobClient.delete();
 
       resolve({ message: "File deleted successfully." });
