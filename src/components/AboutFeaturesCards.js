@@ -3,7 +3,7 @@ import React from "react";
 function AboutFeaturesCards() {
 	return (
 		<div className="grid grid-cols-1 gap-4 lg:grid-cols-4 lg:gap-8 px-4 md:px-8 lg:px-16 bg-gray-100">
-			<div className="h-60 rounded-lg bg-gray-100">
+			<div className="h-40 lg:h-60 rounded-lg bg-gray-100">
 				<div className="px-8 flex-col justify-center items-center gap-4">
 					<div className="w-8 h-8 relative" />
 					<div className="flex-col justify-start items-center gap-2 flex">
@@ -31,7 +31,7 @@ function AboutFeaturesCards() {
 					</div>
 				</div>
 			</div>
-			<div className="h-60 rounded-lg bg-gray-100">
+			<div className="h-40 lg:h-60 rounded-lg bg-gray-100">
 				<div className="px-8 flex-col justify-center items-center gap-4">
 					<div className="w-8 h-8 relative" />
 					<div className="flex-col justify-start items-center gap-2 flex">
@@ -59,7 +59,7 @@ function AboutFeaturesCards() {
 					</div>
 				</div>
 			</div>
-			<div className="h-60 rounded-lg bg-gray-100">
+			<div className="h-40 lg:h-60 rounded-lg bg-gray-100">
 				<div className="px-8 flex-col justify-center items-center gap-4">
 					<div className="w-8 h-8 relative" />
 					<div className="flex-col justify-start items-center gap-2 flex">
@@ -87,7 +87,7 @@ function AboutFeaturesCards() {
 					</div>
 				</div>
 			</div>
-			<div className="h-60 rounded-lg bg-gray-100">
+			<div className="h-40 lg:h-60 rounded-lg bg-gray-100">
 				<div className="px-8 flex-col justify-center items-center gap-4">
 					<div className="w-8 h-8 relative" />
 					<div className="flex-col justify-start items-center gap-2 flex">
