@@ -16,6 +16,11 @@ router.delete("/image", fileHelper.deleteFromAzure, (req, res) => {
   res.status(201).json({ message: "Files uploaded successfully" });
 });
 
+router.get("/add-gallary-review",authMiddleware, adminController.getAddGallaryPage);
+
+router.post("/add-gallary-review",authMiddleware, adminController.postAddGallaryPage);
+
+
 router.get(
   "/",
   (req, res,next) => {

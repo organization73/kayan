@@ -3,6 +3,7 @@ const yup = require("yup");
 const fileHelper = require("../utilities/file");
 const Product = require("../models/product");
 const Offer = require("../models/offer");
+const GalleryReview = require("../models/gallery-reviews");
 
 const productSchema = yup.object().shape({
   title: yup.string().required(),
@@ -29,4 +30,37 @@ exports.getHomePage = async (req, res, next) => {
     name: req.admin.userName,
     isAuthenticated: req.admin ? true : false,
   });
+};
+
+exports.getAddGallaryPage = async (req, res, next) => {
+  console.log("getAddProductPage");
+  res.render("shop/add-gallary-review", {
+    pageTitle: "Add Gallary Review",
+    path: "/add-gallary-review",
+    isAuthenticated: req.admin ? true : false,
+  });
+};
+
+exports.postAddGallaryPage = async (req, res, next) => {
+  const { image } = req.files;
+
+  try {
+    if (!image) {
+      const error = new Error("Image is required");
+      error.statusCode = 422;
+      throw error;
+    }
+    //upload image to azure
+    await fileHelper.uploadToAzureHandler(image[0]);
+
+    //store image path in database
+    const galleryReview = new GalleryReview({
+      image: image[0].path,
+    });
+    console.log(galleryReview);
+    await galleryReview.save();
+    res.status(201).json({ message: "Image uploaded successfully" });
+  } catch (error) {
+    next(error);
+  }
 };

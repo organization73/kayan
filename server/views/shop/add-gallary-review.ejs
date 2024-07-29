@@ -1,0 +1,74 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/api/css/forms.css">
+  <link rel="stylesheet" href="/api/css/product.css">
+  <style>
+    span {
+      text-align: right;
+      float: right;
+      padding-left: 30;
+    }
+  </style>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+
+        <form name="product" class="product-form" id="add-offer" enctype="multipart/form-data">
+
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" %>">
+          </div>
+
+
+
+          <button class="btn" type="submit"> Add Offer </button>
+        </form>
+      </main>
+
+      <script>
+        const form = document.getElementById("add-offer");
+        const imageInput = document.getElementById("image");
+
+        console.log(form);
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const imageFiles = imageInput.files;
+          if (!imageFiles || imageFiles.length === 0) {
+            alert("Please fill in all fields");
+            return;
+          }
+
+
+          console.log(imageFiles);
+          try {
+            const response = await fetch("/api/add-gallary-review", {
+              method: "POST",
+              body: new FormData(form),
+            });
+
+            if (response.status !== 201) {
+              const errorData = await response.json();
+              throw new Error(
+                errorData.message ||
+                `Request failed with status code ${response.status}`
+              );
+            }
+
+            const responseData = await response.json();
+            console.log("Request succeeded with JSON response", responseData);
+            alert("Offer added successfully");
+            window.location.href = "/api/add-gallary-review";
+            return responseData;
+          } catch (error) {
+            console.log(error);
+            alert(`Error: ${error.message}`);
+          }
+        });
+
+      </script>
+      <%- include('../includes/end.ejs') %>
