@@ -103,6 +103,7 @@ async function startServer() {
 
     //check if kayandb exist
     const listDatabases = await getDatabaseList(mongoose);
+    console.log("here");
     console.log("Databases:", listDatabases);
 
     //if kayandb is not in the list, fetch the data from the online backup
@@ -114,7 +115,7 @@ async function startServer() {
     }
 
     // Schedule the sync function to run every 5 minutes
-    cron.schedule("*/1 * * * *", syncData.bind(mongoose));
+    cron.schedule("*/1 * * * *", () => syncData(mongoose));
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
