@@ -3,3 +3,4 @@ server/nodemon.json
 server/images
 server/test.js
 server/.env
+todo.txt
