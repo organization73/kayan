@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function CategoriesGrid() {
 	return (
@@ -12,9 +13,12 @@ function CategoriesGrid() {
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة صالون</h3>
-						<a href="#" className="inline-flex items-center gap-2 text-white">
+						<Link
+							to="/shop"
+							className="inline-flex items-center gap-2 text-white"
+						>
 							تسوق الآن ←
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -27,9 +31,12 @@ function CategoriesGrid() {
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة نوم</h3>
-						<a href="#" className="inline-flex items-center gap-2 text-white">
+						<Link
+							to="/shop"
+							className="inline-flex items-center gap-2 text-white"
+						>
 							تسوق الآن ←
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>
@@ -42,9 +49,12 @@ function CategoriesGrid() {
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة سفرة</h3>
-						<a href="#" className="inline-flex items-center gap-2 text-white">
+						<Link
+							to="/shop"
+							className="inline-flex items-center gap-2 text-white"
+						>
 							تسوق الآن ←
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

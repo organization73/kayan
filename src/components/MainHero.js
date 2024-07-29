@@ -1,5 +1,6 @@
 import React from "react";
 import adImage from "../assets/img/header_img.png";
+import { Link } from "react-router-dom";
 
 export default function Hero() {
 	return (
@@ -17,12 +18,12 @@ export default function Hero() {
 							في موبيليات كيان، نقدم تشكيلة رائعة من الأثاث الدمياطي عالي الجودة
 							التي يمكن أن تحول منزلك إلى ملاذ مريح وممتع على الدوام.
 						</p>
-						<a
-							href="/shop"
+						<Link
+							to="/shop"
 							className="btn bg-white text-black py-2 px-4 rounded text-base"
 						>
 							التسوق الآن
-						</a>
+						</Link>
 					</div>
 				</div>
 			</div>

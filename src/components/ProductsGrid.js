@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const products = [
 	{
@@ -7,9 +8,19 @@ const products = [
 		name: "مكتب",
 	},
 	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
-		name: "مكتب",
+		src: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+		alt: "غرفة نوم مودرن",
+		name: "غرفة نوم مودرن",
+	},
+	{
+		src: "https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
+		alt: "صالة",
+		name: "صالة",
+	},
+	{
+		src: "https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
+		alt: "صالون",
+		name: "صالون",
 	},
 	{
 		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
@@ -17,28 +28,17 @@ const products = [
 		name: "مكتب",
 	},
 	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
-		name: "مكتب",
+		src: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+		alt: "غرفة نوم مودرن",
+		name: "غرفة نوم مودرن",
 	},
-	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
-		name: "مكتب",
-	},
-	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
-		name: "مكتب",
-	},
-
 	// Add more products here
 ];
 
 function Product({ src, alt, name }) {
 	return (
 		<li>
-			<a href="#" className="group block overflow-hidden">
+			<Link to="/shop" className="group block overflow-hidden">
 				<img
 					src={src}
 					alt={alt}
@@ -49,7 +49,7 @@ function Product({ src, alt, name }) {
 						{name}
 					</h3>
 				</div>
-			</a>
+			</Link>
 		</li>
 	);
 }

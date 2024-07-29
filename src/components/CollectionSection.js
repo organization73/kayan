@@ -1,4 +1,48 @@
 import React from "react";
+import { Link } from "react-router-dom";
+
+const collections = [
+	{
+		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
+		alt: "مكتب",
+		name: "مكتب",
+	},
+	{
+		src: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+		alt: "غرفة نوم مودرن",
+		name: "غرفة نوم مودرن",
+	},
+	{
+		src: "https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
+		alt: "صالة",
+		name: "صالة",
+	},
+	{
+		src: "https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
+		alt: "صالون",
+		name: "صالون",
+	},
+	// Add more collection items here
+];
+
+function CollectionItem({ src, alt, name }) {
+	return (
+		<li>
+			<Link to="/shop" className="group block overflow-hidden">
+				<img
+					src={src}
+					alt={alt}
+					className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
+				/>
+				<div className="relative bg-white pt-3">
+					<h3 className="text-base text-gray-700 group-hover:underline group-hover:underline-offset-4">
+						{name}
+					</h3>
+				</div>
+			</Link>
+		</li>
+	);
+}
 
 function CollectionSection() {
 	return (
@@ -11,105 +55,14 @@ function CollectionSection() {
 				</header>
 
 				<ul className="my-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-					<li>
-						<a href="#" className="group block overflow-hidden">
-							<img
-								src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-								alt=""
-								className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-							/>
-
-							<div className="relative bg-white pt-3">
-								<h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-									Basic Tee
-								</h3>
-
-								<p className="mt-2">
-									<span className="sr-only"> Regular Price </span>
-
-									<span className="tracking-wider text-gray-900">
-										{" "}
-										£24.00 GBP{" "}
-									</span>
-								</p>
-							</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#" className="group block overflow-hidden">
-							<img
-								src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-								alt=""
-								className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-							/>
-
-							<div className="relative bg-white pt-3">
-								<h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-									Basic Tee
-								</h3>
-
-								<p className="mt-2">
-									<span className="sr-only"> Regular Price </span>
-
-									<span className="tracking-wider text-gray-900">
-										{" "}
-										£24.00 GBP{" "}
-									</span>
-								</p>
-							</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#" className="group block overflow-hidden">
-							<img
-								src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-								alt=""
-								className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-							/>
-
-							<div className="relative bg-white pt-3">
-								<h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-									Basic Tee
-								</h3>
-
-								<p className="mt-2">
-									<span className="sr-only"> Regular Price </span>
-
-									<span className="tracking-wider text-gray-900">
-										{" "}
-										£24.00 GBP{" "}
-									</span>
-								</p>
-							</div>
-						</a>
-					</li>
-
-					<li>
-						<a href="#" className="group block overflow-hidden">
-							<img
-								src="https://images.unsplash.com/photo-1523381210434-271e8be1f52b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1770&q=80"
-								alt=""
-								className="h-[350px] w-full object-cover transition duration-500 group-hover:scale-105 sm:h-[450px]"
-							/>
-
-							<div className="relative bg-white pt-3">
-								<h3 className="text-xs text-gray-700 group-hover:underline group-hover:underline-offset-4">
-									Basic Tee
-								</h3>
-
-								<p className="mt-2">
-									<span className="sr-only"> Regular Price </span>
-
-									<span className="tracking-wider text-gray-900">
-										{" "}
-										£24.00 GBP{" "}
-									</span>
-								</p>
-							</div>
-						</a>
-					</li>
+					{collections.map((collection, index) => (
+						<CollectionItem
+							key={index}
+							src={collection.src}
+							alt={collection.alt}
+							name={collection.name}
+						/>
+					))}
 				</ul>
 			</div>
 		</section>

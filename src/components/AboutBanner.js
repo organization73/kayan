@@ -1,5 +1,6 @@
 import React from "react";
 import adImage from "../assets/img/ad.png";
+import { Link } from "react-router-dom";
 
 function AboutBanner(props) {
 	return (
@@ -19,9 +20,12 @@ function AboutBanner(props) {
 					</div>
 					<div className="flex items-center space-x-2">
 						<span className="border-b border-neutral-900" />
-						<button className="text-right text-neutral-900 font-medium">
+						<Link
+							className="text-right text-neutral-900 font-medium"
+							to="/shop"
+						>
 							تسوق الآن ←
-						</button>
+						</Link>
 					</div>
 				</div>
 			</div>
