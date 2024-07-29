@@ -7,6 +7,7 @@ import Categories from "../components/Categories";
 import CategoriesGrid from "../components/CategoriesGrid";
 import CollectionSection from "../components/CollectionSection";
 import AboutFeaturesCards from "../components/AboutFeaturesCards";
+import AboutBanner from "../components/AboutBanner";
 
 const HomePage = () => {
 	return (
@@ -18,11 +19,10 @@ const HomePage = () => {
 			<Video></Video>
 			<CollectionSection></CollectionSection>
 			<AboutFeaturesCards></AboutFeaturesCards>
-
-			<div>
-				<h1 className="font-poppins">about Page</h1>
-				<p>Browse wfwffffffffff products here.</p>
-			</div>
+			<AboutBanner
+				title="معلومات عنا"
+				subtitle="متجر كيان هو متجر للهدايا والديكورات مقره في مصر. تأسس منذ عام 2019. خدمتنا للعملاء دائمًا مستعدة لدعمكم على مدار 24 ساعة طوال أيام الأسبوع."
+			/>
 
 			<FooterSection></FooterSection>
 		</>

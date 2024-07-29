@@ -9,7 +9,10 @@ const AboutPage = () => {
 	return (
 		<>
 			<AboutHeaderText></AboutHeaderText>
-			<AboutBanner></AboutBanner>
+			<AboutBanner
+				title="معلومات عنا"
+				subtitle="متجر كيان هو متجر للهدايا والديكورات مقره في مصر. تأسس منذ عام 2019. خدمتنا للعملاء دائمًا مستعدة لدعمكم على مدار 24 ساعة طوال أيام الأسبوع."
+			/>
 			<AboutContactCards></AboutContactCards>
 			<AboutFeaturesCards></AboutFeaturesCards>
 			<FooterSection></FooterSection>
