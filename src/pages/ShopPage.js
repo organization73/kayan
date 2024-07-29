@@ -1,13 +1,14 @@
 import React from "react";
 import FooterSection from "../components/FooterSection";
+import ShopHeader from "../components/ShopHeader";
+import ShopSection from "../components/ShopSection";
 
 const ShopPage = () => {
 	return (
 		<>
-			<div>
-				<h1>shop Page</h1>
-				<p>Browse products here.</p>
-			</div>
+			<ShopHeader></ShopHeader>
+			<ShopSection></ShopSection>
+
 			<FooterSection></FooterSection>
 		</>
 	);
