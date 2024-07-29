@@ -3,12 +3,14 @@ import Hero from "../components/MainHero";
 import FooterSection from "../components/FooterSection";
 import Video from "../components/Video";
 import HomeSubHeader from "../components/HomeSubHeader";
+import Categories from "../components/Categories";
 
 const HomePage = () => {
 	return (
 		<>
 			<Hero></Hero>
 			<HomeSubHeader></HomeSubHeader>
+			<Categories></Categories>
 			<Video></Video>
 
 			<div>
