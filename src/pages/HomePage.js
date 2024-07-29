@@ -4,6 +4,7 @@ import FooterSection from "../components/FooterSection";
 import Video from "../components/Video";
 import HomeSubHeader from "../components/HomeSubHeader";
 import Categories from "../components/Categories";
+import CategoriesGrid from "../components/CategoriesGrid";
 
 const HomePage = () => {
 	return (
@@ -11,6 +12,7 @@ const HomePage = () => {
 			<Hero></Hero>
 			<HomeSubHeader></HomeSubHeader>
 			<Categories></Categories>
+			<CategoriesGrid></CategoriesGrid>
 			<Video></Video>
 
 			<div>

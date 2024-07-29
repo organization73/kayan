@@ -29,7 +29,7 @@ const Video = () => {
 
 	return (
 		<section className="py-10">
-			<div ref={domNode} className="container">
+			<div ref={domNode}>
 				<div className=" flex flex-wrap justify-center">
 					<div className="w-full px-4 lg:w-10/12">
 						<div className="relative z-20 h-[300px] overflow-hidden rounded-lg md:h-[450px]">
