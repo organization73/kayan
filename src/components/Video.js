@@ -28,7 +28,7 @@ const Video = () => {
 	});
 
 	return (
-		<section className="bg-white py-20 lg:py-[120px]">
+		<section className="py-10">
 			<div ref={domNode} className="container">
 				<div className=" flex flex-wrap justify-center">
 					<div className="w-full px-4 lg:w-10/12">
