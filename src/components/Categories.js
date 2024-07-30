@@ -39,7 +39,7 @@ function Categories() {
 	return (
 		<div className="container mx-auto py-6">
 			<div className="text-center">
-				<div className="text-3xl mb-6">تسوق حسب الفئات</div>
+				<div className="text-2xl font-medium mb-6">تسوق حسب الفئات</div>
 				<div className="flex flex-wrap justify-center gap-3">
 					{categories.map((category, index) => (
 						<CategoryCard

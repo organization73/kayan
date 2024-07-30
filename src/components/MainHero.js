@@ -13,7 +13,9 @@ export default function Hero() {
 				</div>
 				<div className="w-full lg:w-1/2 text-right lg:text-right pb-4 ">
 					<div className="content p-4">
-						<h1 className="text-4xl lg:text-5xl mb-4 ">كيان في الاثاث</h1>
+						<h1 className="text-4xl lg:text-5xl mb-4 font-semibold">
+							كيان في الاثاث
+						</h1>
 						<p className="mb-4 ">
 							في موبيليات كيان، نقدم تشكيلة رائعة من الأثاث الدمياطي عالي الجودة
 							التي يمكن أن تحول منزلك إلى ملاذ مريح وممتع على الدوام.

@@ -8,6 +8,7 @@ import CategoriesGrid from "../components/CategoriesGrid";
 import CollectionSection from "../components/CollectionSection";
 import AboutFeaturesCards from "../components/AboutFeaturesCards";
 import AboutBanner from "../components/AboutBanner";
+import Testimonial from "../components/Testimonial";
 
 const HomePage = () => {
 	return (
@@ -17,7 +18,9 @@ const HomePage = () => {
 			<Categories></Categories>
 			<CategoriesGrid></CategoriesGrid>
 			<Video></Video>
+
 			<CollectionSection></CollectionSection>
+			<Testimonial></Testimonial>
 			<AboutFeaturesCards></AboutFeaturesCards>
 			<AboutBanner
 				title="معلومات عنا"

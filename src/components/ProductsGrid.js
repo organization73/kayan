@@ -1,74 +1,89 @@
-import React from "react";
 import { Link } from "react-router-dom";
 
 const products = [
 	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
+		id: 1,
 		name: "مكتب",
+		href: "/product",
+		price: "$48",
+		imageSrc: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
+
+		imageAlt: "مكتب",
 	},
 	{
-		src: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
-		alt: "غرفة نوم مودرن",
-		name: "غرفة نوم مودرن",
+		id: 2,
+		name: "غرفة صالون",
+		href: "/product",
+		price: "$35",
+		imageSrc: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+
+		imageAlt: "غرفة نوم",
 	},
 	{
-		src: "https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
-		alt: "صالة",
-		name: "صالة",
-	},
-	{
-		src: "https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
-		alt: "صالون",
+		id: 3,
 		name: "صالون",
+		href: "/product",
+		price: "$89",
+		imageSrc:
+			"https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
+
+		imageAlt: "صالون",
 	},
 	{
-		src: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-		alt: "مكتب",
+		id: 4,
+		name: "صالة",
+		href: "/product",
+		price: "$35",
+		imageSrc:
+			"https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
+
+		imageAlt: "صالة",
+	},
+	{
+		id: 1,
 		name: "مكتب",
+		href: "/product",
+		price: "$48",
+		imageSrc: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
+
+		imageAlt: "مكتب",
 	},
 	{
-		src: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
-		alt: "غرفة نوم مودرن",
-		name: "غرفة نوم مودرن",
+		id: 2,
+		name: "غرفة صالون",
+		href: "/product",
+		price: "$35",
+		imageSrc: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+
+		imageAlt: "غرفة نوم",
 	},
-	// Add more products here
+	// More products...
 ];
 
-function Product({ src, alt, name }) {
+export default function ProductsGrid() {
 	return (
-		<li>
-			<Link to="/shop" className="group block overflow-hidden">
-				<img
-					src={src}
-					alt={alt}
-					className="h-80 w-full object-cover transition duration-500 group-hover:scale-105"
-				/>
-				<div className="relative bg-white pt-3">
-					<h3 className="text-base text-gray-700 group-hover:underline group-hover:underline-offset-4">
-						{name}
-					</h3>
-				</div>
-			</Link>
-		</li>
-	);
-}
+		<div className="bg-white">
+			<div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
+				<h2 className="sr-only">Products</h2>
 
-function ProductsGrid() {
-	return (
-		<div className="lg:col-span-3">
-			<ul className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-				{products.map((product, index) => (
-					<Product
-						key={index}
-						src={product.src}
-						alt={product.alt}
-						name={product.name}
-					/>
-				))}
-			</ul>
+				<div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
+					{products.map((product) => (
+						<Link key={product.id} to={product.href} className="group">
+							<div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
+								<img
+									alt={product.imageAlt}
+									src={product.imageSrc}
+									className="h-full w-full object-cover object-center group-hover:opacity-75"
+								/>
+							</div>
+							<h3 className="mt-4 text-normal font-medium text-gray-700">{product.name}</h3>
+							{/* <p className="mt-1 text-lg font-medium text-gray-900">
+								{product.price}
+							</p> */}
+						</Link>
+					))}
+				</div>
+			</div>
 		</div>
 	);
 }
-
-export default ProductsGrid;

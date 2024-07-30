@@ -8,7 +8,6 @@ const ShopPage = () => {
 		<>
 			<ShopHeader></ShopHeader>
 			<ShopSection></ShopSection>
-
 			<FooterSection></FooterSection>
 		</>
 	);
