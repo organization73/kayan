@@ -29,6 +29,16 @@ const productSchema = new Schema(
       type: String,
       required: true,
     },
+    rating: {
+      type: Number,
+      default: 5.0,
+    },
+    reviews: [
+      {
+        type: Schema.Types.ObjectId,
+        ref: "Review",
+      },
+    ],
     images: [
       {
         type: String,

@@ -33,6 +33,7 @@ exports.getAddProduct = async (req, res, next) => {
     isAuthenticated: req.admin ? true : false,
     editing: false,
     hasErrors: false,
+    reviews: [],
   });
 };
 
@@ -130,14 +131,13 @@ exports.deleteProduct = async (req, res, next) => {
     }
     // Delete product images
     try {
-      await fileHelper.deleteFile(product.mainImageUrl);
+      await fileHelper.deleteFromAzureHandler(product.mainImageUrl);
       await Promise.all(
-        product.images.map((img) => fileHelper.deleteFile(img))
+        product.images.map((img) => fileHelper.deleteFromAzureHandler(img))
       );
     } catch (fileError) {
       console.error("Error deleting product images:", fileError);
       // Handle the file deletion error, but continue
-      // Optionally, you can pass the error to the next middleware
       next(fileError);
     }
     //delete prodcuct from offers.
@@ -145,7 +145,8 @@ exports.deleteProduct = async (req, res, next) => {
       { products: { $in: [productId] } },
       { $pull: { products: productId } }
     );
-
+    //delete reviews
+    await Review.deleteMany({ productId });
     //send response
     res.status(200).json({ message: "Product deleted successfully ", product });
   } catch (error) {
@@ -157,7 +158,7 @@ exports.getEditProduct = async (req, res, next) => {
   const { productId } = req.params;
   try {
     //find product
-    const product = await Product.findById(productId);
+    const product = await Product.findById(productId).populate("reviews");
     if (!product) {
       const error = new Error("Product not found");
       error.statusCode = 404;
@@ -172,6 +173,7 @@ exports.getEditProduct = async (req, res, next) => {
       editing: true,
       product,
       hasErrors: false,
+      reviews: product.reviews,
     });
   } catch (error) {
     next(error);
@@ -180,12 +182,12 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.postEditProduct = async (req, res, next) => {
   const { productId } = req.params;
-  const { title, price, category, description } = req.body;
+  const { title, price, rating, category, description } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
     : undefined;
-  console.log(productId, title, price, description, category, image, images);
+  console.log(productId, title, price,rating, description, category, image, images);
   try {
     //Data validation
     await productSchema.validate({ title, price, description, category });
@@ -202,6 +204,7 @@ exports.postEditProduct = async (req, res, next) => {
     product.price = price;
     product.category = category;
     product.description = description;
+    product.rating = rating;
     if (image) {
       //upload new image
       await fileHelper.uploadToAzureHandler(image);
@@ -253,6 +256,11 @@ exports.addReview = async (req, res, next) => {
       rating,
       review,
     });
+    if (rating < 1 || rating > 5) {
+      const error = new Error("Rating must be between 1 and 5");
+      error.statusCode = 422;
+      throw error;
+    }
 
     //check if the product exists
     const product = await Product.findById(productId);
@@ -281,8 +289,10 @@ exports.addReview = async (req, res, next) => {
 
 exports.getReviews = async (req, res, next) => {
   try {
-    const reviews = await Review.find({ approver: { $exists: false } }).populate("productId");
-    console.log(reviews);
+    const reviews = await Review.find({
+      isApproved: false,
+    }).populate("productId");
+    // console.log(reviews);
     res.render("shop/reviews", {
       pageTitle: "Reviews",
       path: "/products-reviews",
@@ -303,6 +313,24 @@ exports.deleteReview = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
+    //delete review id from product
+    await Product.findByIdAndUpdate(review.productId, {
+      $pull: { reviews: reviewId },
+    });
+    const product = await Product.findById(review.productId).populate(
+      "reviews",
+      "rating , isApproved"
+    );
+
+    //update product rating
+    const nTotalReviews = product.reviews.length;
+    const totalRating = product.reviews.reduce(
+      (acc, review) => acc + review.rating,
+      0
+    );
+    product.rating = totalRating / nTotalReviews;
+    await product.save();
+
     res.status(200).json({ message: "Review deleted successfully", review });
   } catch (error) {
     next(error);
@@ -313,15 +341,83 @@ exports.approveReview = async (req, res, next) => {
   const { reviewId } = req.params;
   try {
     const review = await Review.findById(reviewId);
+    const product = await Product.findById(review.productId).populate(
+      "reviews",
+      "rating , isaApproved"
+    );
+    const numberOfApprovedReviews = product.reviews.length;
+
     if (!review) {
       const error = new Error("Review not found");
       error.statusCode = 404;
       throw error;
     }
+    if (!product) {
+      const error = new Error("Product not found");
+      error.statusCode = 404;
+      throw error;
+    }
     review.approver = req.admin;
+    review.isApproved = true;
     await review.save();
+    //update product rating
+    product.reviews.push(review);
+    console.log(
+      `${product.rating} * ${numberOfApprovedReviews} + ${review.rating} / ${
+        numberOfApprovedReviews + 1
+      }`
+    );
+    const newRating =
+      (product.rating * numberOfApprovedReviews + review.rating) /
+      (numberOfApprovedReviews + 1);
+    product.rating = newRating;
+    await product.save();
     res.status(200).json({ message: "Review approved successfully", review });
   } catch (error) {
     next(error);
+  }
+};
+
+exports.getClientProducts = async (req, res, next) => {
+  const { category, sortBy, search } = req.query;
+  let filter = {};
+
+  // Apply category filter if provided
+  if (category) {
+    filter.category = category;
+  }
+
+  // Apply search filter if provided
+  if (search) {
+    filter.title = { $regex: search, $options: "i" };
+  }
+
+  // Apply sorting based on sortBy value
+  let sortOption = {};
+  if (sortBy === "recent") {
+    sortOption = { createdAt: -1 };
+  } else if (sortBy === "popular") {
+    sortOption = { rating: -1 };
+  }
+
+  try {
+    const products = await Product.find(filter)
+      .skip(PRODUCTS_PER_PAGE * (page - 1))
+      .limit(PRODUCTS_PER_PAGE)
+      .sort(sortOption);
+
+    const totalItems = await Product.find(filter).countDocuments();
+
+    res.status(200).json({
+      prods: products,
+      currentPage: +page,
+      hasNextPage: PRODUCTS_PER_PAGE * page < totalItems,
+      hasPreviousPage: page > 1,
+      nextPage: +page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalItems / PRODUCTS_PER_PAGE),
+    });
+  } catch (err) {
+    next(err);
   }
 };

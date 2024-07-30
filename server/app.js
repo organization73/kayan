@@ -104,19 +104,16 @@ async function startServer() {
 
     //check if kayandb exist
     const listDatabases = await getDatabaseList(mongoose);
-    console.log("here");
-    console.log("Databases:", listDatabases);
-
     //if kayandb is not in the list, fetch the data from the online backup
     if (!listDatabases.includes(dbName)) {
       console.log("Database does not exist in local MongoDB.");
       console.log("Fetching data from online MongoDB...");
-      await fetchDataFromOnlineBackup();
+      // await fetchDataFromOnlineBackup();
       console.log("Data fetched from online MongoDB.");
     }
 
     // Schedule the sync function to run every 5 minutes
-    cron.schedule("*/5 * * * *", () => syncData(mongoose));
+    // cron.schedule("*/5 * * * *", () => syncData(mongoose));
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

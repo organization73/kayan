@@ -26,6 +26,10 @@ const reviewSchema = new Schema({
     type: Schema.Types.ObjectId,
     ref: "Admin",
   },
+  isApproved: {
+    type: Boolean,
+    default: false,
+  },
 
 });
 

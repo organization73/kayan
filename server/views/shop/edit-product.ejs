@@ -1,6 +1,8 @@
 <%- include('../includes/head.ejs') %>
   <link rel="stylesheet" href="/api/css/forms.css">
   <link rel="stylesheet" href="/api/css/product.css">
+  <link rel="stylesheet" href="/api/css/articale.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
   <script src="/api/js/add-edit-product.js" defer></script>
   </head>
 
@@ -54,6 +56,13 @@
             <input type="number" name="price" id="price" step="0.01"
               value="<% if (editing || hasErrors) { %><%= product.price %><% } %>">
           </div>
+          <%if (editing){%>
+            <div class="form-control">
+              <label for="rating">Rating</label>
+              <input type="number" name="rating" id="rating" step="0.01"
+                value="<% if (editing || hasErrors) { %><%= product.rating %><% } %>">
+            </div>
+          <% } %>
           <div class="form-control">
             <label for="description">Description</label>
             <textarea name="description" id="description"
@@ -68,8 +77,97 @@
                 <% if (editing) { %>Update Product<% } else { %>Add Product<% } %>
               </button>
         </form>
-      </main>
+        
+        
+        <% if (editing) {%>
+          <hr>
+          <!--start  -->
 
+          <section id="testimonials">
+            <!--heading--->
+            <div class="testimonial-heading">
+              <span>Reviews</span>
+              <h4>Clients Says</h4>
+            </div>
+            <!--testimonials-box-container------>
+            <% if(reviews.length> 0){ %>
+              <div class="testimonial-box-container">
+                <!--BOX-1-------------->
+                <% for (const review of reviews) {%>
+                  <div class="testimonial-box">
+                    <!--top------------------------->
+                    <div class="box-top">
+
+                      <!--profile----->
+                      <div class="profile">
+                        <!--img---->
+                        <div class="profile-img">
+                          <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                        </div>
+                        <!--name-and-username-->
+                        <div class="name-user">
+                          <strong><%- review.creator.name %></strong>
+                          <span><%- review.creator.email%></span>
+                          <span><%- review.productId.title%></span>
+
+                        </div>
+                      </div>
+                      <!-- reviews -->
+
+                      <div class="reviews">
+                        <% for (let i=0; i < 5; i++){%>
+                          <% if(i < review.rating){%>
+                            <i class="fas fa-star"></i>
+                            <%} else {%>
+                              <i class="far fa-star"></i>
+                              <%}%>
+                                <%}%>
+                      </div>
+                    </div>
+                    <!--Comments---------------------------------------->
+                    <div class="client-comment">
+                      <p><%- review.review %></p>
+                    </div>
+                    <div class="button-container">
+                      <input type="hidden" value="<%= review._id %>" name="reviewId">
+                      <button class="btn danger" type="button" onclick="deleteReview(this)">Delete</button>
+                    </div>
+                    <!-- <div class="button-container">
+                  <button class="btn" style="margin-right: 15px;">Edit</button>
+                  <button class="btn danger">Delete</button>
+                </div> -->
+                  </div>
+                  <% } %>
+
+              </div>
+              <% } else { %>
+                <h1> NO Reviews.</h1>
+                <%}%>
+          </section>
+
+          <% } %>
+
+      </main>
+      <script>
+        function deleteReview(btn) {
+          const reviewId = btn.previousElementSibling.value;
+          fetch('/api/product-review/' + reviewId, {
+            method: 'DELETE',
+          })
+            .then(result => {
+              return result.json();
+            })
+            .then(data => {
+              console.log(data);
+              location.reload();
+            })
+            .catch(err => {
+              alert('Failed!');
+              console.log(err);
+            });
+        }
+
+      </script>
 
 
       <%- include('../includes/end.ejs') %>
