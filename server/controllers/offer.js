@@ -77,7 +77,7 @@ exports.deleteOffer = async (req, res, next) => {
       throw error;
     }
     //delete offer image
-    await fileHelper.deleteFile(offer.Image);
+    await fileHelper.deleteFromAzureHandler(offer.Image);
     //send response
     res.status(201).json({ message: "Offer deleted successfully", offer });
   } catch (error) {
