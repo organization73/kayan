@@ -268,13 +268,59 @@ exports.addReview = async (req, res, next) => {
       creator,
       rating,
       review,
-      approver: req.admin._id,
     });
     await newReview.save();
     res.status(201).json({
       message: "Review added successfully",
       review: newReview,
     });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getReviews = async (req, res, next) => {
+  try {
+    const reviews = await Review.find({ approver: { $exists: false } }).populate("productId");
+    console.log(reviews);
+    res.render("shop/reviews", {
+      pageTitle: "Reviews",
+      path: "/products-reviews",
+      isAuthenticated: req.admin ? true : false,
+      reviews,
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.deleteReview = async (req, res, next) => {
+  const { reviewId } = req.params;
+  try {
+    const review = await Review.findByIdAndDelete(reviewId);
+    if (!review) {
+      const error = new Error("Review not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({ message: "Review deleted successfully", review });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.approveReview = async (req, res, next) => {
+  const { reviewId } = req.params;
+  try {
+    const review = await Review.findById(reviewId);
+    if (!review) {
+      const error = new Error("Review not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    review.approver = req.admin;
+    await review.save();
+    res.status(200).json({ message: "Review approved successfully", review });
   } catch (error) {
     next(error);
   }

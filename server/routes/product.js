@@ -31,7 +31,13 @@ router.post(
 );
 
 
-router.post("/add-review", authMiddleware, productController.addReview);
+router.post("/add-review", productController.addReview);
+
+router.get("/products-reviews", authMiddleware, productController.getReviews);
+
+router.delete("/product-review/:reviewId", authMiddleware, productController.deleteReview);
+
+router.patch("/approve-product-review/:reviewId", authMiddleware, productController.approveReview);
 
 
 module.exports = router;

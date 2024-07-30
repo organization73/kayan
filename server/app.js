@@ -115,7 +115,7 @@ async function startServer() {
     }
 
     // Schedule the sync function to run every 5 minutes
-    cron.schedule("*/5 * * * *", () => syncData(mongoose));
+    cron.schedule("*/1 * * * *", () => syncData(mongoose));
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

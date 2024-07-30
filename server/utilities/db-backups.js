@@ -18,8 +18,6 @@ async function syncData(mongoose) {
     const localClient = new MongoClient(localUri);
     const localDb = localClient.db(dbName); // Specify the database name here
 
-    
-
     //get collections list
     const collectionsList = await localDb.listCollections().toArray();
     const collectionNames = collectionsList.map((col) => col.name);
@@ -29,6 +27,10 @@ async function syncData(mongoose) {
     // Connect to online MongoDB
     const onlineClient = new MongoClient(atlasUri);
     const onlineDb = onlineClient.db(dbName); // Specify the database name here
+
+    //create a temp db
+    const tempDb = localClient.db("tmp" + dbName);
+
     for (const collectionName of collectionNames) {
       console.log("collectionName:", collectionName);
     }
@@ -42,11 +44,25 @@ async function syncData(mongoose) {
       console.log("localData:", localData);
 
       if (localData.length > 0) {
+        // Create a temporary collection
+        const tempCollection = tempDb.collection(collectionName);
+
+        // Drop temporary collection if it already exists
+        await tempCollection.drop();
+
+        // Insert data into temporary collection
+        await tempCollection.insertMany(localData);
+
         // Delete all documents in online collection
         await onlineCollection.deleteMany({});
 
-        // Insert data into online MongoDB
-        await onlineCollection.insertMany(localData);
+        // Insert data from temporary collection to online MongoDB
+        await onlineCollection.insertMany(
+          await tempCollection.find().toArray()
+        );
+
+        // Delete temporary collection
+        // await tempCollection.drop();
       } else {
         //if local empty make online empty
         await onlineCollection.deleteMany({});
