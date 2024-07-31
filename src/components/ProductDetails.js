@@ -22,11 +22,11 @@ const product = {
 			alt: "Model wearing plain black basic tee.",
 		},
 		{
-			src: "https://tailwindui.com/img/ecommerce-images/product-page-02-tertiary-product-shot-02.jpg",
+			src: "https://th.bing.com/th/id/R.f3e2e8a78fb185c97dc149bf4638b317?rik=kCQ5PIoMch54OQ&riu=http%3a%2f%2fworldexpofair.com%2fwp-content%2fuploads%2fmobil-1-1200x720.jpg&ehk=RvQbJBXRThPHAQMIw%2fc9uL%2fmHFqj%2fhJeRh0WpYk3LGQ%3d&risl=&pid=ImgRaw&r=0",
 			alt: "Model wearing plain gray basic tee.",
 		},
 		{
-			src: "https://tailwindui.com/img/ecommerce-images/product-page-02-featured-product-shot.jpg",
+			src: "https://maharajafurniture.com/wp-content/uploads/2021/04/sofa-set4.jpg",
 			alt: "Model wearing plain white basic tee.",
 		},
 	],
@@ -88,10 +88,10 @@ export default function ProductDetails() {
 				</nav>
 
 				{/* Image gallery */}
-				<ImageGallery></ImageGallery>
+				<ImageGallery images={product.images}></ImageGallery>
 
 				{/* Product info */}
-				<div className="mx-auto max-w-2xl px-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+				<div className="mx-auto max-w-2xl px-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24">
 					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
 						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
 							{product.name}
