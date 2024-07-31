@@ -9,7 +9,7 @@ function CategoriesGrid() {
 					<img
 						src="https://via.placeholder.com/548x319"
 						className="absolute inset-0 w-full h-full object-cover"
-						alt="Placeholder Image"
+						alt="Placeholder"
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة صالون</h3>
@@ -27,7 +27,7 @@ function CategoriesGrid() {
 					<img
 						src="https://via.placeholder.com/548x319"
 						className="absolute inset-0 w-full h-full object-cover"
-						alt="Placeholder Image"
+						alt="Placeholder"
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة نوم</h3>
@@ -45,7 +45,7 @@ function CategoriesGrid() {
 					<img
 						src="https://via.placeholder.com/548x319"
 						className="absolute inset-0 w-full h-full object-cover"
-						alt="Placeholder Image"
+						alt="Placeholder"
 					/>
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة سفرة</h3>

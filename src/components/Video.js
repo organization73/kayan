@@ -427,7 +427,7 @@ const Video = () => {
 				<div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-70">
 					<div className="mx-auto w-full max-w-[550px] bg-white">
 						<>
-							<iframe
+							<iframe title="HomeVideo"
 								className="h-[320px] w-full"
 								src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1"
 							/>

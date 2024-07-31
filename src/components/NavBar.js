@@ -104,11 +104,6 @@ export default function NavBar() {
 				/>
 				<nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
 					<div className="flex items-center mb-8">
-						<a
-							className="mr-auto text-3xl font-bold leading-none"
-							href="#"
-							title="button"
-						></a>
 						<button
 							className="navbar-close"
 							title="close nav"
