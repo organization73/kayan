@@ -4,48 +4,12 @@ import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import ImageGallery from "../components/ImageGallery";
 
-const product = {
-	name: "صالون",
-	price: "12000 جنيه",
-	href: "#",
-	breadcrumbs: [
-		{ id: 1, name: "المتجر", href: "/shop" },
-		{ id: 2, name: "غرف صالون", href: "#" },
-	],
-	images: [
-		{
-			src: "https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
-			alt: "Two each of gray, white, and black shirts laying flat.",
-		},
-		{
-			src: "https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
-			alt: "Model wearing plain black basic tee.",
-		},
-		{
-			src: "https://th.bing.com/th/id/R.f3e2e8a78fb185c97dc149bf4638b317?rik=kCQ5PIoMch54OQ&riu=http%3a%2f%2fworldexpofair.com%2fwp-content%2fuploads%2fmobil-1-1200x720.jpg&ehk=RvQbJBXRThPHAQMIw%2fc9uL%2fmHFqj%2fhJeRh0WpYk3LGQ%3d&risl=&pid=ImgRaw&r=0",
-			alt: "Model wearing plain gray basic tee.",
-		},
-		{
-			src: "https://maharajafurniture.com/wp-content/uploads/2021/04/sofa-set4.jpg",
-			alt: "Model wearing plain white basic tee.",
-		},
-	],
-
-	description: "اوضة صالون عصري حديث ذات لون رمادي",
-	highlights: [
-		"نضمن لك منتج اصلي مصنوع من الاخشاب الطبيعية",
-		" إمكانية تنفيذ اي تصميم من اختياركم والمقاسات الخاصة بكم.",
-		"أقوي العروض والخصومات.",
-		"متاح تغير القماش والمقاسات و الألوان حسب الطلب",
-	],
-};
-const reviews = { href: "#", average: 4, totalCount: 117 };
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
 }
 
-export default function ProductDetails() {
+export default function ProductDetails({ product }) {
 	const [show2, setShow2] = useState(false);
 
 	return (
@@ -76,13 +40,12 @@ export default function ProductDetails() {
 							</li>
 						))}
 						<li className="text-sm">
-							<a
-								href={product.href}
+							<p
 								aria-current="page"
 								className="font-medium text-gray-500 hover:text-gray-600"
 							>
 								{product.name}
-							</a>
+							</p>
 						</li>
 					</ol>
 				</nav>
@@ -102,7 +65,7 @@ export default function ProductDetails() {
 					<div className="mt-4 lg:row-span-3 lg:mt-0">
 						<h2 className="sr-only">Product information</h2>
 						<p className="text-3xl tracking-tight text-gray-900">
-							{product.price}
+							{product.price} جنيه
 						</p>
 
 						{/* Reviews */}
@@ -115,7 +78,7 @@ export default function ProductDetails() {
 											key={rating}
 											aria-hidden="true"
 											className={classNames(
-												reviews.average > rating
+												product.reviews.average > rating
 													? "text-gray-900"
 													: "text-gray-200",
 												"h-5 w-5 flex-shrink-0"
@@ -123,13 +86,12 @@ export default function ProductDetails() {
 										/>
 									))}
 								</div>
-								<p className="sr-only">{reviews.average} out of 5 stars</p>
-								<a
-									href={reviews.href}
-									className="mr-3 text-sm font-medium text-indigo-600 hover:text-indigo-500"
-								>
-									{reviews.totalCount} مراجعة
-								</a>
+								<p className="sr-only">
+									{product.reviews.average} out of 5 stars
+								</p>
+								<p className="mr-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
+									{product.reviews.totalCount} مراجعة
+								</p>
 							</div>
 						</div>
 					</div>
