@@ -20,13 +20,14 @@ export default function ImageCarousel() {
 					"--swiper-pagination-color": "#fff",
 				}}
 				dir="rtl"
+				spaceBetween={10}
 				slidesPerView={1}
 				loop={true}
 				pagination={{
 					clickable: true,
 				}}
 				autoplay={{
-					delay: 3000,
+					delay: 5000,
 					disableOnInteraction: false,
 				}}
 				navigation={true}

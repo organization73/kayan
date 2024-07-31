@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
+import ImageGallery from "../components/ImageGallery";
 
 const product = {
 	name: "صالون",
@@ -87,41 +88,10 @@ export default function ProductDetails() {
 				</nav>
 
 				{/* Image gallery */}
-				<div className="mx-auto mt-6 max-w-2xl sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:gap-x-8 lg:px-8">
-					<div className="aspect-h-4 aspect-w-3 hidden overflow-hidden rounded-lg lg:block">
-						<img
-							alt={product.images[0].alt}
-							src={product.images[0].src}
-							className="h-full w-full object-cover object-center"
-						/>
-					</div>
-					<div className="hidden lg:grid lg:grid-cols-1 lg:gap-y-8">
-						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-							<img
-								alt={product.images[1].alt}
-								src={product.images[1].src}
-								className="h-full w-full object-cover object-center"
-							/>
-						</div>
-						<div className="aspect-h-2 aspect-w-3 overflow-hidden rounded-lg">
-							<img
-								alt={product.images[2].alt}
-								src={product.images[2].src}
-								className="h-full w-full object-cover object-center"
-							/>
-						</div>
-					</div>
-					<div className="aspect-h-5 aspect-w-4 lg:aspect-h-4 lg:aspect-w-3 sm:overflow-hidden sm:rounded-lg">
-						<img
-							alt={product.images[3].alt}
-							src={product.images[3].src}
-							className="h-full w-full object-cover object-center"
-						/>
-					</div>
-				</div>
+				<ImageGallery></ImageGallery>
 
 				{/* Product info */}
-				<div className="mx-auto max-w-2xl px-4 pb-16 pt-10 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
+				<div className="mx-auto max-w-2xl px-4 sm:px-6 lg:grid lg:max-w-7xl lg:grid-cols-3 lg:grid-rows-[auto,auto,1fr] lg:gap-x-8 lg:px-8 lg:pb-24 lg:pt-16">
 					<div className="lg:col-span-2 lg:border-r lg:border-gray-200 lg:pr-8">
 						<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
 							{product.name}
