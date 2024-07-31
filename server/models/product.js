@@ -2,6 +2,17 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+const validCategories = [
+  "bedroom",
+  "office",
+  "kids-room",
+  "dining-room",
+  "sofa",
+  "salon",
+  "table",
+  "cabinet",
+];
+
 const productSchema = new Schema(
   {
     title: {
@@ -12,6 +23,7 @@ const productSchema = new Schema(
     category: {
       type: String,
       required: true,
+      enum: validCategories,
     },
     creator: {
       type: Schema.Types.ObjectId,

@@ -29,7 +29,7 @@ form.addEventListener("submit", async (event) => {
   }
   const editing = productIdValue ? true : false;
 
-  if (!titleValue || !priceValue || !descriptionValue || !selectedCategory) {
+  if (!titleValue  || !descriptionValue || !selectedCategory) {
     alert("Please fill in all fields");
     return;
   }

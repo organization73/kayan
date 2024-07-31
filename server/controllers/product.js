@@ -7,12 +7,12 @@ const fileHelper = require("../utilities/file");
 
 const productSchema = yup.object().shape({
   title: yup.string().required(),
-  price: yup.number(),
+  price: yup.number().nullable(),
   category: yup.string().required(),
   description: yup.string().required().min(5),
 });
 
-const PRODUCTS_PER_PAGE = 4;
+const PRODUCTS_PER_PAGE = 6;
 
 const reviewSchema = yup.object().shape({
   productId: yup.string().required(),
@@ -67,7 +67,7 @@ exports.postAddProduct = async (req, res, next) => {
     //create object
     const product = new Product({
       title,
-      price,
+      price:price || 0,
       category,
       description,
       mainImageUrl: image.path,
@@ -201,7 +201,7 @@ exports.postEditProduct = async (req, res, next) => {
     }
     //update product
     product.title = title;
-    product.price = price;
+    product.price = price || 0;
     product.category = category;
     product.description = description;
     product.rating = rating;
@@ -379,7 +379,8 @@ exports.approveReview = async (req, res, next) => {
 };
 
 exports.getClientProducts = async (req, res, next) => {
-  const { category, sortBy, search } = req.query;
+  let { category, sortBy, search, page } = req.query;
+  page = +page || 1;
   let filter = {};
 
   // Apply category filter if provided
@@ -396,8 +397,12 @@ exports.getClientProducts = async (req, res, next) => {
   let sortOption = {};
   if (sortBy === "recent") {
     sortOption = { createdAt: -1 };
-  } else if (sortBy === "popular") {
+  } else if (sortBy === "popular"){
     sortOption = { rating: -1 };
+  }else if (sortBy === "price-asc"){
+    sortOption = { price: 1 };
+  } else if (sortBy === "price-desc"){
+    sortOption = { price: -1 };
   }
 
   try {
