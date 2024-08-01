@@ -63,3 +63,27 @@ res:
         }
     ]
 }
+
+4- get product details http://localhost:8080/api/client/product/66aba9fe7f950b1897b92617
+notice it also return the reviews if you like
+method: get
+res:
+{
+    "product": {
+        "_id": "66aba9fe7f950b1897b92617",
+        "title": "مكتب",
+        "category": "office",
+        "creator": "66a8dc35740d09b43d386230",
+        "price": 0,
+        "description": "11111111111111111111111",
+        "mainImageUrl": "https://elsharabasy.blob.core.windows.net/kayanlocal/2024-08-01T15-30-04.956Z-ÙÙØªØ¨.jpg",
+        "rating": 5,
+        "reviews": [],
+        "images": [
+            "https://elsharabasy.blob.core.windows.net/kayanlocal/2024-08-01T15-30-05.791Z-ÙÙØªØ¨.jpg"
+        ],
+        "createdAt": "2024-08-01T15:30:06.349Z",
+        "updatedAt": "2024-08-01T15:30:06.349Z",
+        "__v": 0
+    }
+}

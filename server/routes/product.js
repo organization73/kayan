@@ -38,7 +38,9 @@ router.delete("/product-review/:reviewId", authMiddleware, productController.del
 
 router.patch("/approve-product-review/:reviewId", authMiddleware, productController.approveReview);
 
+//client routes
 router.get("/client/products", productController.getClientProducts);
 
+router.get("/client/product/:productId", productController.getClientProduct);
 
 module.exports = router;

@@ -426,3 +426,18 @@ exports.getClientProducts = async (req, res, next) => {
     next(err);
   }
 };
+
+exports.getClientProduct = async (req, res, next) => {
+  try{
+    const {productId} = req.params;
+    const product = await Product.findById(productId).populate("reviews");
+    if(!product){
+      const error = new Error("Product not found");
+      error.statusCode = 404;
+      throw error;
+    }
+    res.status(200).json({product});
+  }catch(error){
+    next(error);
+  }
+}
