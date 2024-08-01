@@ -1,0 +1,28 @@
+1- get products https://kayan-modern.egypts.live/api/client/products?search=Nich&page=1
+method :get
+res:
+{
+    "prods": [
+        {
+            "_id": "66aab83d1ad1e2a7f31e83d3",
+            "title": "Nich",
+            "category": "office",
+            "creator": "66aab7141ad1e2a7f31e8355",
+            "price": 10010010,
+            "description": "Nicedd",
+            "mainImageUrl": "https://elsharabasy.blob.core.windows.net/kayan/2024-07-31T23-13-53.058Z-images.jpeg",
+            "rating": 5,
+            "reviews": [],
+            "images": [],
+            "createdAt": "2024-07-31T22:18:37.893Z",
+            "updatedAt": "2024-08-01T15:03:33.124Z",
+            "__v": 1
+        }
+    ],
+    "currentPage": 1,
+    "hasNextPage": false,
+    "hasPreviousPage": false,
+    "nextPage": 2,
+    "previousPage": 0,
+    "lastPage": 1
+}
