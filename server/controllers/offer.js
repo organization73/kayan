@@ -249,3 +249,12 @@ exports.deleteProductOffer = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getOffers = async (req, res, next) => {
+  try{
+    let offers = await Offer.find().sort({ createdAt: -1 });
+    res.status(200).json({offers});
+  }catch(error){
+    next(error);
+  }
+}

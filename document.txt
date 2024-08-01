@@ -1,5 +1,5 @@
 1- get products https://kayan-modern.egypts.live/api/client/products?search=Nich&page=1
-method :get
+method: get
 res:
 {
     "prods": [
@@ -25,4 +25,41 @@ res:
     "nextPage": 2,
     "previousPage": 0,
     "lastPage": 1
+}
+
+2- get offers http://localhost:8080/api/client/offers
+method: get
+res:
+{
+    "offers": [
+        {
+            "_id": "66aa1d4cbe1ec040f60f9562",
+            "title": "11111",
+            "creator": "66a8dc35740d09b43d386230",
+            "Image": "https://elsharabasy.blob.core.windows.net/kayanlocal/2024-07-31T11-17-31.576Z-offer.jpeg",
+            "categories": [
+                "office",
+                "dining-room"
+            ],
+            "products": [],
+            "createdAt": "2024-07-31T11:17:32.778Z",
+            "updatedAt": "2024-07-31T11:17:32.778Z",
+            "__v": 0
+        }
+    ]
+}
+
+3- get galay reviews http://localhost:8080/api/client/galary-review
+method: get
+res:
+{
+    "reviews": [
+        {
+            "_id": "66aa216e41d525259cdf567b",
+            "image": "https://elsharabasy.blob.core.windows.net/kayanlocal/2024-07-31T11-35-08.352Z-Screenshot from 2024-07-29 18-53-00.png",
+            "createdAt": "2024-07-31T11:35:11.001Z",
+            "updatedAt": "2024-07-31T11:35:11.001Z",
+            "__v": 0
+        }
+    ]
 }

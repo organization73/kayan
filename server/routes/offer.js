@@ -28,4 +28,8 @@ router.delete(
   authMiddleware,
   offerController.deleteProductOffer
 );
+
+//client routes
+router.get("/client/offers", offerController.getOffers);
+
 module.exports = router;

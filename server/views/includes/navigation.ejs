@@ -78,6 +78,18 @@
         <a class="<%= path === '/add-offer' ? 'active' : '' %>" href="/api/add-offer">Add Offer
         </a>
       </li>
+      <li class="mobile-nav__item"">
+        <a class="<%= path === '/add-gallary-review' ? 'active' : '' %>" href="/api/add-gallary-review">Add Gallery Review
+        </a>
+      </li>
+      <li class="mobile-nav__item"">
+        <a class="<%= path === '/products-reviews' ? 'active' : '' %>" href="/api/products-reviews">Products Peviews
+        </a>
+      </li>
+      <li class="mobile-nav__item"">
+        <a class="<%= path === '/complains' ? 'active' : '' %>" href="/api/complains">Complains
+        </a>
+      </li>
       <% } %>
         <% if (!isAuthenticated) { %>
           <li class="mobile-nav__item">

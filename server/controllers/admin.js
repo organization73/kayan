@@ -169,3 +169,13 @@ exports.deleteComplain = async (req, res, next) => {
     next(error);
   }
 };
+
+exports.getGallaryReview = async (req, res, next) => {
+  try {
+    const reviews = await GalleryReview.find();
+    res.status(200).json({ reviews });
+  }
+  catch (error) {
+    next(error);
+  }
+}

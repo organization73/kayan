@@ -42,4 +42,7 @@ router.delete("/complain/:id", authMiddleware, adminController.deleteComplain);
 
 router.get("/", authMiddleware, adminController.getHomePage);
 
+//client routes
+router.get("/client/galary-review", adminController.getGallaryReview);
+
 module.exports = router;
