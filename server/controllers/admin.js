@@ -1,6 +1,8 @@
 const yup = require("yup");
 
 const fileHelper = require("../utilities/file");
+const { listImagesInContainer } = require("../utilities/file");
+
 const Product = require("../models/product");
 const Offer = require("../models/offer");
 const GalleryReview = require("../models/gallery-reviews");
@@ -22,12 +24,51 @@ const azureStorageConfig = {
 const PRODUCTS_PER_PAGE = 4;
 
 exports.getHomePage = async (req, res, next) => {
-  console.log("333");
+  const list = await listImagesInContainer();
+  console.log(list);
+  list.sort();
+  let imageNumber = 0;
+  //get the images from the db
+  const dbImagesList = [];
+  const products = await Product.find();
+  products.forEach((product) => {
+    imageNumber++;
+    dbImagesList.push(product.mainImageUrl);
+    product.images.forEach((image) => {
+      imageNumber++;
+      dbImagesList.push(image);
+    });
+  });
+  const reviews = await GalleryReview.find();
+  reviews.forEach((review) => {
+    imageNumber++;
+    dbImagesList.push(review.image);
+  });
+
+  const offers = await Offer.find();
+  offers.forEach((offer) => {
+    imageNumber++;
+    dbImagesList.push(offer.Image);
+  });
+  dbImagesList.sort();
+
+  //get images that in the azure but not in the db
+  const imagesNotInDb = list.filter((image) => !dbImagesList.includes(image));
+
+  //get the complaints number
+  const numberOfcomplaints = await Complaint.countDocuments();
+
   res.render("shop/index", {
     pageTitle: "Home",
     path: "/index",
     name: req.admin.userName,
     isAuthenticated: req.admin ? true : false,
+    imagesNotInDb,
+    imageNumber,
+    numberOfProducts: products.length,
+    numberOfOffers: offers.length,
+    numberOfReviews: reviews.length,
+    numberOfcomplaints,
   });
 };
 

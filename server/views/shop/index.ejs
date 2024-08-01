@@ -1,9 +1,29 @@
 <%- include('../includes/head.ejs') %>
-</head>
+    </head>
 
-<body>
-	<%- include('../includes/navigation') %>
-    <h1>Hello, <%= name%></h1>
-    <h2>Welcome to the admin control panel.</h2>
+    <body>
+        <%- include('../includes/navigation') %>
+            <h1>Hello, <%= name%>
+            </h1>
+            <h2>Welcome to the admin control panel.</h2>
+            <h2>Number of Products: <%= numberOfProducts %>
+            </h2>
+            <h2>Number of Offers: <%= numberOfOffers %>
+            </h2>
+            <h2>Number of Reviews: <%= numberOfReviews %>
+            </h2>
+            <h2>Number of Complaints: <%= numberOfcomplaints %>
+            </h2>
+            <h2> you have <%= imageNumber %> images.
+            </h2>
 
-<%- include('../includes/end.ejs') %>
+            <% if (imagesNotInDb.length> 0) { %>
+                <h2>There are <%= imagesNotInDb.length %> images not in the database.</h2>
+                <% for(const image of imagesNotInDb) { %>
+                    <h3>
+                        <%= image %>
+                    </h3>
+                    <% } %>
+                        <%}%>
+
+                            <%- include('../includes/end.ejs') %>

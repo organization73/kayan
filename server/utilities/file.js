@@ -126,3 +126,39 @@ exports.deleteFromAzureHandler = (file) => {
     }
   });
 };
+
+
+exports.listImagesInContainer = async () => {
+  const { accountName, sasToken, containerName } = azureStorageConfig;
+
+  // Construct the connection string
+  const connectionString = `BlobEndpoint=https://${accountName}.blob.core.windows.net;SharedAccessSignature=${sasToken}`;
+
+  try {
+    // Create a BlobServiceClient
+    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+
+    // Get a reference to the container
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    // List blobs in the container
+    let imageUrls = [];
+    for await (const blob of containerClient.listBlobsFlat()) {
+      // Check if the blob is an image based on its extension
+      if (/\.(jpg|jpeg|png|gif|bmp)$/i.test(blob.name)) {
+        // Construct the URL for the blob
+        const blobUrl = containerClient.getBlobClient(blob.name).url;
+        const cleanUrl = blobUrl.split('?')[0].replace(/%20/g, ' ');
+        imageUrls.push(cleanUrl);
+      }
+    }
+
+    return imageUrls;
+  } catch (error) {
+    if (error.statusCode === 403 && error.details.errorCode === 'AuthorizationResourceTypeMismatch') {
+      throw new Error('The SAS token does not have the required permissions to list blobs in this container.');
+    } else {
+      throw error;
+    }
+  }
+};
