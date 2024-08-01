@@ -65,6 +65,7 @@ res:
 }
 
 4- get product details http://localhost:8080/api/client/product/66aba9fe7f950b1897b92617
+online one https://kayan-modern.egypts.live/api/client/product/66a9fd422b32e4cc865ce187
 notice it also return the reviews if you like
 method: get
 res:

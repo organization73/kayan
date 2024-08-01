@@ -30,6 +30,6 @@ router.delete(
 );
 
 //client routes
-router.get("/client/offers", offerController.getOffers);
+router.get("/client/offers", offerController.getClientOffers);
 
 module.exports = router;

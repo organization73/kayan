@@ -99,7 +99,7 @@ async function startServer() {
   try {
     //if the local db data is lost fetch the backup from the online version.
 
-    await mongoose.connect(process.env.LOCAL_MONGO_URI + dbName);
+    await mongoose.connect(process.env.ONLINE_MONGO_URI + dbName);
     console.log("Connected to the local MongoDB.");
 
     //check if kayandb exist

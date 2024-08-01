@@ -24,7 +24,7 @@
                   <h2 class="product__price">$
                     <%= product.price %>
                   </h2>
-                  <p class="product__description">
+                  <p class="product__price">
                     <%= product._id %>
                   </p>
                   <p class="product__description">
@@ -66,4 +66,16 @@
             <h1>No Products Found!</h1>
             <% } %>
       </main>
+      <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const descriptions = document.querySelectorAll('p.product__description');
+
+            descriptions.forEach(p => {
+                const text = p.textContent;
+                if (text.length > 50) {
+                    p.textContent = text.substring(0, 100) + '...';
+                }
+            });
+        });
+    </script>
       <%- include('../includes/end.ejs') %>
