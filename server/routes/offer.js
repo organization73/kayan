@@ -32,4 +32,8 @@ router.delete(
 //client routes
 router.get("/client/offers", offerController.getClientOffers);
 
+router.get("/client/offer/:offerId", offerController.getClientOffer);
+
+router.get("/client/offer-details/:offerId", offerController.getClientOfferDetails);
+
 module.exports = router;

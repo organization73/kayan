@@ -86,7 +86,7 @@ app.use("/api", adminRoutes);
 app.use("/api", productRoutes);
 app.use("/api", offerRoutes);
 app.use("/api/500", errorController.get500);
-app.use("/", authMiddleware, errorController.get404);
+app.get("/", authMiddleware, errorController.get404);
 
 app.use((error, req, res, next) => {
   const status = error.statusCode || 500;
@@ -99,7 +99,7 @@ async function startServer() {
   try {
     //if the local db data is lost fetch the backup from the online version.
 
-    await mongoose.connect(process.env.ONLINE_MONGO_URI + dbName);
+    await mongoose.connect(process.env.LOCAL_MONGO_URI + dbName);
     console.log("Connected to the local MongoDB.");
 
     //check if kayandb exist

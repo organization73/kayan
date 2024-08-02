@@ -20,22 +20,14 @@
           <label for="category">Category</label>
           <select name="category" id="category">
             <option value="">اختر فئة</option>
-            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف
-              نوم</option>
-            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب
-            </option>
-            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %>
-              >غرف أطفال</option>
-            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : ''
-              %>>غرف سفرة</option>
-            <option value="sofa" <%=(editing || hasErrors) && product.category==='sofa' ? 'selected' : '' %> >ركنات
-            </option>
-            <option value="salon" <%=(editing || hasErrors) && product.category==='salon' ? 'selected' : '' %>
-              >صالونات</option>
-            <option value="table" <%=(editing || hasErrors) && product.category==='table' ? 'selected' : '' %> >طاولة
-            </option>
-            <option value="cabinet" <%=(editing || hasErrors) && product.category==='cabinet' ? 'selected' : '' %>
-              >نيش</option>
+            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف نوم</option>
+            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب</option>
+            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %> >غرف أطفال</option>
+            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : '' %> >غرف سفرة</option>
+            <option value="sofa" <%=(editing || hasErrors) && product.category==='sofa' ? 'selected' : '' %> >ركنات</option>
+            <option value="salon" <%=(editing || hasErrors) && product.category==='salon' ? 'selected' : '' %> >صالونات</option>
+            <option value="table" <%=(editing || hasErrors) && product.category==='table' ? 'selected' : '' %> >طاولة</option>
+            <option value="cabinet" <%=(editing || hasErrors) && product.category==='cabinet' ? 'selected' : '' %> >نيش</option>
           </select>
           <div class="form-control">
             <label for="image">Image</label>

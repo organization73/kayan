@@ -5,6 +5,8 @@ const Product = require("../models/product");
 
 const fileHelper = require("../utilities/file");
 
+const PRODUCTS_PER_PAGE = 6;
+
 exports.getAddOffer = async (req, res, next) => {
   res.render("shop/add-offer", {
     pageTitle: "Add Offer",
@@ -251,10 +253,96 @@ exports.deleteProductOffer = async (req, res, next) => {
 };
 
 exports.getClientOffers = async (req, res, next) => {
-  try{
+  try {
     let offers = await Offer.find().sort({ createdAt: -1 });
-    res.status(200).json({offers});
-  }catch(error){
+    res.status(200).json({ offers });
+  } catch (error) {
     next(error);
   }
-}
+};
+
+exports.getClientOffer = async (req, res, next) => {
+  console.log("we are here");
+  let { category, sortBY, search, page } = req.query;
+  const { offerId } = req.params;
+  page = +page || 1;
+  let filter = {};
+
+  // Apply category filter if provided
+  if (category) {
+    filter.category = category;
+  }
+
+  // Apply search filter if provided
+  if (search) {
+    filter.title = { $regex: search, $options: "i" };
+  }
+
+  try {
+    const offer = await Offer.findById(offerId).populate("products");
+    if (!offer) {
+      return res.status(404).json({ message: "Offer not found" });
+    }
+
+    let products = offer.products;
+
+    // Apply filter offer categories
+    if (offer.categories && offer.categories.length > 0) {
+      products = products.filter((product) =>
+        offer.categories.includes(product.category)
+      );
+    }
+
+    // Apply filters to products
+    if (category) {
+      products = products.filter((product) => product.category === category);
+    }
+    if (search) {
+      const regex = new RegExp(search, "i");
+      products = products.filter((product) => regex.test(product.title));
+    }
+
+    // Apply sorting to products
+    if (sortBY === "recent") {
+      products = products.sort((a, b) => b.createdAt - a.createdAt);
+    } else if (sortBY === "popular") {
+      products = products.sort((a, b) => b.rating - a.rating);
+    } else if (sortBY === "price-asc") {
+      products = products.sort((a, b) => a.price - b.price);
+    } else if (sortBY === "price-dsc") {
+      products = products.sort((a, b) => b.price - a.price);
+    }
+
+    const totalItems = products.length;
+    products = products.slice(
+      PRODUCTS_PER_PAGE * (page - 1),
+      PRODUCTS_PER_PAGE * page
+    );
+
+    res.status(200).json({
+      prods: products,
+      currentPage: +page,
+      hasNextPage: PRODUCTS_PER_PAGE * page < totalItems,
+      hasPreviousPage: page > 1,
+      nextPage: +page + 1,
+      previousPage: page - 1,
+      lastPage: Math.ceil(totalItems / PRODUCTS_PER_PAGE),
+    });
+  } catch (err) {
+    next(err);
+  }
+};
+
+exports.getClientOfferDetails = async (req, res, next) => {
+  console.log("hi");
+  const { offerId } = req.params;
+  try {
+    const offer = await Offer.findById(offerId);
+    if (!offer) {
+      return res.status(404).json({ message: "Offer not found" });
+    }
+    res.status(200).json({ offer });
+  } catch (err) {
+    next(err);
+  }
+};

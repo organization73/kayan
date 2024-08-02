@@ -67,7 +67,7 @@ exports.postAddProduct = async (req, res, next) => {
     //create object
     const product = new Product({
       title,
-      price:price || 0,
+      price: price || 0,
       category,
       description,
       mainImageUrl: image.path,
@@ -187,7 +187,16 @@ exports.postEditProduct = async (req, res, next) => {
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
     : undefined;
-  console.log(productId, title, price,rating, description, category, image, images);
+  console.log(
+    productId,
+    title,
+    price,
+    rating,
+    description,
+    category,
+    image,
+    images
+  );
   try {
     //Data validation
     await productSchema.validate({ title, price, description, category });
@@ -379,7 +388,7 @@ exports.approveReview = async (req, res, next) => {
 };
 
 exports.getClientProducts = async (req, res, next) => {
-  let { category, sortBy, search, page } = req.query;
+  let { category, sortBY, search, page } = req.query;
   page = +page || 1;
   let filter = {};
 
@@ -393,15 +402,15 @@ exports.getClientProducts = async (req, res, next) => {
     filter.title = { $regex: search, $options: "i" };
   }
 
-  // Apply sorting based on sortBy value
+  // Apply sorting based on sortBY value
   let sortOption = {};
-  if (sortBy === "recent") {
+  if (sortBY === "recent") {
     sortOption = { createdAt: -1 };
-  } else if (sortBy === "popular"){
+  } else if (sortBY === "popular") {
     sortOption = { rating: -1 };
-  }else if (sortBy === "price-asc"){
+  } else if (sortBY === "price-asc") {
     sortOption = { price: 1 };
-  } else if (sortBy === "price-desc"){
+  } else if (sortBY === "price-dsc") {
     sortOption = { price: -1 };
   }
 
@@ -409,7 +418,14 @@ exports.getClientProducts = async (req, res, next) => {
     const products = await Product.find(filter)
       .skip(PRODUCTS_PER_PAGE * (page - 1))
       .limit(PRODUCTS_PER_PAGE)
-      .sort(sortOption);
+      .sort(sortOption); 
+
+    //   console.log(page);
+    //   console.log(sortBY);
+    //   console.log(sortOption);
+    // products.forEach((product) => {
+    //   console.log(product.title);
+    // });
 
     const totalItems = await Product.find(filter).countDocuments();
 
@@ -428,16 +444,16 @@ exports.getClientProducts = async (req, res, next) => {
 };
 
 exports.getClientProduct = async (req, res, next) => {
-  try{
-    const {productId} = req.params;
+  try {
+    const { productId } = req.params;
     const product = await Product.findById(productId).populate("reviews");
-    if(!product){
+    if (!product) {
       const error = new Error("Product not found");
       error.statusCode = 404;
       throw error;
     }
-    res.status(200).json({product});
-  }catch(error){
+    res.status(200).json({ product });
+  } catch (error) {
     next(error);
   }
-}
+};
