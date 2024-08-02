@@ -1,10 +1,11 @@
 import banner1 from "../assets/img/b1.png";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 
 // Import Swiper React components
 import { Swiper, SwiperSlide } from "swiper/react";
+import { useNavigate } from "react-router-dom";
 
 // Import Swiper styles
 import "swiper/css";
@@ -27,6 +28,7 @@ const fetchOffers = async () => {
 export default function ImageCarousel() {
   const [offersList, setOffersList] = useState([]);
   const [loading, setLoading] = useState(true);
+  const navigate = useNavigate();
 
   useEffect(() => {
     fetchOffers()
@@ -69,7 +71,11 @@ export default function ImageCarousel() {
       modules={[Pagination, Navigation, Autoplay]}
     >
       {offersList.map((offer) => (
-        <SwiperSlide key={offer.id} className="bg-center bg-cover">
+        <SwiperSlide
+          key={offer.id}
+          className="bg-center bg-cover"
+          onClick={() => navigate(`/shop/${offer.id}`)}
+        >
           <img
             className="block w-full"
             src={offer.src}

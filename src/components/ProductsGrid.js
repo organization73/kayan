@@ -2,14 +2,24 @@ import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
+import { useParams } from 'react-router-dom';
 
-async function fetchProducts(option) {
+async function fetchProducts(option,offerId) {
   try {
-    console.log("Fetching products...", option.value);
-    const response = await axios.get(`${url}/api/client/products`, {
+    console.log("Fetching products...", offerId);
+    let requestUrl = "";
+    if (offerId) {
+      requestUrl = `${url}/api/client/offer/${offerId}`;
+    } else {
+      requestUrl = `${url}/api/client/products`;
+    }
+    console.log("requestUrl", requestUrl);
+    const response = await axios.get(requestUrl, {
       params: {
         page: 1,
         sortBY: option ? option.value : "recent",
+        // search: "bed",
+        // category: "bedroom",
       },
     });
     return response.data;
@@ -23,10 +33,10 @@ async function fetchProducts(option) {
 
 export default function ProductsGrid({ selectedOption }) {
   const [products, setProducts] = useState([]);
-
+  const { offerId } = useParams();
   useEffect(() => {
     const fetchAndSetProducts = async () => {
-      const data = await fetchProducts(selectedOption);
+      const data = await fetchProducts(selectedOption,offerId);
       setProducts(data.prods || []);
     };
 
@@ -35,7 +45,7 @@ export default function ProductsGrid({ selectedOption }) {
   useEffect(() => {
     if (!selectedOption) {
       const fetchAndSetProducts = async () => {
-        const data = await fetchProducts({ value: "recent" });
+        const data = await fetchProducts({ value: "recent" }, offerId);
         setProducts(data.prods || []);
       };
 
