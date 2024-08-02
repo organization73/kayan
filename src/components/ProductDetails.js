@@ -167,8 +167,7 @@ export default function ProductDetails({ product }) {
 										</div>
 										<div
 											className={
-												"pt-4 text-base leading-normal pr-12 mt-4 text-gray-600 " +
-												(show2 ? "block" : "hidden")
+												"pt-4  text-gray-600 " + (show2 ? "block" : "hidden")
 											}
 											id="sect"
 										>
