@@ -1,95 +1,54 @@
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 
-
-async function fetchProducts() {
+async function fetchProducts(option) {
   try {
-		const response = await axios.get(url+"/api/client/products", {
-			params: {
-				page: 1,
-				//["bedroom", "office", "kids-room", "dining-room", "sofa", "salon", "table", "cabinet"];
-				category: "bedroom",
-				search: "غرفه",
-				sortBY: "recent",
-			}
-		});
-		const data = response.data
-    return data;
+    console.log("Fetching products...", option.value);
+    const response = await axios.get(`${url}/api/client/products`, {
+      params: {
+        page: 1,
+        sortBY: option ? option.value : "recent",
+      },
+    });
+    return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
     return [];
   }
 }
 
-const response = await fetchProducts();
-const products = response.prods;
-console.log(products);
+// let products = await fetchProducts();
 
-// const products = [
-// 	{
-// 		id: 1,
-// 		name: "مكتب",
-// 		href: "/product",
-// 		price: "$48",
-// 		imageSrc: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
+export default function ProductsGrid({ selectedOption }) {
+  const [products, setProducts] = useState([]);
 
-// 		imageAlt: "مكتب",
-// 	},
-// 	{
-// 		id: 2,
-// 		name: "غرفة صالون",
-// 		href: "/product",
-// 		price: "$35",
-// 		imageSrc: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
+  useEffect(() => {
+    const fetchAndSetProducts = async () => {
+      const data = await fetchProducts(selectedOption);
+      setProducts(data.prods || []);
+    };
 
-// 		imageAlt: "غرفة نوم",
-// 	},
-// 	{
-// 		id: 3,
-// 		name: "صالون",
-// 		href: "/product",
-// 		price: "$89",
-// 		imageSrc:
-// 			"https://mostaql.hsoubcdn.com/uploads/thumbnails/585297/628179e339c03/1.jpg",
+    fetchAndSetProducts();
+  }, [selectedOption]);
+  useEffect(() => {
+    if (!selectedOption) {
+      const fetchAndSetProducts = async () => {
+        const data = await fetchProducts({ value: "recent" });
+        setProducts(data.prods || []);
+      };
 
-// 		imageAlt: "صالون",
-// 	},
-// 	{
-// 		id: 4,
-// 		name: "صالة",
-// 		href: "/product",
-// 		price: "$35",
-// 		imageSrc:
-// 			"https://th.bing.com/th/id/R.14723de297fb42267e1a1b4ca62b9ad7?rik=KAS0OrCUb7Yorg&pid=ImgRaw&r=0",
+      fetchAndSetProducts();
+    }
+  }, []);
 
-// 		imageAlt: "صالة",
-// 	},
-// 	{
-// 		id: 1,
-// 		name: "مكتب",
-// 		href: "/product",
-// 		price: "$48",
-// 		imageSrc: "https://ro2yahome.com/wp-content/uploads/2019/10/15.jpg",
-
-// 		imageAlt: "مكتب",
-// 	},
-// 	{
-// 		id: 2,
-// 		name: "غرفة صالون",
-// 		href: "/product",
-// 		price: "$35",
-// 		imageSrc: "https://emypost.com/wp-content/uploads/2019/12/11.jpg",
-
-// 		imageAlt: "غرفة نوم",
-// 	},
-// 	// More products...
-// ];
-
-export default function ProductsGrid() {
   return (
     <div className="bg-white">
       <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
+        <h1 className="text-xl font-bold text-gray-900">
+          {selectedOption ? selectedOption.name : "No option selected"}
+        </h1>
         <h2 className="sr-only">Products</h2>
 
         <div className="grid grid-cols-1 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
@@ -105,9 +64,6 @@ export default function ProductsGrid() {
               <h3 className="mt-4 text-normal font-medium text-gray-700">
                 {product.title}
               </h3>
-              {/* <p className="mt-1 text-lg font-medium text-gray-900">
-								{product.price}
-							</p> */}
             </Link>
           ))}
         </div>

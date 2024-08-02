@@ -23,11 +23,11 @@ import {
 import ProductsGrid from "./ProductsGrid";
 
 const sortOptions = [
-	{ name: "الاكثر شعبية", href: "#", current: true },
-	{ name: "الافضل تقيما", href: "#", current: false },
-	{ name: "الاجدد", href: "#", current: false },
-	{ name: "السعر : من الاقل الي الاعلي", href: "#", current: false },
-	{ name: "السعر : من الاعلي الي الاقل", href: "#", current: false },
+	{ name: "الاكثر شعبية",value:"popular", href: "#/shop", current: true },
+	{ name: "الافضل تقيما",value:"popular", href: "#/shop", current: false },
+	{ name: "الاجدد",value:"recent", href: "#/shop", current: false },
+	{ name: "السعر : من الاقل الي الاعلي",value:"price-asc", href: "#/shop", current: false },
+	{ name: "السعر : من الاعلي الي الاقل",value:"price-dsc", href: "#/shop", current: false },
 ];
 const subCategories = [
 	{ name: "مكاتب", href: "#" },
@@ -68,6 +68,18 @@ function classNames(...classes) {
 
 export default function ShopSection() {
 	const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+
+	// const handleMenuItemClick = (option) => {
+  //   // Handle the menu item selection logic here
+  //   console.log(`Selected option: ${option.name}`);
+  //   // You can update the state or perform any other actions as needed
+  // };
+
+	const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleMenuItemClick = (option) => {
+    setSelectedOption(option);
+  };
 
 	return (
 		<div className="bg-white ">
@@ -191,7 +203,8 @@ export default function ShopSection() {
 										{sortOptions.map((option) => (
 											<MenuItem key={option.name}>
 												<a
-													href={option.href}
+													// href={option.href}
+													onClick={() => handleMenuItemClick(option)}
 													className={classNames(
 														option.current
 															? "font-medium text-gray-900"
@@ -288,8 +301,8 @@ export default function ShopSection() {
 							<div className="lg:col-span-3">
 								{/* Your content */}
 
-								<ProductsGrid></ProductsGrid>
-							</div>
+								<ProductsGrid selectedOption={selectedOption} />
+								</div>
 						</div>
 					</section>
 				</main>
