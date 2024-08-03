@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 
 function ImageGallery({ images }) {
-	const [mainImageSrc, setMainImageSrc] = useState(images[0].src);
+	const [mainImageSrc, setMainImageSrc] = useState(images[0]);
 
 	const changeImage = (src) => {
 		setMainImageSrc(src);
@@ -21,10 +21,10 @@ function ImageGallery({ images }) {
 						{images.map((image, index) => (
 							<img
 								key={index}
-								src={image.src}
-								alt={image.alt}
+								src={image}
+								alt="product"
 								className="size-16 sm:size-20 object-cover rounded-md cursor-pointer opacity-60 hover:opacity-100 transition duration-300"
-								onClick={() => changeImage(image.src)}
+								onClick={() => changeImage(image)}
 							/>
 						))}
 					</div>

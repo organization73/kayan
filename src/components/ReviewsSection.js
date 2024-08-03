@@ -1,7 +1,7 @@
 import React from "react";
 import ReviewsCards from "./ReviewsCards";
 
-function ReviewsSection() {
+function ReviewsSection({ product }) {
 	return (
 		<section>
 			<div className="mx-auto max-w-screen-2xl ">
@@ -34,7 +34,7 @@ function ReviewsSection() {
 						</svg>
 					</a>
 				</div>
-				<ReviewsCards></ReviewsCards>
+				<ReviewsCards product={product}></ReviewsCards>
 			</div>
 		</section>
 	);

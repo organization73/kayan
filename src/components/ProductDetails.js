@@ -11,18 +11,25 @@ function classNames(...classes) {
 
 export default function ProductDetails({ product }) {
 	const [show2, setShow2] = useState(false);
+	const breadcrumbs = [{ id: 1, name: "المتجر", href: "/shop" }];
 
+	const highlights = [
+		"نضمن لك منتج اصلي مصنوع من الاخشاب الطبيعية",
+		"إمكانية تنفيذ اي تصميم من اختياركم والمقاسات الخاصة بكم.",
+		"أقوي العروض والخصومات.",
+		"متاح تغير القماش والمقاسات و الألوان حسب الطلب",
+	];
 	return (
 		<div className="bg-white">
 			<div className="pt-6">
 				<nav aria-label="Breadcrumb">
 					<ol className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
-						{product.breadcrumbs.map((breadcrumb) => (
+						{breadcrumbs.map((breadcrumb) => (
 							<li key={breadcrumb.id}>
 								<div className="flex items-center">
 									<a
 										href={breadcrumb.href}
-										className="mr-2 text-sm font-medium text-gray-900"
+										className="mx-2 text-sm font-medium text-gray-900"
 									>
 										{breadcrumb.name}
 									</a>
@@ -44,7 +51,7 @@ export default function ProductDetails({ product }) {
 								aria-current="page"
 								className="font-medium text-gray-500 hover:text-gray-600"
 							>
-								{product.name}
+								{product.title}
 							</p>
 						</li>
 					</ol>
@@ -60,7 +67,7 @@ export default function ProductDetails({ product }) {
 					<div className="mx-auto max-w-2xl px-4 sm:px-6 lg:flex lg:flex-col lg:justify-between lg:px-8 lg:pb-24 lg:w-1/2">
 						<div className="lg:border-r lg:border-gray-200 lg:pr-8">
 							<h1 className="text-2xl font-bold tracking-tight text-gray-900 sm:text-3xl">
-								{product.name}
+								{product.title}
 							</h1>
 						</div>
 
@@ -81,7 +88,7 @@ export default function ProductDetails({ product }) {
 												key={rating}
 												aria-hidden="true"
 												className={classNames(
-													product.reviews.average > rating
+													product.rating > rating
 														? "text-gray-900"
 														: "text-gray-200",
 													"h-5 w-5 flex-shrink-0"
@@ -89,11 +96,9 @@ export default function ProductDetails({ product }) {
 											/>
 										))}
 									</div>
-									<p className="sr-only">
-										{product.reviews.average} out of 5 stars
-									</p>
+									<p className="sr-only">{product.rating} out of 5 stars</p>
 									<p className="mr-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-										{product.reviews.totalCount} مراجعة
+										{product.rating} مراجعة
 									</p>
 								</div>
 							</div>
@@ -116,7 +121,7 @@ export default function ProductDetails({ product }) {
 
 								<div className="mt-4">
 									<ul className="list-disc space-y-2 pr-4 text-sm">
-										{product.highlights.map((highlight) => (
+										{highlights.map((highlight) => (
 											<li key={highlight} className="text-gray-400">
 												<span className="text-gray-600">{highlight}</span>
 											</li>
@@ -171,7 +176,7 @@ export default function ProductDetails({ product }) {
 											}
 											id="sect"
 										>
-											<ReviewsSection></ReviewsSection>
+											<ReviewsSection product={product}></ReviewsSection>
 										</div>
 									</div>
 								</div>

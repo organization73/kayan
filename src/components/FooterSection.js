@@ -6,7 +6,7 @@ import ScrollToTopButton from "./ScrollToTopButton";
 function FooterSection() {
 	return (
 		<footer className="bg-black dark:bg-black">
-			<div className="relative mx-auto max-w-screen-xl px-4 py-16 sm:px-6 lg:px-8 lg:pt-24">
+			<div className="relative mx-auto max-w-screen-xl px-4 py-10 sm:px-6 lg:px-8 lg:pt-8">
 				<div className="absolute end-4 top-4 sm:end-6 sm:top-6 lg:end-8 lg:top-8">
 					<ScrollToTopButton></ScrollToTopButton>
 				</div>
@@ -15,7 +15,7 @@ function FooterSection() {
 						<div className="flex justify-center text-white lg:justify-start dark:text-white h4">
 							<h4>كيان</h4>
 						</div>
-						<p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-200 lg:text-left ">
+						<p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-200 lg:text-right ">
 							في موبيليات كيان، نقدم تشكيلة رائعة من الأثاث الدمياطي عالي الجودة
 							التي يمكن أن تحول منزلك إلى ملاذ مريح وممتع على الدوام..
 						</p>

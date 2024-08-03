@@ -39,6 +39,7 @@ export default function CollectionSection() {
 
 	const handleCardClick = (product) => {
 		navigate("/product", { state: { product } });
+		console.log(product);
 	};
 
 	if (loading) {

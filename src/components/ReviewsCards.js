@@ -28,37 +28,23 @@ const TestimonialCard = ({ review, name, text }) => (
 	</blockquote>
 );
 
-const ReviewsCards = () => {
-	const reviews = [
-		{
-			name: "أحمد",
-			text: "منتج ممتاز جدا",
-			review: 3,
-		},
-		{
-			name: "ابراهيم",
-			text: "منتج ممتاز جدا",
-			review: 2,
-		},
-		{
-			name: "خالد",
-			text: "منتج ممتاز جدا",
-			review: 1,
-		},
-	];
-
+const ReviewsCards = ({ product }) => {
 	return (
 		<section>
-			<div className="mx-auto max-w-screen-xl ">
+			<div className="mx-auto max-w-screen-xl">
 				<div className="mt-8 grid grid-cols-1 gap-3 md:gap-4">
-					{reviews.map((testimonial, index) => (
-						<TestimonialCard
-							key={index}
-							review={testimonial.review}
-							name={testimonial.name}
-							text={testimonial.text}
-						/>
-					))}
+					{product.reviews && product.reviews.length > 0 ? (
+						product.reviews.map((testimonial, index) => (
+							<TestimonialCard
+								key={index}
+								review={testimonial.review}
+								name={testimonial.name}
+								text={testimonial.text}
+							/>
+						))
+					) : (
+						<p className="text-center text-gray-700">لا مراجعات حتي الان</p>
+					)}
 				</div>
 			</div>
 		</section>
