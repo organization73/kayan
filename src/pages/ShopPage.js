@@ -42,6 +42,6 @@ const ShopPage = () => {
       <FooterSection />
     </>
   );
-};
+}; 
 
 export default ShopPage;
