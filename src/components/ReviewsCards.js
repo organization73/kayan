@@ -1,4 +1,8 @@
-import React from "react";
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { url } from '../dummyData/baseUrl';
+
+
 import { StarIcon } from "@heroicons/react/20/solid";
 
 function classNames(...classes) {
@@ -28,18 +32,47 @@ const TestimonialCard = ({ review, name, text }) => (
 	</blockquote>
 );
 
+
+const fetchReviews = async (productId) => {
+  try {
+    const response = await axios.get(`${url}/api/client/product-reviews/` + productId);
+		console.log("reviews", response.data.reviews);
+    return response.data.reviews;
+  } catch (error) {
+    console.error("Error fetching products:", error);
+    return [];
+  }
+};
+
 const ReviewsCards = ({ product }) => {
+	const productId = product._id;
+	const [reviews, setReviews] = useState([]);
+
+	useEffect(() => {
+		const getReviews = async () => {
+			try {
+				const fetchedReviews = await fetchReviews(productId);
+				console.log("data reach here:",fetchedReviews[0])
+				setReviews(fetchedReviews);
+			} catch (error) {
+				console.error('Error fetching reviews:', error);
+			}
+		};
+
+		getReviews();
+	}, [productId]);
+
 	return (
 		<section>
 			<div className="mx-auto max-w-screen-xl">
 				<div className="mt-8 grid grid-cols-1 gap-3 md:gap-4">
-					{product.reviews && product.reviews.length > 0 ? (
-						product.reviews.map((testimonial, index) => (
+					{reviews && reviews.length > 0 ? (
+						reviews.map((testimonial, index) => (
 							<TestimonialCard
 								key={index}
-								review={testimonial.review}
-								name={testimonial.name}
-								text={testimonial.text}
+								review={testimonial.rating}
+								name={testimonial.creator.name}
+								text={testimonial.review}
 							/>
 						))
 					) : (

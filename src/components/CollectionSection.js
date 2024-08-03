@@ -9,7 +9,6 @@ import ErrorMessage from "./ErrorMessage";
 const fetchProducts = async () => {
 	try {
 		const response = await axios.get(`${url}/api/client/products`);
-		console.log("Products fetched successfully:", response.data);
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching products:", error);
@@ -25,8 +24,6 @@ export default function CollectionSection() {
 	useEffect(() => {
 		fetchProducts()
 			.then((response) => {
-				console.log(response);
-				console.log(response.prods);
 				setProducts(response.prods || []);
 			})
 			.catch((error) => {
