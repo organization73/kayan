@@ -4,6 +4,7 @@ import { useState } from "react";
 import { StarIcon } from "@heroicons/react/20/solid";
 import ImageGallery from "../components/ImageGallery";
 import ReviewsSection from "./ReviewsSection";
+import { Link } from "react-router-dom";
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
@@ -27,12 +28,12 @@ export default function ProductDetails({ product }) {
 						{breadcrumbs.map((breadcrumb) => (
 							<li key={breadcrumb.id}>
 								<div className="flex items-center">
-									<a
-										href={breadcrumb.href}
+									<Link
+										to={breadcrumb.href}
 										className="mx-2 text-sm font-medium text-gray-900"
 									>
 										{breadcrumb.name}
-									</a>
+									</Link>
 									<svg
 										fill="currentColor"
 										width={16}
