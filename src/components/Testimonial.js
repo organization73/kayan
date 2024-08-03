@@ -1,68 +1,73 @@
 import React from "react";
-import { StarIcon } from "@heroicons/react/20/solid";
+// Import Swiper React components
+import { Swiper, SwiperSlide } from "swiper/react";
 
-function classNames(...classes) {
-	return classes.filter(Boolean).join(" ");
-}
+// Import Swiper styles
+import "swiper/css";
+import "swiper/css/pagination";
 
-const TestimonialCard = ({ review, name, text }) => (
-	<blockquote className="rounded-md bg-gray-50 p-4 shadow-sm sm:p-3">
-		<div className="flex items-center gap-3">
-			<div>
-				<div className="flex items-center my-2 ">
-					{[0, 1, 2, 3, 4].map((rating) => (
-						<StarIcon
-							key={rating}
-							aria-hidden="true"
-							className={classNames(
-								review > rating ? "text-gray-900" : "text-gray-200",
-								"h-4 w-4 flex-shrink-0"
-							)}
-						/>
-					))}
-				</div>
-				<p className="mt-0.5 font-medium text-gray-900">{name}</p>
-			</div>
-		</div>
-		<p className="mt-2 text-gray-700">{text}</p>
-	</blockquote>
-);
+// import required modules
+import { Pagination } from "swiper/modules";
+import r1 from "../assets/img/r(1).png";
+import r2 from "../assets/img/r(2).png";
+import r3 from "../assets/img/r(3).png";
 
-const Testimonial = () => {
-	const testimonials = [
-		{
-			name: "أحمد",
-			text: "منتج ممتاز جدا",
-			review: 3,
-		},
-		{
-			name: "ابراهيم",
-			text: "منتج ممتاز جدا",
-			review: 2,
-		},
-		{
-			name: "خالد",
-			text: "منتج ممتاز جدا",
-			review: 1,
-		},
-	];
-
+export default function Testimonial() {
 	return (
-		<section>
-			<div className="mx-auto max-w-screen-xl ">
-				<div className="mt-8 grid grid-cols-1 gap-3 md:gap-4">
-					{testimonials.map((testimonial, index) => (
-						<TestimonialCard
-							key={index}
-							review={testimonial.review}
-							name={testimonial.name}
-							text={testimonial.text}
+		<>
+			<div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8">
+				<h2 className="text-right text-2xl font-medium tracking-tight text-gray-900">
+					اقرأ مراجعات موثوقة من عملائنا
+				</h2>
+				<Swiper
+					style={{
+						"--swiper-pagination-color": "#000",
+					}}
+					dir="rtl"
+					slidesPerView={2}
+					spaceBetween={5}
+					pagination={{
+						clickable: true,
+					}}
+					breakpoints={{
+						300: {
+							slidesPerView: 1,
+							spaceBetween: 20,
+						},
+						1024: {
+							slidesPerView: 2,
+							spaceBetween: 10,
+						},
+					}}
+					modules={[Pagination]}
+					className="mySwiper h-28 lg:h-40 w-full"
+				>
+					<SwiperSlide>
+						<img
+							className="block w-full h-full object-contain"
+							loading="lazy"
+							alt="Testimonial"
+							src={r1}
 						/>
-					))}
-				</div>
+					</SwiperSlide>
+					<SwiperSlide>
+						<img
+							className="block w-full h-full object-contain"
+							loading="lazy"
+							alt="Testimonial"
+							src={r2}
+						/>
+					</SwiperSlide>
+					<SwiperSlide>
+						<img
+							className="block w-full h-full object-contain"
+							loading="lazy"
+							alt="Testimonial"
+							src={r3}
+						/>
+					</SwiperSlide>
+				</Swiper>
 			</div>
-		</section>
+		</>
 	);
-};
-
-export default Testimonial;
+}
