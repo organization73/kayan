@@ -75,9 +75,11 @@ export default function ProductDetails({ product }) {
 						{/* Options */}
 						<div className="pt-4 lg:px-6 lg:border-r lg:border-gray-200">
 							<h2 className="sr-only">Product information</h2>
-							<p className="text-3xl tracking-tight text-gray-900">
-								{product.price} جنيه
-							</p>
+							{product.price !== 0 && (
+								<p className="text-3xl tracking-tight text-gray-900">
+									{product.price} جنيه
+								</p>
+							)}
 
 							{/* Reviews */}
 							<div className="mt-6">
