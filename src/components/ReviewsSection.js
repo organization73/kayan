@@ -1,7 +1,14 @@
-import React from "react";
+import { React, useState } from "react";
 import ReviewsCards from "./ReviewsCards";
+import ReviewModal from "../components/ReviewModal"; // Import the ReviewModal component
 
 function ReviewsSection({ product }) {
+	const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
+
+	const handleReviewSubmit = (review) => {
+		console.log("Review submitted:", review);
+		// You can handle the submitted review here, e.g., send it to a server
+	};
 	return (
 		<section>
 			<div className="mx-auto max-w-screen-2xl ">
@@ -12,29 +19,21 @@ function ReviewsSection({ product }) {
 						</h2>
 					</div>
 
-					<a
-						href="#"
-						className="lg:mt-0 mt-4 inline-flex shrink-0 items-center gap-2 rounded-lg border border-gray-900 px-2 py-2 text-gray-900 transition hover:bg-gray-900 hover:text-white"
+					<button
+						onClick={() => setIsModalOpen(true)}
+						className="bg-gray-100 text-gray-900 px-4 py-2  rounded-md shadow-sm hover:bg-gray-900 hover:text-white"
 					>
-						<span className="font-xs"> كتابة مراجعة </span>
-
-						<svg
-							xmlns="http://www.w3.org/2000/svg"
-							className="size-4 rtl:rotate-180"
-							fill="none"
-							viewBox="0 0 24 24"
-							stroke="currentColor"
-						>
-							<path
-								strokeLinecap="round"
-								strokeLinejoin="round"
-								strokeWidth="2"
-								d="M14 5l7 7m0 0l-7 7m7-7H3"
-							/>
-						</svg>
-					</a>
+						كتابة مراجعة
+					</button>
 				</div>
 				<ReviewsCards product={product}></ReviewsCards>
+				{/* Review Modal */}
+				<ReviewModal
+					isOpen={isModalOpen}
+					onClose={() => setIsModalOpen(false)}
+					onSubmit={handleReviewSubmit}
+					productId={product._id}
+				/>
 			</div>
 		</section>
 	);

@@ -20,6 +20,7 @@ export default function ProductDetails({ product }) {
 		"أقوي العروض والخصومات.",
 		"متاح تغير القماش والمقاسات و الألوان حسب الطلب",
 	];
+
 	return (
 		<div className="bg-white">
 			<div className="pt-6">
@@ -124,7 +125,7 @@ export default function ProductDetails({ product }) {
 
 								<div className="mt-4">
 									<ul className="list-disc space-y-2 pr-4 text-sm">
-										{highlights.map((highlight) => (
+										{product.highlightsList.map((highlight) => (
 											<li key={highlight} className="text-gray-400">
 												<span className="text-gray-600">{highlight}</span>
 											</li>
