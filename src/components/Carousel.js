@@ -1,4 +1,3 @@
-import banner1 from "../assets/img/b1.png";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import React, { useState, useEffect } from "react";
@@ -59,36 +58,38 @@ export default function ImageCarousel() {
 	}
 
 	return (
-		<Swiper
-			style={{
-				"--swiper-navigation-color": "#fff",
-				"--swiper-pagination-color": "#fff",
-			}}
-			dir="rtl"
-			spaceBetween={10}
-			slidesPerView={1}
-			pagination={{ clickable: true }}
-			navigation
-			autoplay={{ delay: 3000 }}
-			modules={[Pagination, Navigation, Autoplay]}
-		>
-			{offersList.map((offer) => (
-				<SwiperSlide
-					key={offer.id}
-					className="bg-center bg-cover"
-					onClick={() => navigate(`/shop/${offer.id}`)}
-				>
-					<img
-						className="block w-full"
-						src={offer.src}
-						loading="lazy"
-						alt="banner"
-						srcSet={`${offer.src} 300w, ${offer.src} 768w, ${offer.src} 1024w`}
-						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-					/>
-					<div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-				</SwiperSlide>
-			))}
-		</Swiper>
+		<div className="my-8 mx-3 lg:mx-8">
+			<Swiper
+				style={{
+					"--swiper-navigation-color": "#fff",
+					"--swiper-pagination-color": "#fff",
+					"--swiper-navigation-size": "25px",
+				}}
+				dir="rtl"
+				className="rounded-[30px] max"
+				spaceBetween={10}
+				slidesPerView={1}
+				pagination={{ clickable: true }}
+				navigation
+				autoplay={{ delay: 80000 }}
+				modules={[Pagination, Navigation, Autoplay]}
+			>
+				{offersList.map((offer) => (
+					<SwiperSlide
+						key={offer.id}
+						className="bg-center bg-cover"
+						onClick={() => navigate(`/shop/${offer.id}`)}
+					>
+						<img
+							className="block"
+							src={offer.src}
+							loading="lazy"
+							alt="banner"
+						/>
+						<div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+					</SwiperSlide>
+				))}
+			</Swiper>
+		</div>
 	);
 }
