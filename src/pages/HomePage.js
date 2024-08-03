@@ -21,7 +21,6 @@ const HomePage = () => {
 			<CategoriesGrid></CategoriesGrid>
 			<Video></Video>
 			<CollectionSection></CollectionSection>
-
 			<Testimonial></Testimonial>
 			<AboutFeaturesCards></AboutFeaturesCards>
 			<AboutBanner

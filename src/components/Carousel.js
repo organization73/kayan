@@ -14,79 +14,81 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Pagination, Navigation, Autoplay } from "swiper/modules";
+import NoOffersBanner from "./NoOffersBanner";
+import LoadingSppiner from "./LoadingSppiner";
 
 const fetchOffers = async () => {
-  try {
-    const response = await axios.get(`${url}/api/client/offers`);
-    return response.data;
-  } catch (error) {
-    console.error("Error fetching products:", error);
-    return [];
-  }
+	try {
+		const response = await axios.get(`${url}/api/client/offers`);
+		return response.data;
+	} catch (error) {
+		console.error("Error fetching products:", error);
+		return [];
+	}
 };
 
 export default function ImageCarousel() {
-  const [offersList, setOffersList] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const navigate = useNavigate();
+	const [offersList, setOffersList] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const navigate = useNavigate();
 
-  useEffect(() => {
-    fetchOffers()
-      .then((response) => {
-        const offers = response.offers || [];
-        const offersList = offers.map((offer) => ({
-          id: offer._id,
-          src: offer.Image,
-        }));
-        setOffersList(offersList);
-      })
-      .catch((error) => {
-        console.error("Error fetching offers:", error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, []);
+	useEffect(() => {
+		fetchOffers()
+			.then((response) => {
+				const offers = response.offers || [];
+				const offersList = offers.map((offer) => ({
+					id: offer._id,
+					src: offer.Image,
+				}));
+				setOffersList(offersList);
+			})
+			.catch((error) => {
+				console.error("Error fetching offers:", error);
+			})
+			.finally(() => {
+				setLoading(false);
+			});
+	}, []);
 
-  if (loading) {
-    return <div>Loading...</div>;
-  }
+	if (loading) {
+		return <LoadingSppiner></LoadingSppiner>;
+	}
 
-  if (offersList.length === 0) {
-    return <div>No offers available.</div>;
-  }
+	if (offersList.length === 0) {
+		return <NoOffersBanner></NoOffersBanner>;
+	}
 
-  return (
-    <Swiper
-      style={{
-        "--swiper-navigation-color": "#fff",
-        "--swiper-pagination-color": "#fff",
-      }}
-      dir="rtl"
-      spaceBetween={10}
-      slidesPerView={1}
-      pagination={{ clickable: true }}
-      navigation
-      autoplay={{ delay: 3000 }}
-      modules={[Pagination, Navigation, Autoplay]}
-    >
-      {offersList.map((offer) => (
-        <SwiperSlide
-          key={offer.id}
-          className="bg-center bg-cover"
-          onClick={() => navigate(`/shop/${offer.id}`)}
-        >
-          <img
-            className="block w-full"
-            src={offer.src}
-            loading="lazy"
-            alt="banner"
-            srcSet={`${offer.src} 300w, ${offer.src} 768w, ${offer.src} 1024w`}
-            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-          />
-          <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-        </SwiperSlide>
-      ))}
-    </Swiper>
-  );
+	return (
+		<Swiper
+			style={{
+				"--swiper-navigation-color": "#fff",
+				"--swiper-pagination-color": "#fff",
+			}}
+			dir="rtl"
+			spaceBetween={10}
+			slidesPerView={1}
+			pagination={{ clickable: true }}
+			navigation
+			autoplay={{ delay: 3000 }}
+			modules={[Pagination, Navigation, Autoplay]}
+		>
+			{offersList.map((offer) => (
+				<SwiperSlide
+					key={offer.id}
+					className="bg-center bg-cover"
+					onClick={() => navigate(`/shop/${offer.id}`)}
+				>
+					<img
+						className="block w-full"
+						src={offer.src}
+						loading="lazy"
+						alt="banner"
+						srcSet={`${offer.src} 300w, ${offer.src} 768w, ${offer.src} 1024w`}
+						sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+					/>
+					<div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+				</SwiperSlide>
+			))}
+		</Swiper>
+	);
 }
