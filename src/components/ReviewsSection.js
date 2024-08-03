@@ -1,11 +1,9 @@
 import React from "react";
-import Testimonial from "./Testimonial";
+import ReviewsCards from "./ReviewsCards";
 
 function ReviewsSection() {
 	return (
-		
 		<section>
-
 			<div className="mx-auto max-w-screen-2xl ">
 				<div className="md:flex md:items-center md:justify-between">
 					<div className="max-w-xl">
@@ -36,7 +34,7 @@ function ReviewsSection() {
 						</svg>
 					</a>
 				</div>
-				<Testimonial></Testimonial>
+				<ReviewsCards></ReviewsCards>
 			</div>
 		</section>
 	);

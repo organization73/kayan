@@ -8,8 +8,8 @@ import CategoriesGrid from "../components/CategoriesGrid";
 import CollectionSection from "../components/CollectionSection";
 import AboutFeaturesCards from "../components/AboutFeaturesCards";
 import AboutBanner from "../components/AboutBanner";
-import Testimonial from "../components/Testimonial";
 import ImageCarousel from "../components/Carousel";
+import Testimonial from "../components/Testimonial";
 
 const HomePage = () => {
 	return (
