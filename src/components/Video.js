@@ -31,7 +31,7 @@ const Video = () => {
 		<section className="py-10">
 			<div ref={domNode}>
 				<div className=" flex flex-wrap justify-center">
-					<div className="w-full px-4 lg:w-10/12">
+					<div className="w-full mx-3 lg:w-full lg:mx-8">
 						<div className="relative z-20 h-[300px] overflow-hidden rounded-lg md:h-[450px]">
 							<div className="absolute left-0 top-0 h-full w-full">
 								<img

@@ -58,7 +58,7 @@ export default function ImageCarousel() {
 	}
 
 	return (
-		<div className="my-8 mx-3 lg:mx-8">
+		<div className="my-8 mx-3 lg:mx-60">
 			<Swiper
 				style={{
 					"--swiper-navigation-color": "#fff",
@@ -66,7 +66,7 @@ export default function ImageCarousel() {
 					"--swiper-navigation-size": "25px",
 				}}
 				dir="rtl"
-				className="rounded-[30px] max"
+				className="rounded-[30px] h-full lg:h-80"
 				spaceBetween={10}
 				slidesPerView={1}
 				pagination={{ clickable: true }}
@@ -77,11 +77,11 @@ export default function ImageCarousel() {
 				{offersList.map((offer) => (
 					<SwiperSlide
 						key={offer.id}
-						className="bg-center bg-cover"
+						className="bg-center bg-contain"
 						onClick={() => navigate(`/shop/${offer.id}`)}
 					>
 						<img
-							className="block"
+							className=" w-full h-full"
 							src={offer.src}
 							loading="lazy"
 							alt="banner"
