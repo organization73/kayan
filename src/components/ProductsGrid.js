@@ -2,7 +2,7 @@ import React, { useEffect, useState, useContext } from "react"; // Import useCon
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import {SearchContext} from '../components/SearchContext'; // Import the SearchContext
 
 
@@ -37,6 +37,8 @@ export default function ProductsGrid({ selectedOption, category }) {
   const [products, setProducts] = useState([]);
   const { offerId } = useParams();
 	const { searchValue } = useContext(SearchContext); // Use the context
+	const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+
 	console.log("searchValue", searchValue);
 
   useEffect(() => {
@@ -48,11 +50,16 @@ export default function ProductsGrid({ selectedOption, category }) {
       }
       console.log("category", category);
       const data = await fetchProducts(option, category,searchValue, offerId);
+			console.log("data", data);
       setProducts(data.prods || []);
     };
 
     fetchAndSetProducts();
   }, [selectedOption, category,searchValue]);
+
+	const handleProductClick = (productId) => {
+    navigate(`/product/${productId}`);
+  };
 
   return (
     <div className="bg-white">
@@ -61,7 +68,9 @@ export default function ProductsGrid({ selectedOption, category }) {
 
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <Link key={product.id} to={product._id} className="group">
+            <div key={product.id}
+						className="group cursor-pointer"
+						onClick={() => handleProductClick(product._id)}>
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <img
                   alt={product.title}
@@ -72,7 +81,7 @@ export default function ProductsGrid({ selectedOption, category }) {
               <h3 className="mt-4 text-normal font-medium text-gray-700">
                 {product.title}
               </h3>
-            </Link>
+            </div>
           ))}
         </div>
       </div>
