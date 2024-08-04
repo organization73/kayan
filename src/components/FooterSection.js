@@ -77,6 +77,7 @@ function FooterSection() {
 										"rounded-md px-3 py-2 text-sm font-medium"
 									)}
 									to={item.href}
+									key={item.name}
 								>
 									{item.name}
 								</Link>
