@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import { useParams } from "react-router-dom";
+import LoadingSppiner from "./LoadingSppiner";
 
 async function fetchProducts(option, offerId) {
 	try {
@@ -33,26 +34,36 @@ async function fetchProducts(option, offerId) {
 
 export default function ProductsGrid({ selectedOption }) {
 	const [products, setProducts] = useState([]);
+	const [loading, setLoading] = useState(true);
 	const { offerId } = useParams();
+
 	useEffect(() => {
 		const fetchAndSetProducts = async () => {
+			setLoading(true);
 			const data = await fetchProducts(selectedOption, offerId);
 			setProducts(data.prods || []);
+			setLoading(false);
 		};
 
 		fetchAndSetProducts();
-	}, [selectedOption]);
+	}, [selectedOption, offerId]);
+
 	useEffect(() => {
 		if (!selectedOption) {
 			const fetchAndSetProducts = async () => {
+				setLoading(true);
 				const data = await fetchProducts({ value: "recent" }, offerId);
 				setProducts(data.prods || []);
+				setLoading(false);
 			};
 
 			fetchAndSetProducts();
 		}
-	}, []);
+	}, [offerId]);
 
+	if (loading) {
+		return <LoadingSppiner></LoadingSppiner>;
+	}
 	return (
 		<div className="bg-white">
 			<div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
