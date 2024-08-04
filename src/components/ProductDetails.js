@@ -154,7 +154,7 @@ export default function ProductDetails({ product }) {
 
                 <div className="mt-4">
                   <ul className="list-disc space-y-2 pr-4 text-sm">
-                    {productDetails.highlightsList.map((highlight) => (
+                    {productDetails.highlightsList?.map((highlight) => (
                       <li key={highlight} className="text-gray-400">
                         <span className="text-gray-600">{highlight}</span>
                       </li>
