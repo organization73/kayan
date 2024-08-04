@@ -53,6 +53,12 @@ export default function ShopSection({ offer }) {
 		setSelectedOption(option);
 	};
 
+	const [selectedCategory, setSelectedCategory] = useState(null);
+
+  const handleCategoryClick = (category) => {
+    setSelectedCategory(category);
+  };
+
 	return (
 		<div className="bg-white ">
 			<div>
@@ -165,40 +171,42 @@ export default function ShopSection({ offer }) {
 					</div>
 
 					<section aria-labelledby="products-heading" className="pb-24 pt-6">
-						<h2 id="products-heading" className="sr-only">
-							Products
-						</h2>
+      <h2 id="products-heading" className="sr-only">
+        Products
+      </h2>
 
-						<div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
-							{/* Filters */}
-							<form className="hidden lg:block">
-								<h3 className="sr-only">Categories</h3>
-								<ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
-									{subCategories
-										.filter((category) => {
-											console.log("offer in shopsecion", offer?.categories);
-											if (!offer || !offer.categories) return true;
-											if (offer?.categories.includes(category.value)) {
-												console.log(category.name);
-												return true;
-											}
-										})
-										.map((category) => (
-											<li key={category.name}>
-												<a href={category.href}>{category.name}</a>
-											</li>
-										))}
-								</ul>
-							</form>
+      <div className="grid grid-cols-1 gap-x-8 gap-y-10 lg:grid-cols-4">
+        {/* Filters */}
+        <form className="hidden lg:block">
+          <h3 className="sr-only">Categories</h3>
+          <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+            {subCategories
+              .filter((category) => {
+                console.log("offer in shopsecion", offer?.categories);
+                if (!offer || !offer.categories) return true;
+                if (offer?.categories.includes(category.value)) {
+                  console.log(category.name);
+                  return true;
+                }
+              })
+              .map((category) => (
+                <li key={category.name}>
+                  <a onClick={(e) => handleCategoryClick(category.value, e)} className="cursor-pointer">
+                    {category.name}
+										
+                  </a>
+                </li>
+              ))}
+          </ul>
+        </form>
 
-							{/* Product grid */}
-							<div className="lg:col-span-3">
-								{/* Your content */}
-
-								<ProductsGrid selectedOption={selectedOption} />
-							</div>
-						</div>
-					</section>
+        {/* Product grid */}
+        <div className="lg:col-span-3">
+          {/* Your content */}
+          <ProductsGrid selectedOption={selectedOption} category={selectedCategory} />
+        </div>
+      </div>
+    </section>
 				</main>
 			</div>
 		</div>
