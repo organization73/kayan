@@ -8,6 +8,7 @@ import { Link } from "react-router-dom";
 //new code
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
+import LoadingSppiner from "./LoadingSppiner";
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(" ");
@@ -47,7 +48,7 @@ export default function ProductDetails({ product }) {
   }, [product._id]);
 
   if (!productDetails) {
-    return <div>Loading...</div>;
+    return <LoadingSppiner></LoadingSppiner>;
   }
 
   return (

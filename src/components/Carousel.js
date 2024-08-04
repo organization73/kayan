@@ -58,7 +58,7 @@ export default function ImageCarousel() {
 	}
 
 	return (
-		<div className="my-8 mx-3 lg:mx-60">
+		<div className="my-8 mx-3">
 			<Swiper
 				style={{
 					"--swiper-navigation-color": "#fff",
@@ -66,7 +66,7 @@ export default function ImageCarousel() {
 					"--swiper-navigation-size": "25px",
 				}}
 				dir="rtl"
-				className="rounded-[30px] h-full lg:h-80"
+				className="rounded-[30px] h-full"
 				spaceBetween={10}
 				slidesPerView={1}
 				pagination={{ clickable: true }}
