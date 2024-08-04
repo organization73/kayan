@@ -3,7 +3,6 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import { useParams } from "react-router-dom";
-import LoadingSppiner from "./LoadingSppiner";
 
 async function fetchProducts(option, category, offerId) {
   try {
@@ -32,32 +31,29 @@ async function fetchProducts(option, category, offerId) {
 
 // let products = await fetchProducts();
 
-export default function ProductsGrid({ selectedOption }) {
-	const [products, setProducts] = useState([]);
-	const { offerId } = useParams();
-	useEffect(() => {
-		const fetchAndSetProducts = async () => {
-			const data = await fetchProducts(selectedOption, offerId);
-			setProducts(data.prods || []);
-		};
+export default function ProductsGrid({ selectedOption, category }) {
+  const [products, setProducts] = useState([]);
+  const { offerId } = useParams();
 
-		fetchAndSetProducts();
-	}, [selectedOption]);
-	useEffect(() => {
-		if (!selectedOption) {
-			const fetchAndSetProducts = async () => {
-				const data = await fetchProducts({ value: "recent" }, offerId);
-				setProducts(data.prods || []);
-			};
+  useEffect(() => {
+    const fetchAndSetProducts = async () => {
+			console.log("loading products");
+      let option = selectedOption;
+      if (!selectedOption) {
+        option = { value: "recent" };
+      }
+      console.log("category", category);
+      const data = await fetchProducts(option, category, offerId);
+      setProducts(data.prods || []);
+    };
 
-			fetchAndSetProducts();
-		}
-	}, []);
+    fetchAndSetProducts();
+  }, [selectedOption, category]);
 
-	return (
-		<div className="bg-white">
-			<div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
-				<h2 className="sr-only">Products</h2>
+  return (
+    <div className="bg-white">
+      <div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">
+        <h2 className="sr-only">Products</h2>
 
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
