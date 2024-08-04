@@ -1,11 +1,13 @@
 import "./App.css";
-import React from "react";
+import React, { useContext } from "react"; // Import useContext
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";
 import ShopPage from "./pages/ShopPage";
 import NavBar from "./components/NavBar";
 import ProductPage from "./pages/ProductPage";
+import { SearchProvider } from './components/SearchContext'; // Import the SearchProvider
+
 
 function App() {
   React.useEffect(() => {
@@ -17,19 +19,20 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <div className="App">
-        <NavBar />
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/about" element={<AboutPage />} />
-          <Route path="/shop/:offerId" element={<ShopPage />} />
-          <Route path="/shop" element={<ShopPage />} />
-
-          <Route path="/product/:productId" element={<ProductPage />} />
-        </Routes>
-      </div>
-    </Router>
+    <SearchProvider>
+      <Router>
+        <div className="App">
+          <NavBar />
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/about" element={<AboutPage />} />
+            <Route path="/shop/:offerId" element={<ShopPage />} />
+            <Route path="/shop" element={<ShopPage />} />
+            <Route path="/product/:productId" element={<ProductPage />} />
+          </Routes>
+        </div>
+      </Router>
+    </SearchProvider>
   );
 }
 

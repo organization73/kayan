@@ -1,10 +1,12 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react"; // Import useContext
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import { useParams } from "react-router-dom";
+import {SearchContext} from '../components/SearchContext'; // Import the SearchContext
 
-async function fetchProducts(option, category, offerId) {
+
+async function fetchProducts(option, category,searchValue, offerId) {
   try {
     // console.log("Fetching products...", offerId);
     // console.log("fetching with  category:", category);
@@ -18,7 +20,7 @@ async function fetchProducts(option, category, offerId) {
       params: {
         page: 1,
         sortBY: option ? option.value : "recent",
-        // search: "bed",
+        search: searchValue,
         category: category,
       },
     });
@@ -34,6 +36,8 @@ async function fetchProducts(option, category, offerId) {
 export default function ProductsGrid({ selectedOption, category }) {
   const [products, setProducts] = useState([]);
   const { offerId } = useParams();
+	const { searchValue } = useContext(SearchContext); // Use the context
+	console.log("searchValue", searchValue);
 
   useEffect(() => {
     const fetchAndSetProducts = async () => {
@@ -43,12 +47,12 @@ export default function ProductsGrid({ selectedOption, category }) {
         option = { value: "recent" };
       }
       console.log("category", category);
-      const data = await fetchProducts(option, category, offerId);
+      const data = await fetchProducts(option, category,searchValue, offerId);
       setProducts(data.prods || []);
     };
 
     fetchAndSetProducts();
-  }, [selectedOption, category]);
+  }, [selectedOption, category,searchValue]);
 
   return (
     <div className="bg-white">

@@ -1,5 +1,6 @@
-import React, { useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import React, { useEffect, useState, useContext } from "react"; // Import useContext
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import {SearchContext} from "../components/SearchContext"; // Import the SearchContext
 
 const navigation = [
   { name: "الصفحة الرئيسية", href: "/" },
@@ -16,6 +17,21 @@ export { navigation, classNames };
 export default function NavBar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const location = useLocation(); // Use useLocation to get the current URL
+  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+
+  const { searchValue, setSearchValue } = useContext(SearchContext); // Use the context
+
+  //newcode
+  const handleSearchChange = (e) => {
+    setSearchValue(e.target.value);
+  };
+  const handleSearchClick = () => {
+    // Redirect to the shop page if not already there
+    if (location.pathname !== "/shop") {
+      navigate("/shop");
+    }
+  };
+  //////////////////////
 
   const toggleMenu = () => {
     setIsMenuOpen((prev) => !prev);
@@ -50,11 +66,17 @@ export default function NavBar() {
       <input
         type="text"
         id="Search"
+        value={searchValue}
+        onChange={handleSearchChange}
         placeholder="البحث"
         className="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
       />
       <span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
-        <button type="button" className="text-gray-600 hover:text-gray-700">
+        <button
+          type="button"
+          className="text-gray-600 hover:text-gray-700"
+          onClick={handleSearchClick}
+        >
           <span className="sr-only">Search</span>
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -98,7 +120,11 @@ export default function NavBar() {
           </button>
         </div>
         <ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto space-x-4 lg:space-x-6">
-          <div className="flex space-x-4">{navigation.map((item) => renderNavLink(item))}</div>
+          {navigation.map((item) => (
+            <li key={item.id} className="flex space-x-4">
+              {renderNavLink(item)}
+            </li>
+          ))}
         </ul>
         <div className="relative hidden lg:inline-block py-2 px-6 text-sm">
           {renderSearchInput()}
@@ -132,10 +158,8 @@ export default function NavBar() {
               </svg>
             </button>
           </div>
-          <div>
-            <div className="flex flex-col space-x-4">
-              {navigation.map((item) => renderNavLink(item, true))}
-            </div>
+          <div className="flex flex-col space-y-4">
+            {navigation.map((item) => renderNavLink(item, true))}
           </div>
           <div className="mt-auto">{renderSearchInput()}</div>
         </nav>
