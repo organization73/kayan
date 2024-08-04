@@ -1,11 +1,56 @@
 "use client";
 
-import { ChevronDownIcon } from "@heroicons/react/20/solid";
+import { useState } from "react";
+
+const formFieldClasses =
+	"block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6";
+const labelClasses = "block text-sm font-semibold leading-6 text-gray-900";
+const containerClasses = "mx-auto max-w-2xl text-center";
+const gradientClasses =
+	"relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]";
 
 export default function ComplainContact() {
+	const [formValues, setFormValues] = useState({
+		firstName: "",
+		lastName: "",
+		email: "",
+		phoneNumber: "",
+		message: "",
+	});
+	const [errors, setErrors] = useState({});
+
+	const handleChange = (e) => {
+		const { name, value } = e.target;
+		setFormValues({ ...formValues, [name]: value });
+	};
+
+	const validate = () => {
+		const newErrors = {};
+		if (!formValues.firstName) newErrors.firstName = "الاسم الاول مطلوب";
+		if (!formValues.lastName) newErrors.lastName = "الاسم الاخير مطلوب";
+		if (!formValues.email) {
+			newErrors.email = "الايميل مطلوب";
+		} else if (!/\S+@\S+\.\S+/.test(formValues.email)) {
+			newErrors.email = "الايميل فير صالح";
+		}
+		if (!formValues.phoneNumber)
+			newErrors.phoneNumber = "رقم الهاتف مطلوب";
+		if (!formValues.message) newErrors.message = "محتوي الشكوي مطلوب";
+		setErrors(newErrors);
+		return Object.keys(newErrors).length === 0;
+	};
+
+	const handleSubmit = (e) => {
+		e.preventDefault();
+		if (validate()) {
+			// Handle form submission
+			console.log("Form submitted", formValues);
+			// TODO: post function
+		}
+	};
 
 	return (
-		<div className="mx-4 my-4 sm:my-10 lg:mx-8">
+		<div className="mx-4 my-8 sm:my-10 lg:mx-8 relative">
 			<div
 				aria-hidden="true"
 				className="absolute inset-x-0 top-[-10rem] -z-10 transform-gpu overflow-hidden blur-3xl sm:top-[-20rem]"
@@ -15,80 +60,65 @@ export default function ComplainContact() {
 						clipPath:
 							"polygon(74.1% 44.1%, 100% 61.6%, 97.5% 26.9%, 85.5% 0.1%, 80.7% 2%, 72.5% 32.5%, 60.2% 62.4%, 52.4% 68.1%, 47.5% 58.3%, 45.2% 34.5%, 27.5% 76.7%, 0.1% 64.9%, 17.9% 100%, 27.6% 76.8%, 76.1% 97.7%, 74.1% 44.1%)",
 					}}
-					className="relative left-1/2 -z-10 aspect-[1155/678] w-[36.125rem] max-w-none -translate-x-1/2 rotate-[30deg] bg-gradient-to-tr from-[#ff80b5] to-[#9089fc] opacity-30 sm:left-[calc(50%-40rem)] sm:w-[72.1875rem]"
+					className={gradientClasses}
 				/>
 			</div>
-			<div className="mx-auto max-w-2xl text-center">
-				<h2 className="text-xl font-medium tracking-tight text-gray-900 sm:text-2xl">
-					Contact sales
+			<div className={containerClasses}>
+				<h2 className="text-l font-medium tracking-tight text-gray-900 sm:text-xl">
+					في حالة وجود شكوي
 				</h2>
-				<p className="mt-2 text-lg leading-8 text-gray-600">
-					Aute magna irure deserunt veniam aliqua magna enim voluptate.
+				<p className="mt-2 text-md leading-8 text-gray-600">
+					يرجي التواصل معنا لحل المشكلة في اسرع وقت
 				</p>
 			</div>
-			<form
-				action="#"
-				method="POST"
-				className="mx-auto mt-4 max-w-xl sm:mt-8"
-			>
+			<form onSubmit={handleSubmit} className="mx-auto mt-4 max-w-xl sm:mt-8">
 				<div className="grid grid-cols-1 gap-x-8 gap-y-4 sm:grid-cols-2">
 					<div>
-						<label
-							htmlFor="first-name"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							First name
+						<label htmlFor="firstName" className={labelClasses}>
+							الاسم الاول
 						</label>
 						<div className="mt-2.5">
 							<input
-								id="first-name"
-								name="first-name"
+								id="firstName"
+								name="firstName"
 								type="text"
 								autoComplete="given-name"
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								value={formValues.firstName}
+								onChange={handleChange}
+								className={`${formFieldClasses} ${
+									errors.firstName ? "ring-red-500" : ""
+								}`}
 							/>
+							{errors.firstName && (
+								<p className="text-sm text-red-600 mt-1">{errors.firstName}</p>
+							)}
 						</div>
 					</div>
 					<div>
-						<label
-							htmlFor="last-name"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							Last name
+						<label htmlFor="lastName" className={labelClasses}>
+							الاسم الاخير
 						</label>
 						<div className="mt-2.5">
 							<input
-								id="last-name"
-								name="last-name"
+								id="lastName"
+								name="lastName"
 								type="text"
 								autoComplete="family-name"
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								value={formValues.lastName}
+								onChange={handleChange}
+								className={`${formFieldClasses} ${
+									errors.lastName ? "ring-red-500" : ""
+								}`}
 							/>
+							{errors.lastName && (
+								<p className="text-sm text-red-600 mt-1">{errors.lastName}</p>
+							)}
 						</div>
 					</div>
+
 					<div className="sm:col-span-2">
-						<label
-							htmlFor="company"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							Company
-						</label>
-						<div className="mt-2.5">
-							<input
-								id="company"
-								name="company"
-								type="text"
-								autoComplete="organization"
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-							/>
-						</div>
-					</div>
-					<div className="sm:col-span-2">
-						<label
-							htmlFor="email"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							Email
+						<label htmlFor="email" className={labelClasses}>
+							الايميل
 						</label>
 						<div className="mt-2.5">
 							<input
@@ -96,69 +126,68 @@ export default function ComplainContact() {
 								name="email"
 								type="email"
 								autoComplete="email"
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								value={formValues.email}
+								onChange={handleChange}
+								className={`${formFieldClasses} ${
+									errors.email ? "ring-red-500" : ""
+								}`}
 							/>
+							{errors.email && (
+								<p className="text-sm text-red-600 mt-1">{errors.email}</p>
+							)}
 						</div>
 					</div>
 					<div className="sm:col-span-2">
-						<label
-							htmlFor="phone-number"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							Phone number
+						<label htmlFor="phoneNumber" className={labelClasses}>
+							رقم الهاتف
 						</label>
 						<div className="relative mt-2.5">
-							<div className="absolute inset-y-0 left-0 flex items-center">
-								<label htmlFor="country" className="sr-only">
-									Country
-								</label>
-								<select
-									id="country"
-									name="country"
-									className="h-full rounded-md border-0 bg-transparent bg-none py-0 pl-4 pr-9 text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm"
-								>
-									<option>EG</option>
-								
-								</select>
-								<ChevronDownIcon
-									aria-hidden="true"
-									className="pointer-events-none absolute right-3 top-0 h-full w-5 text-gray-400"
-								/>
-							</div>
 							<input
-								id="phone-number"
-								name="phone-number"
+								id="phoneNumber"
+								name="phoneNumber"
 								type="tel"
 								autoComplete="tel"
-								className="block w-full rounded-md border-0 px-3.5 py-2 pl-20 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+								value={formValues.phoneNumber}
+								onChange={handleChange}
+								dir="rtl"
+								className={`${formFieldClasses} ${
+									errors.phoneNumber ? "ring-red-500" : ""
+								}`}
 							/>
+							{errors.phoneNumber && (
+								<p className="text-sm text-red-600 mt-1">
+									{errors.phoneNumber}
+								</p>
+							)}
 						</div>
 					</div>
 					<div className="sm:col-span-2">
-						<label
-							htmlFor="message"
-							className="block text-sm font-semibold leading-6 text-gray-900"
-						>
-							Message
+						<label htmlFor="message" className={labelClasses}>
+							الشكوي
 						</label>
 						<div className="mt-2.5">
 							<textarea
 								id="message"
 								name="message"
 								rows={4}
-								className="block w-full rounded-md border-0 px-3.5 py-2 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-								defaultValue={""}
+								value={formValues.message}
+								onChange={handleChange}
+								className={`${formFieldClasses} ${
+									errors.message ? "ring-red-500" : ""
+								}`}
 							/>
+							{errors.message && (
+								<p className="text-sm text-red-600 mt-1">{errors.message}</p>
+							)}
 						</div>
 					</div>
-		
 				</div>
 				<div className="mt-10">
 					<button
 						type="submit"
-						className="block w-full rounded-md bg-indigo-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-indigo-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
+						className="block w-full rounded-md bg-gray-100 px-3.5 py-2.5 text-center text-sm font-semibold text-gray-900 shadow-sm hover:bg-gray-900 hover:text-white focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
 					>
-						Let's talk
+						ارسال
 					</button>
 				</div>
 			</form>
