@@ -5,7 +5,7 @@ const ScrollToTopButton = () => {
 	const [isVisible, setIsVisible] = useState(false);
 
 	const toggleVisibility = () => {
-		if (window.pageYOffset > 300) {
+		if (window.scrollY > 300) {
 			setIsVisible(true);
 		} else {
 			setIsVisible(false);
@@ -29,7 +29,7 @@ const ScrollToTopButton = () => {
 	return (
 		<button
 			onClick={scrollToTop}
-			className={`fixed bottom-4 right-4 bg-gray-400 text-black w-12 h-12 rounded-full shadow-lg hover:bg-gray-700 hover:text-white transition flex items-center justify-center ${
+			className={`fixed z-20 bottom-4 right-4 bg-gray-400 text-black w-12 h-12 rounded-full shadow-lg hover:bg-gray-700 hover:text-white transition flex items-center justify-center ${
 				isVisible ? "opacity-100" : "opacity-0"
 			}`}
 			style={{ transition: "opacity 0.3s" }}
