@@ -5,7 +5,7 @@ import { StarIcon } from "@heroicons/react/20/solid";
 import ImageGallery from "../components/ImageGallery";
 import ReviewsSection from "./ReviewsSection";
 import { Link } from "react-router-dom";
-//new code
+
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import LoadingSppiner from "./LoadingSppiner";
@@ -26,26 +26,25 @@ const fetchProductDetails = async (productId) => {
   }
 };
 
-export default function ProductDetails({ product }) {
+export default function ProductDetails({ productId }) {
   const [show2, setShow2] = useState(false);
   const breadcrumbs = [{ id: 1, name: "المتجر", href: "/shop" }];
-  //new code
   const [productDetails, setProduct] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
-      const productDataRes = await fetchProductDetails(product._id);
+      const productDataRes = await fetchProductDetails(productId);
       setProduct(productDataRes);
     };
     fetchData();
-  }, [product._id]);
+  }, [productId]);
 
   if (!productDetails) {
     return <LoadingSppiner></LoadingSppiner>;
   }
-
+console.log(productDetails)
   return (
-    <div className="bg-white">
+    <div>
       <div className="pt-6">
         <nav aria-label="Breadcrumb">
           <ol className="mx-auto flex max-w-2xl items-center space-x-2 px-4 sm:px-6 lg:max-w-7xl lg:px-8">
@@ -124,8 +123,8 @@ export default function ProductDetails({ product }) {
                     ))}
                   </div>
                   <p className="sr-only">{productDetails.rating} out of 5 stars</p>
-                  <p className="mr-3 text-sm font-medium text-indigo-600 hover:text-indigo-500">
-                    {productDetails.rating} مراجعة
+                  <p className="mr-3 text-sm font-medium text-indigo-600 hover:text-indigo-400">
+                    {productDetails.rattersNumber} مراجعة
                   </p>
                 </div>
               </div>
@@ -203,7 +202,7 @@ export default function ProductDetails({ product }) {
                       }
                       id="sect"
                     >
-                      <ReviewsSection product={product}></ReviewsSection>
+                      <ReviewsSection productId={productId}></ReviewsSection>
                     </div>
                   </div>
                 </div>

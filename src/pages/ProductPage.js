@@ -2,14 +2,15 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import ProductDetails from "../components/ProductDetails";
 import FooterSection from "../components/FooterSection";
+import { useParams } from "react-router-dom";
 
 const ProductPage = () => {
-	const location = useLocation();
-	const { product } = location.state;
+	const { productId } = useParams();
+
 
 	return (
 		<>
-			<ProductDetails product={product} />
+			<ProductDetails productId={productId} />
 			<FooterSection />
 		</>
 	);

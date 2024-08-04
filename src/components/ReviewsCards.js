@@ -44,8 +44,7 @@ const fetchReviews = async (productId) => {
   }
 };
 
-const ReviewsCards = ({ product }) => {
-	const productId = product._id;
+const ReviewsCards = ({ productId }) => {
 	const [reviews, setReviews] = useState([]);
 
 	useEffect(() => {

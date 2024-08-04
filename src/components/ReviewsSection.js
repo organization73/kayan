@@ -2,7 +2,7 @@ import { React, useState } from "react";
 import ReviewsCards from "./ReviewsCards";
 import ReviewModal from "../components/ReviewModal"; // Import the ReviewModal component
 
-function ReviewsSection({ product }) {
+function ReviewsSection({ productId }) {
 	const [isModalOpen, setIsModalOpen] = useState(false); // State to control modal visibility
 
 	const handleReviewSubmit = (review) => {
@@ -26,13 +26,13 @@ function ReviewsSection({ product }) {
 						كتابة مراجعة
 					</button>
 				</div>
-				<ReviewsCards product={product}></ReviewsCards>
+				<ReviewsCards productId={productId}></ReviewsCards>
 				{/* Review Modal */}
 				<ReviewModal
 					isOpen={isModalOpen}
 					onClose={() => setIsModalOpen(false)}
 					onSubmit={handleReviewSubmit}
-					productId={product._id}
+					productId={productId}
 				/>
 			</div>
 		</section>
