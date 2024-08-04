@@ -1,10 +1,10 @@
 import React, { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const navigation = [
-	{ name: "الصفحة الرئيسية", href: "/", current: true },
-	{ name: "المتجر", href: "/shop", current: false },
-	{ name: "تواصل معنا", href: "/about", current: false },
+	{ name: "الصفحة الرئيسية", href: "/" },
+	{ name: "المتجر", href: "/shop" },
+	{ name: "تواصل معنا", href: "/about" },
 ];
 
 function classNames(...classes) {
@@ -15,14 +15,60 @@ export { navigation, classNames };
 
 export default function NavBar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
+	const location = useLocation(); // Use useLocation to get the current URL
 
-	const handleBurgerClick = () => {
-		setIsMenuOpen(!isMenuOpen);
+	const toggleMenu = () => {
+		setIsMenuOpen((prev) => !prev);
 	};
 
-	const handleCloseClick = () => {
-		setIsMenuOpen(false);
+	const renderNavLink = (item) => {
+		const isActive = location.pathname === item.href; // Check if the link is the current page
+		return (
+			<Link
+				key={item.name}
+				className={classNames(
+					isActive ? "text-black" : "text-gray-400 hover:text-gray-700",
+					"rounded-md px-3 py-2 text-sm font-medium"
+				)}
+				to={item.href}
+			>
+				{item.name}
+			</Link>
+		);
 	};
+
+	const renderSearchInput = () => (
+		<div className="relative">
+			<label htmlFor="Search" className="sr-only">
+				Search
+			</label>
+			<input
+				type="text"
+				id="Search"
+				placeholder="البحث"
+				className="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
+			/>
+			<span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
+				<button type="button" className="text-gray-600 hover:text-gray-700">
+					<span className="sr-only">Search</span>
+					<svg
+						xmlns="http://www.w3.org/2000/svg"
+						fill="none"
+						viewBox="0 0 24 24"
+						strokeWidth="1.5"
+						stroke="currentColor"
+						className="h-4 w-4"
+					>
+						<path
+							strokeLinecap="round"
+							strokeLinejoin="round"
+							d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
+						/>
+					</svg>
+				</button>
+			</span>
+		</div>
+	);
 
 	return (
 		<>
@@ -34,7 +80,7 @@ export default function NavBar() {
 					<button
 						className="navbar-burger flex items-center p-3"
 						title="hamburger menu"
-						onClick={handleBurgerClick}
+						onClick={toggleMenu}
 					>
 						<svg
 							className="block h-4 w-4 fill-current"
@@ -47,67 +93,10 @@ export default function NavBar() {
 					</button>
 				</div>
 				<ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto space-x-4 lg:space-x-6">
-					<div className="flex space-x-4">
-						{navigation.map((item) => (
-							<Link
-								className={classNames(
-									item.current
-										? " text-black"
-										: "text-gray-400 hover:text-gray-700",
-									"rounded-md px-3 py-2 text-sm font-medium"
-								)}
-								to={item.href}
-							>
-								{item.name}
-							</Link>
-						))}
-					</div>
+					<div className="flex space-x-4">{navigation.map(renderNavLink)}</div>
 				</ul>
 				<div className="relative hidden lg:inline-block py-2 px-6 text-sm">
-					{/*
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
-*/}
-
-					<div className="relative">
-						<label htmlFor="Search" className="sr-only">
-							{" "}
-							Search{" "}
-						</label>
-
-						<input
-							type="text"
-							id="Search"
-							placeholder="البحث"
-							className="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
-						/>
-
-						<span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
-							<button
-								type="button"
-								className="text-gray-600 hover:text-gray-700"
-							>
-								<span className="sr-only">Search</span>
-
-								<svg
-									xmlns="http://www.w3.org/2000/svg"
-									fill="none"
-									viewBox="0 0 24 24"
-									strokeWidth="1.5"
-									stroke="currentColor"
-									className="h-4 w-4"
-								>
-									<path
-										strokeLinecap="round"
-										strokeLinejoin="round"
-										d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-									/>
-								</svg>
-							</button>
-						</span>
-					</div>
+					{renderSearchInput()}
 				</div>
 			</nav>
 			<div
@@ -115,14 +104,14 @@ export default function NavBar() {
 			>
 				<div
 					className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
-					onClick={handleCloseClick}
+					onClick={toggleMenu}
 				/>
 				<nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
 					<div className="flex items-center mb-8">
 						<button
 							className="navbar-close"
 							title="close nav"
-							onClick={handleCloseClick}
+							onClick={toggleMenu}
 						>
 							<svg
 								className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
@@ -142,67 +131,10 @@ export default function NavBar() {
 					</div>
 					<div>
 						<div className="flex flex-col space-x-4">
-							{navigation.map((item) => (
-								<Link
-									className={classNames(
-										item.current
-											? " text-black"
-											: "text-gray-400 hover:text-gray-700",
-										"rounded-md px-3 py-2 text-sm font-medium"
-									)}
-									to={item.href}
-								>
-									{item.name}
-								</Link>
-							))}
+							{navigation.map(renderNavLink)}
 						</div>
 					</div>
-					<div className="mt-auto">
-						{/*
-  Heads up! 👋
-
-  Plugins:
-    - @tailwindcss/forms
-*/}
-
-						<div className="relative">
-							<label htmlFor="Search" className="sr-only">
-								{" "}
-								Search{" "}
-							</label>
-
-							<input
-								type="text"
-								id="Search"
-								placeholder="البحث"
-								className="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
-							/>
-
-							<span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
-								<button
-									type="button"
-									className="text-gray-600 hover:text-gray-700"
-								>
-									<span className="sr-only">Search</span>
-
-									<svg
-										xmlns="http://www.w3.org/2000/svg"
-										fill="none"
-										viewBox="0 0 24 24"
-										strokeWidth="1.5"
-										stroke="currentColor"
-										className="h-4 w-4"
-									>
-										<path
-											strokeLinecap="round"
-											strokeLinejoin="round"
-											d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z"
-										/>
-									</svg>
-								</button>
-							</span>
-						</div>
-					</div>
+					<div className="mt-auto">{renderSearchInput()}</div>
 				</nav>
 			</div>
 		</>
