@@ -32,13 +32,6 @@ export default function ProductDetails({ product }) {
   //new code
   const [productDetails, setProduct] = useState(null);
 
-  const highlights = [
-    "نضمن لك منتج اصلي مصنوع من الاخشاب الطبيعية",
-    "إمكانية تنفيذ اي تصميم من اختياركم والمقاسات الخاصة بكم.",
-    "أقوي العروض والخصومات.fetchData",
-    "متاح تغير القماش والمقاسات و الألوان حسب الطلب",
-  ];
-
   useEffect(() => {
     const fetchData = async () => {
       const productDataRes = await fetchProductDetails(product._id);

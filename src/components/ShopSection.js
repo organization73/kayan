@@ -14,6 +14,7 @@ import {
 import { XMarkIcon } from "@heroicons/react/24/outline";
 import { ChevronDownIcon, FunnelIcon } from "@heroicons/react/20/solid";
 import ProductsGrid from "./ProductsGrid";
+import subCategories from "../dummyData/SubCategories";
 
 const sortOptions = [
 	{ name: "الاكثر شعبية", value: "popular", href: "/shop", current: true },
@@ -32,16 +33,7 @@ const sortOptions = [
 		current: false,
 	},
 ];
-const subCategories = [
-	{ name: "مكاتب", href: "#", value: "office" },
-	{ name: "غرف نوم", href: "#", value: "bedroom" },
-	{ name: "غرف سفرة", href: "#", value: "dining-room" },
-	{ name: "غرف اطفال", href: "#", value: "kids-room" },
-	{ name: "صالونات", href: "#", value: "salon" },
-	{ name: "ركنات", href: "#", value: "sofa" },
-	{ name: "نيش", href: "#", value: "cabinet" },
-	{ name: "طاولة", href: "#", value: "table" },
-];
+
 
 function classNames(...classes) {
 	return classes.filter(Boolean).join(" ");
