@@ -14,7 +14,7 @@ function CategoriesGrid() {
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة صالون</h3>
 						<Link
-							to="/shop"
+							to="/shop?category=salon"
 							className="inline-flex items-center gap-2 text-white"
 						>
 							تسوق الآن ←
@@ -32,7 +32,7 @@ function CategoriesGrid() {
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة نوم</h3>
 						<Link
-							to="/shop"
+							to="/shop?category=bedroom"
 							className="inline-flex items-center gap-2 text-white"
 						>
 							تسوق الآن ←
@@ -50,7 +50,7 @@ function CategoriesGrid() {
 					<div className="absolute bottom-0 left-0 p-3 flex flex-col gap-2 bg-opacity-50 bg-black text-white">
 						<h3 className="font-bold">غرفة سفرة</h3>
 						<Link
-							to="/shop"
+							to="/shop?category=dining-room"
 							className="inline-flex items-center gap-2 text-white"
 						>
 							تسوق الآن ←
