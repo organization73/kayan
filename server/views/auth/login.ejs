@@ -35,7 +35,8 @@
 	</div>
 </main>
 
-<script>
+<script nonce="<%= nonce %>">
+	console.log("Login page script");
 	const form = document.forms.login;
 	const submitButton = form.elements.submit;
 	const email = form.elements.email;

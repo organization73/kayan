@@ -88,3 +88,5 @@ res:
         "__v": 0
     }
 }
+
+NODE_ENV=production

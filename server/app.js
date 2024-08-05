@@ -6,8 +6,7 @@ const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const cors = require("cors");
 require("dotenv").config();
-const cron = require("node-cron"); // Import node-cron
-// const { CronJob } = require("cron"); // Import CronJob
+const helmet = require("helmet");
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -47,6 +46,8 @@ app.use(
     origin: "*",
   })
 );
+
+
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -71,6 +72,24 @@ app.use("/api/", express.static("public"));
 app.use("/api/images", express.static("images"));
 
 app.use(morgan("dev"));
+
+
+// Generate a nonce for each request
+app.use((req, res, next) => {
+  res.locals.nonce = Buffer.from(Date.now().toString()).toString('base64');
+  res.locals.ok = "ok";
+  next();
+});
+// Configure helmet with CSP
+app.use(helmet({
+  contentSecurityPolicy: {
+    directives: {
+      defaultSrc: ["'self'"],
+      scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
+      imgSrc: ["'self'", "*"],
+    },
+  },
+}));
 
 app.get("/api/ping", async (req, res) => {
   const admin = await Admin.find().select("-password");

@@ -74,7 +74,7 @@
       </section>
 
       <!--end  -->
-      <script>
+      <script nonce="<%= nonce %>">
         function deleteReview(btn) {
           const reviewId = btn.previousElementSibling.value;
           fetch('/api/product-review/' + reviewId, {
