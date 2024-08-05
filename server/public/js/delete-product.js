@@ -1,6 +1,24 @@
+function confirmAction(message) {
+  return new Promise((resolve, reject) => {
+      if (confirm(message)) {
+          resolve(true);
+      } else {
+          resolve(false);
+      }
+  });
+}
+
+
 const deleteProduct = async (btn) => {
+  const userConfirmed = await confirmAction(
+    "Are you sure you want to delete this item?"
+  );
+  if (!userConfirmed) {
+    console.log("Delete request was cancelled.");
+    return;
+  }
   const prodId = btn.parentNode.querySelector("[name=productId]").value;
-   console.log(prodId);
+  console.log(prodId);
   // const csrf = btn.parentNode.querySelector('[name=_csrf]').value;
 
   const productElement = btn.closest("article");

@@ -20,23 +20,42 @@
           <label for="category">Category</label>
           <select name="category" id="category">
             <option value="">اختر فئة</option>
-            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف نوم</option>
-            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب</option>
-            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %> >غرف أطفال</option>
-            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : '' %> >غرف سفرة</option>
-            <option value="sofa" <%=(editing || hasErrors) && product.category==='sofa' ? 'selected' : '' %> >ركنات</option>
-            <option value="salon" <%=(editing || hasErrors) && product.category==='salon' ? 'selected' : '' %> >صالونات</option>
-            <option value="table" <%=(editing || hasErrors) && product.category==='table' ? 'selected' : '' %> >طاولة</option>
-            <option value="cabinet" <%=(editing || hasErrors) && product.category==='cabinet' ? 'selected' : '' %> >نيش</option>
+            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف
+              نوم</option>
+            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب
+            </option>
+            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %>
+              >غرف أطفال</option>
+            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : ''
+              %> >غرف سفرة</option>
+            <option value="sofa" <%=(editing || hasErrors) && product.category==='sofa' ? 'selected' : '' %> >ركنات
+            </option>
+            <option value="salon" <%=(editing || hasErrors) && product.category==='salon' ? 'selected' : '' %> >صالونات
+            </option>
+            <option value="table" <%=(editing || hasErrors) && product.category==='table' ? 'selected' : '' %> >طاولة
+            </option>
+            <option value="cabinet" <%=(editing || hasErrors) && product.category==='cabinet' ? 'selected' : '' %> >نيش
+            </option>
           </select>
+
           <div class="form-control">
             <label for="image">Image</label>
-            <input type="file" name="image" id="image" %>">
+            <input type="file" name="image" id="image">
           </div>
           <div class="form-control">
-            <label for="image">Images list</label>
-            <input type="file" name="images" id="images" multiple onchange="validateFileCount(this)">
+            <div id="main-image-container" >
+              <label for="main-image">Selected Main Image</label>
+              <img id="main-image" alt="Main Image" style="max-width: 100%; height: auto;">
+            </div>
           </div>
+          <div class="form-control">
+            <label for="images">Images list</label>
+            <input type="file" name="images" id="images" multiple onchange="handleImagesList(this)">
+          </div>
+          <div id="images-list-container">
+            <!-- Dynamically added images will appear here -->
+          </div>
+
           <!-- <div class="form-control">
                 <label for="imageUrl">Image URL</label>
                 <input  type="text" name="imageUrl" id="imageUrl"
@@ -54,23 +73,29 @@
               <input type="number" name="rating" id="rating" step="0.01"
                 value="<% if (editing || hasErrors) { %><%= product.rating %><% } %>">
             </div>
-          <% } %>
-          <div class="form-control">
-            <label for="description">Description</label>
-            <textarea name="description" id="description"
-              rows="5"><% if (editing || hasErrors) { %><%= product.description %><% } %></textarea>
-          </div>
-
-          <% if (editing) { %>
-            <input type="hidden" value="<%= product._id %>" name="productId" id="productId">
             <% } %>
+              <div class="form-control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description"
+                  rows="5"><% if (editing || hasErrors) { %><%= product.description %><% } %></textarea>
+              </div>
+              <div class="form-control">
+                <label for="highlights">Highlights</label>
+                <textarea name="highlights" id="highlights"
+                  rows="5"><% if (editing || hasErrors) { %><%= product.highlights %><% } %></textarea>
+              </div>
 
-              <button class="btn" type="submit">
-                <% if (editing) { %>Update Product<% } else { %>Add Product<% } %>
-              </button>
+              <% if (editing) { %>
+                <input type="hidden" value="<%= product._id %>" name="productId" id="productId">
+                <% } %>
+
+                  <button class="btn" type="submit">
+                    <% if (editing) { %>Update Product<% } else { %>Add Product<% } %>
+                  </button>
         </form>
-        
-        
+
+
+
         <% if (editing) {%>
           <hr>
           <!--start  -->

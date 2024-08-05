@@ -8,8 +8,9 @@ const fileHelper = require("../utilities/file");
 const productSchema = yup.object().shape({
   title: yup.string().required(),
   price: yup.number().nullable(),
-  category: yup.string().required(),
   description: yup.string().required().min(5),
+  highlights: yup.string(),
+  category: yup.string().required(),
 });
 
 const PRODUCTS_PER_PAGE = 6;
@@ -38,7 +39,7 @@ exports.getAddProduct = async (req, res, next) => {
 };
 
 exports.postAddProduct = async (req, res, next) => {
-  const { title, price, category, description } = req.body;
+  const { title, price, category, description, highlights } = req.body;
   //check if image and images are uploaded
   const image = req.files["image"] ? req.files["image"][0] : undefined;
   const images = req.files["images"]
@@ -48,7 +49,13 @@ exports.postAddProduct = async (req, res, next) => {
   // console.log(title, price, description, category, image, images);
   try {
     //Data validation
-    await productSchema.validate({ title, price, description, category });
+    await productSchema.validate({
+      title,
+      price,
+      description,
+      highlights,
+      category,
+    });
     //upload image
     if (!image) {
       const error = new Error("Image is required");
@@ -70,6 +77,7 @@ exports.postAddProduct = async (req, res, next) => {
       price: price || 0,
       category,
       description,
+      highlights,
       mainImageUrl: image.path,
       images: images.map((img) => img.path),
       creator: req.admin,
@@ -182,7 +190,7 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.postEditProduct = async (req, res, next) => {
   const { productId } = req.params;
-  const { title, price, rating, category, description } = req.body;
+  const { title, price, rating, category, description, highlights } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
@@ -193,13 +201,20 @@ exports.postEditProduct = async (req, res, next) => {
     price,
     rating,
     description,
+    highlights,
     category,
     image,
     images
   );
   try {
     //Data validation
-    await productSchema.validate({ title, price, description, category });
+    await productSchema.validate({
+      title,
+      price,
+      description,
+      highlights,
+      category,
+    });
     //find product
     const product = await Product.findById(productId);
     console.log(product);
@@ -213,6 +228,7 @@ exports.postEditProduct = async (req, res, next) => {
     product.price = price || 0;
     product.category = category;
     product.description = description;
+    product.highlights = highlights;
     product.rating = rating;
     if (image) {
       //upload new image
@@ -236,12 +252,9 @@ exports.postEditProduct = async (req, res, next) => {
         oldImages.map((img) => fileHelper.deleteFromAzureHandler(img))
       );
     }
-    console.log(3);
     //save to database
     await product.save();
-    console.log(4);
     res.status(201).json({ message: "Product updated successfully" });
-    console.log(5);
   } catch (error) {
     next(error);
   }
@@ -418,14 +431,8 @@ exports.getClientProducts = async (req, res, next) => {
     const products = await Product.find(filter)
       .skip(PRODUCTS_PER_PAGE * (page - 1))
       .limit(PRODUCTS_PER_PAGE)
-      .sort(sortOption); 
-
-    //   console.log(page);
-    //   console.log(sortBY);
-    //   console.log(sortOption);
-    // products.forEach((product) => {
-    //   console.log(product.title);
-    // });
+      .sort(sortOption)
+      .select("title price mainImageUrl rating");
 
     const totalItems = await Product.find(filter).countDocuments();
 
@@ -446,13 +453,33 @@ exports.getClientProducts = async (req, res, next) => {
 exports.getClientProduct = async (req, res, next) => {
   try {
     const { productId } = req.params;
-    const product = await Product.findById(productId).populate("reviews");
-    if (!product) {
+    const productData = await Product.findById(productId).populate("reviews");
+    if (!productData) {
       const error = new Error("Product not found");
       error.statusCode = 404;
       throw error;
     }
+    const product = {};
+    for (let key in productData._doc) {
+      if (key !== "reviews") {
+        product[key] = productData[key];
+      }
+    }
+    product.highlightsList = product.highlights?.split("@");
+    product.highlightsList = product.highlightsList?.map((item) => item.trim());
+    product.rattersNumber = productData.reviews.length;
+    console.log(product);
     res.status(200).json({ product });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.getClientProductReviews = async (req, res, next) => {
+  const { productId } = req.params;
+  try {
+    const reviews = await Review.find({ productId, isApproved: true });
+    res.status(200).json({ reviews });
   } catch (error) {
     next(error);
   }

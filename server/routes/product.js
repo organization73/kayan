@@ -43,4 +43,6 @@ router.get("/client/products", productController.getClientProducts);
 
 router.get("/client/product/:productId", productController.getClientProduct);
 
+router.get("/client/product-reviews/:productId", productController.getClientProductReviews);
+
 module.exports = router;
