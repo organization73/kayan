@@ -1,5 +1,5 @@
 "use client";
-import { useNavigate } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -42,6 +42,11 @@ function classNames(...classes) {
 export default function ShopSection({ offer }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
   const navigate = useNavigate();
+  const location = useLocation();
+
+   // Extract the category from the URL query parameters
+   const queryParams = new URLSearchParams(location.search);
+   const currentCategory = queryParams.get('category'); 
 
   // const handleMenuItemClick = (option) => {
   //   // Handle the menu item selection logic here
@@ -114,7 +119,7 @@ export default function ShopSection({ offer }) {
                             setMobileFiltersOpen(false); // Close the form when a category is selected
                           }}
                           className={`cursor-pointer ${
-                            selectedCategory === category.value
+                            currentCategory === category.value
                               ? "text-blue-500"
                               : ""
                           }`}
@@ -218,7 +223,7 @@ export default function ShopSection({ offer }) {
                             handleCategoryClick(category.value, e)
                           }
                           className={`cursor-pointer ${
-                            selectedCategory === category.value
+                            currentCategory === category.value
                               ? "text-blue-500"
                               : ""
                           }`}
