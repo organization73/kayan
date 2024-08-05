@@ -1,4 +1,5 @@
 "use client";
+import { useNavigate } from "react-router-dom";
 
 import { useState } from "react";
 
@@ -40,6 +41,8 @@ function classNames(...classes) {
 
 export default function ShopSection({ offer }) {
   const [mobileFiltersOpen, setMobileFiltersOpen] = useState(false);
+  const navigate = useNavigate();
+
   // const handleMenuItemClick = (option) => {
   //   // Handle the menu item selection logic here
   //   console.log(`Selected option: ${option.name}`);
@@ -54,8 +57,10 @@ export default function ShopSection({ offer }) {
 
   const [selectedCategory, setSelectedCategory] = useState(null);
 
-  const handleCategoryClick = (category) => {
-    setSelectedCategory(category);
+  const handleCategoryClick = (categoryValue, event) => {
+    event.preventDefault();
+    navigate(`/shop?category=${categoryValue}`);
+    setMobileFiltersOpen(false); // Close the form when a category is selected
   };
 
   return (
@@ -88,18 +93,36 @@ export default function ShopSection({ offer }) {
                   <XMarkIcon aria-hidden="true" className="h-6 w-6" />
                 </button>
               </div>
-
               {/* Filters */}
               <form className="mt-4 border-t border-gray-200">
                 <h3 className="sr-only">Categories</h3>
                 <ul className="px-2 py-3 font-medium text-gray-900">
-                  {subCategories.map((category) => (
-                    <li key={category.name}>
-                      <a href={category.href} className="block px-2 py-3">
-                        {category.name}
-                      </a>
-                    </li>
-                  ))}
+                  {subCategories
+                    .filter((category) => {
+                      console.log("offer in shopsecion", offer?.categories);
+                      if (!offer || !offer.categories) return true;
+                      if (offer?.categories.includes(category.value)) {
+                        console.log(category.name);
+                        return true;
+                      }
+                    })
+                    .map((category) => (
+                      <li key={category.name}>
+                        <a
+                          onClick={(e) => {
+                            handleCategoryClick(category.value, e);
+                            setMobileFiltersOpen(false); // Close the form when a category is selected
+                          }}
+                          className={`cursor-pointer ${
+                            selectedCategory === category.value
+                              ? "text-blue-500"
+                              : ""
+                          }`}
+                        >
+                          {category.name}
+                        </a>
+                      </li>
+                    ))}
                 </ul>
               </form>
             </DialogPanel>
@@ -178,7 +201,7 @@ export default function ShopSection({ offer }) {
               {/* Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
-                <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                <ul className="space-y-4subCategories border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories
                     .filter((category) => {
                       console.log("offer in shopsecion", offer?.categories);
@@ -212,7 +235,7 @@ export default function ShopSection({ offer }) {
                 {/* Your content */}
                 <ProductsGrid
                   selectedOption={selectedOption}
-                  category={selectedCategory}
+                  // category={selectedCategory}
                 />
               </div>
             </div>

@@ -1,12 +1,10 @@
 import React, { useEffect, useState, useContext } from "react"; // Import useContext
-import { Link } from "react-router-dom";
+import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
-import { useParams, useNavigate } from "react-router-dom";
-import {SearchContext} from '../components/SearchContext'; // Import the SearchContext
+import { SearchContext } from "../components/SearchContext"; // Import the SearchContext
 
-
-async function fetchProducts(option, category,searchValue, offerId) {
+async function fetchProducts(option, category, searchValue, offerId) {
   try {
     // console.log("Fetching products...", offerId);
     // console.log("fetching with  category:", category);
@@ -33,31 +31,35 @@ async function fetchProducts(option, category,searchValue, offerId) {
 
 // let products = await fetchProducts();
 
-export default function ProductsGrid({ selectedOption, category }) {
+export default function ProductsGrid({ selectedOption }) {
   const [products, setProducts] = useState([]);
   const { offerId } = useParams();
-	const { searchValue } = useContext(SearchContext); // Use the context
-	const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+  const { searchValue } = useContext(SearchContext); // Use the context
+  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+  const location = useLocation(); // Use useLocation to get the current URL
 
-	console.log("searchValue", searchValue);
+  // Extract category from URL query parameters
+  const queryParams = new URLSearchParams(location.search);
+  const category = queryParams.get("category");
+  console.log("category", category);
 
   useEffect(() => {
     const fetchAndSetProducts = async () => {
-			console.log("loading products");
+      console.log("loading products");
       let option = selectedOption;
       if (!selectedOption) {
         option = { value: "recent" };
       }
       console.log("category", category);
-      const data = await fetchProducts(option, category,searchValue, offerId);
-			console.log("data", data);
+      const data = await fetchProducts(option, category, searchValue, offerId);
+      console.log("data", data);
       setProducts(data.prods || []);
     };
 
     fetchAndSetProducts();
-  }, [selectedOption, category,searchValue]);
+  }, [selectedOption, category, searchValue]);
 
-	const handleProductClick = (productId) => {
+  const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
   };
 
@@ -68,9 +70,11 @@ export default function ProductsGrid({ selectedOption, category }) {
 
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
-            <div key={product.id}
-						className="group cursor-pointer"
-						onClick={() => handleProductClick(product._id)}>
+            <div
+              key={product.id}
+              className="group cursor-pointer"
+              onClick={() => handleProductClick(product._id)}
+            >
               <div className="aspect-h-1 aspect-w-1 w-full overflow-hidden rounded-lg bg-gray-200 xl:aspect-h-8 xl:aspect-w-7">
                 <img
                   alt={product.title}
