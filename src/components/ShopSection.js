@@ -16,17 +16,15 @@ import ProductsGrid from "./ProductsGrid";
 import subCategories from "../dummyData/SubCategories";
 
 const sortOptions = [
-	{ name: "الاكثر شعبية", value: "popular", current: true },
-	{ name: "الاجدد", value: "recent", current: false },
+	{ name: "الاكثر شعبية", value: "popular" },
+	{ name: "الاجدد", value: "recent" },
 	{
 		name: "السعر : من الاقل الي الاعلي",
 		value: "price-asc",
-		current: false,
 	},
 	{
 		name: "السعر : من الاعلي الي الاقل",
 		value: "price-dsc",
-		current: false,
 	},
 ];
 
@@ -43,7 +41,7 @@ export default function ShopSection({ offer }) {
 	const queryParams = new URLSearchParams(location.search);
 	const currentCategory = queryParams.get("category");
 
-	const [selectedOption, setSelectedOption] = useState(null);
+	const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
 
 	const handleMenuItemClick = (option) => {
 		setSelectedOption(option);
@@ -153,7 +151,7 @@ export default function ShopSection({ offer }) {
 													<a
 														onClick={() => handleMenuItemClick(option)}
 														className={classNames(
-															option.current
+															selectedOption.value === option.value
 																? "font-medium text-gray-900"
 																: "text-gray-500",
 															"block px-4 py-2 text-sm data-[focus]:bg-gray-100"
