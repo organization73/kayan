@@ -53,8 +53,8 @@ export default function CollectionSection() {
 	}
 
 	return (
-		<div className="bg-white">
-			<div className="mx-auto max-w-2xl px-3 lg:max-w-7xl ">
+		<div >
+			<div className="mx-auto px-3 lg:px-36">
 				<h2 className="text-2xl font-medium tracking-tight text-gray-900">
 					اختار بين اقوى كولكشن
 				</h2>
