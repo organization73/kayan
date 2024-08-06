@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 
 function CategoriesGrid() {
 	return (
-		<div className="grid grid-cols-1 grid-rows-3 lg:grid-cols-3 lg:grid-rows-2 gap-4 lg:mx-8 mx-3">
+		<div className="grid grid-cols-1 grid-rows-3 lg:grid-cols-3 lg:grid-rows-2 gap-4 mx-3 lg:mx-36">
 			<div className="h-52*2 rounded-lg bg-yellow-200 lg:col-span-2 lg:row-span-2">
 				<div className="relative h-full">
 					<img

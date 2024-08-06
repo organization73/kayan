@@ -15,7 +15,7 @@ import r3 from "../assets/img/r(3).png";
 export default function Testimonial() {
 	return (
 		<>
-			<div className="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 lg:px-8">
+			<div className="mx-auto max-w-screen-xl px-3 py-12">
 				<h2 className="text-right text-2xl font-medium tracking-tight text-gray-900">
 					اقرأ مراجعات موثوقة من عملائنا
 				</h2>

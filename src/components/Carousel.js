@@ -58,7 +58,7 @@ export default function ImageCarousel() {
 	}
 
 	return (
-		<div className="my-8 mx-3">
+		<div className="my-8 mx-3 lg:mx-36">
 			<Swiper
 				style={{
 					"--swiper-navigation-color": "#fff",
