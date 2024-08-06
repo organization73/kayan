@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useContext } from "react"; // Import useContext
+import React, { useEffect, useState, useContext } from "react";
 import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import { SearchContext } from "../components/SearchContext"; // Import the SearchContext
+import Pagination from "./Pagination";
 
-async function fetchProducts(option, category, searchValue, offerId) {
+async function fetchProducts(option, category, searchValue, offerId, page) {
   try {
     // console.log("Fetching products...", offerId);
     // console.log("fetching with  category:", category);
@@ -16,7 +17,7 @@ async function fetchProducts(option, category, searchValue, offerId) {
     }
     const response = await axios.get(requestUrl, {
       params: {
-        page: 1,
+        page: page || 1, // Include the page parameter
         sortBY: option ? option.value : "recent",
         search: searchValue,
         category: category,
@@ -25,7 +26,7 @@ async function fetchProducts(option, category, searchValue, offerId) {
     return response.data;
   } catch (error) {
     console.error("Error fetching products:", error);
-    return [];
+    return { prods: [], currentPage: 1, lastPage: 1 };
   }
 }
 
@@ -33,10 +34,12 @@ async function fetchProducts(option, category, searchValue, offerId) {
 
 export default function ProductsGrid({ selectedOption }) {
   const [products, setProducts] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [lastPage, setLastPage] = useState(1);
   const { offerId } = useParams();
-  const { searchValue } = useContext(SearchContext); // Use the context
-  const navigate = useNavigate(); // Use useNavigate for programmatic navigation
-  const location = useLocation(); // Use useLocation to get the current URL
+  const { searchValue } = useContext(SearchContext);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   // Extract category from URL query parameters
   const queryParams = new URLSearchParams(location.search);
@@ -54,13 +57,21 @@ export default function ProductsGrid({ selectedOption }) {
       const data = await fetchProducts(option, category, searchValue, offerId);
       console.log("data", data);
       setProducts(data.prods || []);
+      setCurrentPage(data.currentPage || 1);
+      setLastPage(data.lastPage || 1);
     };
 
     fetchAndSetProducts();
-  }, [selectedOption, category, searchValue]);
+  }, [selectedOption, category, searchValue, currentPage]);
 
   const handleProductClick = (productId) => {
     navigate(`/product/${productId}`);
+  };
+
+  const handlePageChange = (page) => {
+    if (page > 0 && page <= lastPage) {
+      setCurrentPage(page);
+    }
   };
 
   return (
@@ -71,7 +82,7 @@ export default function ProductsGrid({ selectedOption }) {
         <div className="grid grid-cols-2 gap-x-6 gap-y-10 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 xl:gap-x-8">
           {products.map((product) => (
             <div
-              key={product.id}
+              key={product._id}
               className="group cursor-pointer"
               onClick={() => handleProductClick(product._id)}
             >
@@ -89,6 +100,11 @@ export default function ProductsGrid({ selectedOption }) {
           ))}
         </div>
       </div>
+      <Pagination
+        currentPage={currentPage}
+        lastPage={lastPage}
+        onPageChange={handlePageChange}
+      />
     </div>
   );
 }
