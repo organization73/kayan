@@ -67,7 +67,7 @@ function FooterSection() {
 						</li>
 					</ul>
 					<ul className="mt-12 flex flex-wrap justify-center gap-6 md:gap-8 lg:mt-0 lg:justify-end lg:gap-12">
-						<div className="flex space-x-4">
+						<div className="flex">
 							{navigation.map((item) => (
 								<Link
 									className={classNames(

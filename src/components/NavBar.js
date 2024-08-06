@@ -31,7 +31,6 @@ export default function NavBar() {
 			navigate("/shop");
 		}
 	};
-	//////////////////////
 
 	const toggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
