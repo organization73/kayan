@@ -78,7 +78,7 @@ export default function ImageCarousel() {
 					<SwiperSlide
 						key={offer.id}
 						className="bg-center bg-contain"
-						onClick={() => navigate(`/shop/${offer.id}`)}
+						onClick={() => navigate(`/offer/${offer.id}`)}
 					>
 						<img
 							className=" w-full h-full"

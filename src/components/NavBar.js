@@ -21,6 +21,29 @@ export default function NavBar() {
   const navigate = useNavigate();
   const { searchValue, setSearchValue } = useContext(SearchContext);
   const menuRef = useRef(null);
+  const prevLocation = useRef(location);
+
+  useEffect(() => {
+    const isShopOrOfferPage = (pathname) => {
+      return (
+        /^\/shop\/[a-zA-Z0-9]+$/.test(pathname) ||
+        /^\/offer\/[a-zA-Z0-9]+$/.test(pathname)
+      );
+    };
+
+    // Clear search value when navigating away from the shop or offer page
+    if (
+      (isShopOrOfferPage(prevLocation.current.pathname) &&
+        !isShopOrOfferPage(location.pathname)) ||
+      (prevLocation.current.pathname === "/shop" &&
+        location.pathname !== "/shop") ||
+      (prevLocation.current.pathname === "/offer" &&
+        location.pathname !== "/offer")
+    ) {
+      setSearchValue("");
+    }
+    prevLocation.current = location;
+  }, [location, setSearchValue]);
 
   useScrollToTop();
 
@@ -39,9 +62,23 @@ export default function NavBar() {
   };
 
   const handleSearchClick = () => {
-    if (location.pathname !== "/shop") {
+    console.log(
+      "prevLocation.current.pathname",
+      prevLocation.current.pathname.split("/"),
+      prevLocation.current.pathname.split("/").length
+    );
+    const path = prevLocation.current.pathname.split("/");
+
+    if (
+      path.length > 2 &&
+      prevLocation.current.pathname.split("/")[1] === "offer"
+    ) {
+      navigate(`/offer/${path[2]}`);
+      setIsMenuOpen(false); // Close menu after search
+    } else if (location.pathname !== "/shop") {
       navigate("/shop");
     }
+
     setIsMenuOpen(false); // Close menu after search
   };
 

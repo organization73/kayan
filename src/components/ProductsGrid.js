@@ -47,25 +47,15 @@ export default function ProductsGrid({ selectedOption }) {
 	// Extract category from URL query parameters
 	const queryParams = new URLSearchParams(location.search);
 	const category = queryParams.get("category");
-	console.log("category", category);
 
 	useEffect(() => {
 		const fetchAndSetProducts = async () => {
 			setLoading(true); // Set loading to true before fetching
-			console.log("loading products");
 			let option = selectedOption;
 			if (!selectedOption) {
 				option = { value: "recent" };
 			}
-			console.log("category", category);
-			const data = await fetchProducts(
-				option,
-				category,
-				searchValue,
-				offerId,
-				currentPage
-			);
-			console.log("data", data);
+			const data = await fetchProducts(option, category, searchValue, offerId,currentPage);
 			setProducts(data.prods || []);
 			setCurrentPage(data.currentPage || 1);
 			setLastPage(data.lastPage || 1);
