@@ -1,7 +1,7 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../components/SearchContext";
-import useScrollToTop from "./useScrollToTop"; // Import the custom hook
+import useScrollToTop from "./useScrollToTop";
 
 const navigation = [
 	{ name: "الصفحة الرئيسية", href: "/" },
@@ -20,9 +20,19 @@ export default function NavBar() {
 	const location = useLocation();
 	const navigate = useNavigate();
 	const { searchValue, setSearchValue } = useContext(SearchContext);
+	const menuRef = useRef(null);
 
-	// Use the custom hook
 	useScrollToTop();
+
+	useEffect(() => {
+		function handleClickOutside(event) {
+			if (menuRef.current && !menuRef.current.contains(event.target)) {
+				setIsMenuOpen(false);
+			}
+		}
+		document.addEventListener("mousedown", handleClickOutside);
+		return () => document.removeEventListener("mousedown", handleClickOutside);
+	}, []);
 
 	const handleSearchChange = (e) => {
 		setSearchValue(e.target.value);
@@ -32,21 +42,18 @@ export default function NavBar() {
 		if (location.pathname !== "/shop") {
 			navigate("/shop");
 		}
+		setIsMenuOpen(false); // Close menu after search
 	};
 
 	const handleKeyDown = (e) => {
 		if (e.key === "Enter") {
 			handleSearchClick();
+			setIsMenuOpen(false); // Close menu after search
 		}
-		handleCloseClick();
 	};
 
 	const toggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
-	};
-
-	const handleCloseClick = () => {
-		setIsMenuOpen(false);
 	};
 
 	const renderNavLink = (item, isMobile = false) => {
@@ -59,7 +66,7 @@ export default function NavBar() {
 					"rounded-md px-3 py-2 text-sm font-medium"
 				)}
 				to={item.href}
-				onClick={isMobile ? handleCloseClick : null}
+				onClick={isMobile ? () => setIsMenuOpen(false) : null}
 			>
 				{item.name}
 			</Link>
@@ -140,18 +147,19 @@ export default function NavBar() {
 				</div>
 			</nav>
 			<div
+				ref={menuRef}
 				className={`navbar-menu relative z-50 ${isMenuOpen ? "" : "hidden"}`}
 			>
 				<div
 					className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"
-					onClick={handleCloseClick}
+					onClick={() => setIsMenuOpen(false)}
 				/>
 				<nav className="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
 					<div className="flex items-center mb-8">
 						<button
 							className="navbar-close"
 							title="close nav"
-							onClick={handleCloseClick}
+							onClick={() => setIsMenuOpen(false)}
 						>
 							<svg
 								className="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500"
