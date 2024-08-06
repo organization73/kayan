@@ -16,7 +16,7 @@ import  LocationButton from "../components/LocationButton";
 const HomePage = () => {
 	return (
 		<>
-			<div className="fixed bottom-4 left-4 z-50 flex flex-col space-y-4">
+			<div className="fixed bottom-4 left-4 z-40 flex flex-col space-y-4">
         <LocationButton />
         <WhatsAppButton />
       </div>
