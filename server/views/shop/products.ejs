@@ -1,5 +1,6 @@
 <%- include('../includes/head.ejs') %>
   <link rel="stylesheet" href="/api/css/product.css">
+  <link rel="stylesheet" href="/api/css/forms.css">
   <script src="/api/js/delete-product.js" defer></script>
   </head>
 
@@ -7,6 +8,12 @@
     <%- include('../includes/navigation.ejs') %>
 
       <main>
+        <form class="product-form"  id="search-form">
+          <div class="form-control">
+            <input type="text" name="searchValue" placeholder="Search products..." value="<%= search %>" class="input-field">
+            <button class="btn" type="submit">Search</button>
+          </div>
+        </form>
         <% if (prods.length> 0) { %>
           <div class="grid">
             <% for (let product of prods) { %>
@@ -41,23 +48,23 @@
           </div>
           <section class="pagination">
             <% if (currentPage !==1 && previousPage !==1) { %>
-              <a href="?page=1">1</a>
+              <a href="?page=1&searchValue=<%= search %>">1</a>
               <% } %>
                 <% if (hasPreviousPage) { %>
-                  <a href="?page=<%= previousPage %>">
+                  <a href="?page=<%= previousPage %>&searchValue=<%= search %>">
                     <%= previousPage %>
                   </a>
                   <% } %>
-                    <a href="?page=<%= currentPage %>" class="active">
+                    <a href="?page=<%= currentPage %>&searchValue=<%= search %>" class="active">
                       <%= currentPage %>
                     </a>
                     <% if (hasNextPage) { %>
-                      <a href="?page=<%= nextPage %>">
+                      <a href="?page=<%= nextPage %>&searchValue=<%= search %>">
                         <%= nextPage %>
                       </a>
                       <% } %>
                         <% if (lastPage !==currentPage && nextPage !==lastPage) { %>
-                          <a href="?page=<%= lastPage %>">
+                          <a href="?page=<%= lastPage %>&searchValue=<%= search %>">
                             <%= lastPage %>
                           </a>
                           <% } %>
@@ -66,16 +73,16 @@
             <h1>No Products Found!</h1>
             <% } %>
       </main>
-      <script nonce="<%= nonce %>">
+      <script>
         document.addEventListener('DOMContentLoaded', function () {
-            const descriptions = document.querySelectorAll('p.product__description');
+          const descriptions = document.querySelectorAll('p.product__description');
 
-            descriptions.forEach(p => {
-                const text = p.textContent;
-                if (text.length > 50) {
-                    p.textContent = text.substring(0, 100) + '...';
-                }
-            });
+          descriptions.forEach(p => {
+            const text = p.textContent;
+            if (text.length > 50) {
+              p.textContent = text.substring(0, 100) + '...';
+            }
+          });
         });
-    </script>
+      </script>
       <%- include('../includes/end.ejs') %>

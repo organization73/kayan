@@ -4,6 +4,7 @@ const Review = require("../models/review");
 const Product = require("../models/product");
 const Offer = require("../models/offer");
 const fileHelper = require("../utilities/file");
+const { search } = require("../routes/auth");
 
 const productSchema = yup.object().shape({
   title: yup.string().required(),
@@ -13,7 +14,8 @@ const productSchema = yup.object().shape({
   category: yup.string().required(),
 });
 
-const PRODUCTS_PER_PAGE = 6;
+const PRODUCTS_PER_PAGE = 8;
+const PRODUCTS_PER_Admin_PAGE = 12;
 
 const reviewSchema = yup.object().shape({
   productId: yup.string().required(),
@@ -91,23 +93,37 @@ exports.postAddProduct = async (req, res, next) => {
 };
 
 exports.getProducts = async (req, res, next) => {
-  const { category } = req.params;
+  const { categoryValue, searchValue} = req.query;
+  console.log("get")
+  console.log(categoryValue, searchValue);
+  const search = searchValue || "";
+  const category = categoryValue || "";
+
+  const filter = {};
+  if (category) {
+    filter.category = category;
+  }
+  if (search) {
+    filter.title = { $regex: search, $options: "i" };
+  }
+  console.log(filter);
+
   const page = req.query.page || 1;
 
   try {
-    const products = await Product.find()
-      .skip(PRODUCTS_PER_PAGE * (page - 1))
-      .limit(PRODUCTS_PER_PAGE)
+    const products = await Product.find(filter) 
+      .skip(PRODUCTS_PER_Admin_PAGE * (page - 1))
+      .limit(PRODUCTS_PER_Admin_PAGE)
       .sort({ createdAt: -1 });
 
     const totalItems = await Product.find().countDocuments();
 
-    console.log("hasNextPage", PRODUCTS_PER_PAGE * page < totalItems);
+    console.log("hasNextPage", PRODUCTS_PER_Admin_PAGE * page < totalItems);
     console.log("totalItems", totalItems);
     console.log("hasPreviousPage", page > 1);
     console.log("nextPage", +page + 1);
     console.log("previousPage", page - 1);
-    console.log("lastPage", Math.ceil(totalItems / PRODUCTS_PER_PAGE));
+    console.log("lastPage", Math.ceil(totalItems / PRODUCTS_PER_Admin_PAGE));
 
     res.render("shop/products", {
       prods: products,
@@ -115,11 +131,13 @@ exports.getProducts = async (req, res, next) => {
       path: "/products",
       isAuthenticated: req.admin ? true : false,
       currentPage: +page,
-      hasNextPage: PRODUCTS_PER_PAGE * page < totalItems,
+      hasNextPage: PRODUCTS_PER_Admin_PAGE * page < totalItems,
       hasPreviousPage: page > 1,
       nextPage: +page + 1,
       previousPage: page - 1,
-      lastPage: Math.ceil(totalItems / PRODUCTS_PER_PAGE),
+      lastPage: Math.ceil(totalItems / PRODUCTS_PER_Admin_PAGE),
+      search,
+      category,
     });
   } catch (err) {
     next(err);
