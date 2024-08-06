@@ -177,10 +177,11 @@ export default function NavBar() {
 							</svg>
 						</button>
 					</div>
+					<div >{renderSearchInput()}</div>
+
 					<div className="flex flex-col space-y-4">
 						{navigation.map((item) => renderNavLink(item, true))}
 					</div>
-					<div className="mt-auto">{renderSearchInput()}</div>
 				</nav>
 			</div>
 		</>
