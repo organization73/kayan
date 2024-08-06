@@ -9,7 +9,6 @@ import ErrorMessage from "./ErrorMessage";
 
 async function fetchProducts(option, category, searchValue, offerId, page) {
 	try {
-		console.log("fetching date", option, category, searchValue, offerId, page);
 		let requestUrl = "";
 		if (offerId) {
 			requestUrl = `${url}/api/client/offer/${offerId}`;
@@ -24,7 +23,7 @@ async function fetchProducts(option, category, searchValue, offerId, page) {
 				category: category,
 			},
 		});
-		console.log("response", response.data);
+		// console.log("response", response.data);
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching products:", error);
