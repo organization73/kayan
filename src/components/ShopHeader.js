@@ -2,8 +2,6 @@ import React from "react";
 import getDisplayName from "../utils/GetDisplayName";
 
 function ShopHeader({ offer }) {
-	
-
 	return (
 		<>
 			<section className="relative bg-[url(assets/img/shop_banner.png)] bg-center bg-no-repeat bg-cover px-4 md:px-8 lg:px-16 mb-8">

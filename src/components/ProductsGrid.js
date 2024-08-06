@@ -58,7 +58,13 @@ export default function ProductsGrid({ selectedOption }) {
 				option = { value: "recent" };
 			}
 			console.log("category", category);
-			const data = await fetchProducts(option, category, searchValue, offerId,currentPage);
+			const data = await fetchProducts(
+				option,
+				category,
+				searchValue,
+				offerId,
+				currentPage
+			);
 			console.log("data", data);
 			setProducts(data.prods || []);
 			setCurrentPage(data.currentPage || 1);
@@ -67,7 +73,7 @@ export default function ProductsGrid({ selectedOption }) {
 		};
 
 		fetchAndSetProducts();
-	}, [selectedOption, category, searchValue, currentPage,offerId,currentPage]);
+	}, [selectedOption, category, searchValue, currentPage, offerId]);
 
 	const handleProductClick = (productId) => {
 		navigate(`/product/${productId}`);
@@ -79,8 +85,6 @@ export default function ProductsGrid({ selectedOption }) {
 		}
 	};
 
-	if (loading) {
-	}
 	return (
 		<div className="bg-white">
 			<div className="mx-auto max-w-2xl px-4 py-3 sm:px-6 sm:py-2 lg:max-w-7xl lg:px-8">

@@ -46,7 +46,6 @@ export default function ComplainContact() {
     if (validate()) {
       // Handle form submission
       console.log("Form submitted", formValues);
-      // TODO: post function
       formValues.name = `${formValues.firstName} ${formValues.lastName}`;
       axios
         .post(`${url}/api/complain`, formValues)
