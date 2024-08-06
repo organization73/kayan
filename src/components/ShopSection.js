@@ -69,7 +69,7 @@ export default function ShopSection({ offer }) {
   };
 
   return (
-    <div className="bg-white ">
+    <div >
       <div>
         {/* Mobile filter dialog */}
         <Dialog
@@ -101,7 +101,7 @@ export default function ShopSection({ offer }) {
               {/* Filters */}
               <form className="mt-4 border-t border-gray-200">
                 <h3 className="sr-only">Categories</h3>
-                <ul className="px-2 py-3 font-medium text-gray-900">
+                <ul className="space-y-4 m-4 font-medium text-gray-900">
                   {subCategories
                     .filter((category) => {
                       console.log("offer in shopsecion", offer?.categories);
@@ -197,7 +197,7 @@ export default function ShopSection({ offer }) {
             </div>
           </div>
 
-          <section aria-labelledby="products-heading" className="pb-24 pt-6">
+          <section aria-labelledby="products-heading" className="pb-12 pt-6">
             <h2 id="products-heading" className="sr-only">
               Products
             </h2>
@@ -206,7 +206,7 @@ export default function ShopSection({ offer }) {
               {/* Filters */}
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
-                <ul className="space-y-4subCategories border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                <ul className="space-y-4 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
                   {subCategories
                     .filter((category) => {
                       console.log("offer in shopsecion", offer?.categories);
