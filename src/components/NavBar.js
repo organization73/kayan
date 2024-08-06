@@ -1,6 +1,7 @@
-import React, { useState, useContext } from "react"; // Import useContext
+import React, { useState, useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { SearchContext } from "../components/SearchContext"; // Import the SearchContext
+import { SearchContext } from "../components/SearchContext";
+import useScrollToTop from "./useScrollToTop"; // Import the custom hook
 
 const navigation = [
 	{ name: "الصفحة الرئيسية", href: "/" },
@@ -16,17 +17,18 @@ export { navigation, classNames };
 
 export default function NavBar() {
 	const [isMenuOpen, setIsMenuOpen] = useState(false);
-	const location = useLocation(); // Use useLocation to get the current URL
-	const navigate = useNavigate(); // Use useNavigate for programmatic navigation
+	const location = useLocation();
+	const navigate = useNavigate();
+	const { searchValue, setSearchValue } = useContext(SearchContext);
 
-	const { searchValue, setSearchValue } = useContext(SearchContext); // Use the context
+	// Use the custom hook
+	useScrollToTop();
 
-	//newcode
 	const handleSearchChange = (e) => {
 		setSearchValue(e.target.value);
 	};
+
 	const handleSearchClick = () => {
-		// Redirect to the shop page if not already there
 		if (location.pathname !== "/shop") {
 			navigate("/shop");
 		}
@@ -41,7 +43,7 @@ export default function NavBar() {
 	};
 
 	const renderNavLink = (item, isMobile = false) => {
-		const isActive = location.pathname === item.href; // Check if the link is the current page
+		const isActive = location.pathname === item.href;
 		return (
 			<Link
 				key={item.name}
@@ -50,7 +52,7 @@ export default function NavBar() {
 					"rounded-md px-3 py-2 text-sm font-medium"
 				)}
 				to={item.href}
-				onClick={isMobile ? handleCloseClick : null} // Close the menu if on mobile
+				onClick={isMobile ? handleCloseClick : null}
 			>
 				{item.name}
 			</Link>
@@ -120,7 +122,7 @@ export default function NavBar() {
 				</div>
 				<ul className="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:items-center lg:w-auto">
 					{navigation.map((item) => (
-						<li key={item.id} className="flex space-x-4">
+						<li key={item.href} className="flex space-x-4">
 							{renderNavLink(item)}
 						</li>
 					))}
