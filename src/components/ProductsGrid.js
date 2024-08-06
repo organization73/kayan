@@ -9,8 +9,7 @@ import ErrorMessage from "./ErrorMessage";
 
 async function fetchProducts(option, category, searchValue, offerId, page) {
 	try {
-    // console.log("Fetching products...", offerId);
-    // console.log("fetching with  category:", category);
+		console.log("fetching date", option, category, searchValue, offerId, page);
 		let requestUrl = "";
 		if (offerId) {
 			requestUrl = `${url}/api/client/offer/${offerId}`;
@@ -25,6 +24,7 @@ async function fetchProducts(option, category, searchValue, offerId, page) {
 				category: category,
 			},
 		});
+		console.log("response", response.data);
 		return response.data;
 	} catch (error) {
 		console.error("Error fetching products:", error);
@@ -58,7 +58,7 @@ export default function ProductsGrid({ selectedOption }) {
 				option = { value: "recent" };
 			}
 			console.log("category", category);
-			const data = await fetchProducts(option, category, searchValue, offerId);
+			const data = await fetchProducts(option, category, searchValue, offerId,currentPage);
 			console.log("data", data);
 			setProducts(data.prods || []);
 			setCurrentPage(data.currentPage || 1);
@@ -67,7 +67,7 @@ export default function ProductsGrid({ selectedOption }) {
 		};
 
 		fetchAndSetProducts();
-	}, [selectedOption, category, searchValue, currentPage,offerId]);
+	}, [selectedOption, category, searchValue, currentPage,offerId,currentPage]);
 
 	const handleProductClick = (productId) => {
 		navigate(`/product/${productId}`);

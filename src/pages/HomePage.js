@@ -10,10 +10,17 @@ import AboutFeaturesCards from "../components/AboutFeaturesCards";
 import AboutBanner from "../components/AboutBanner";
 import ImageCarousel from "../components/Carousel";
 import Testimonial from "../components/Testimonial";
+import  WhatsAppButton from "../components/WhatsupButton";
+import  LocationButton from "../components/LocationButton";
 
 const HomePage = () => {
 	return (
 		<>
+			<div className="fixed bottom-4 left-4 z-50 flex flex-col space-y-4">
+        <LocationButton />
+        <WhatsAppButton />
+      </div>
+
 			<Hero></Hero>
 			<ImageCarousel></ImageCarousel>
 			<HomeSubHeader></HomeSubHeader>
@@ -27,6 +34,7 @@ const HomePage = () => {
 				title="معلومات عنا"
 				subtitle="متجر كيان هو متجر للهدايا والديكورات مقره في مصر. تأسس منذ عام 2019. خدمتنا للعملاء دائمًا مستعدة لدعمكم على مدار 24 ساعة طوال أيام الأسبوع."
 			/>
+
 			<FooterSection></FooterSection>
 		</>
 	);
