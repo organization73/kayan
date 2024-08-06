@@ -156,6 +156,14 @@ export default function NavBar() {
 				<a className="text-lg leading-none" href="/">
 					<h3>كيان</h3>
 				</a>
+				<div
+					className={`relative lg:hidden w-full px-6 text-sm ${
+							isMenuOpen ? "hidden" : "block"
+					}`}
+					style={{ marginTop: "15px" }}
+			>
+					{renderSearchInput()}
+			</div>
 				<div className="lg:hidden">
 					<button
 						className="navbar-burger flex items-center p-3"
@@ -183,6 +191,13 @@ export default function NavBar() {
 					{renderSearchInput()}
 				</div>
 			</nav>
+			{/* <div
+				className={`relative lg:hidden px-6 text-sm ${
+					isMenuOpen ? "hidden" : "block"
+				}`}
+			>
+				{renderSearchInput()}
+			</div> */}
 			<div
 				ref={menuRef}
 				className={`navbar-menu relative z-50 ${isMenuOpen ? "" : "hidden"}`}
