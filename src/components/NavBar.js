@@ -63,7 +63,7 @@ export default function NavBar() {
         key={item.name}
         className={classNames(
           isActive ? "text-black" : "text-gray-400 hover:text-gray-700",
-          "rounded-md px-3 py-2 text-sm font-medium"
+          "rounded-md px-3 py-4 text-sm font-medium"
         )}
         to={item.href}
         onClick={isMobile ? () => setIsMenuOpen(false) : null}
