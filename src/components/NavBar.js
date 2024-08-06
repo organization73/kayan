@@ -34,6 +34,13 @@ export default function NavBar() {
 		}
 	};
 
+	const handleKeyDown = (e) => {
+		if (e.key === "Enter") {
+			handleSearchClick();
+		}
+		handleCloseClick();
+	};
+
 	const toggleMenu = () => {
 		setIsMenuOpen((prev) => !prev);
 	};
@@ -69,8 +76,9 @@ export default function NavBar() {
 				id="Search"
 				value={searchValue}
 				onChange={handleSearchChange}
+				onKeyDown={handleKeyDown}
 				placeholder="البحث"
-				className="w-full rounded-md border-gray-200 py-2.5 pe-10 shadow-sm sm:text-sm"
+				className="w-full rounded-md border-gray-200 py-2.5 pe-10 sm:text-sm"
 			/>
 			<span className="absolute inset-y-0 end-0 grid w-10 place-content-center">
 				<button
