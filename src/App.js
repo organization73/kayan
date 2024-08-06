@@ -1,5 +1,5 @@
 import "./App.css";
-import React, { useContext } from "react"; // Import useContext
+import React from "react";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import AboutPage from "./pages/AboutPage";

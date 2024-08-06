@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useContext } from "react";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import { useParams, useNavigate, useLocation } from "react-router-dom";
 import axios from "axios";
 import { url } from "../dummyData/baseUrl";
 import { SearchContext } from "../components/SearchContext"; // Import the SearchContext
@@ -67,7 +67,7 @@ export default function ProductsGrid({ selectedOption }) {
 		};
 
 		fetchAndSetProducts();
-	}, [selectedOption, category, searchValue, currentPage]);
+	}, [selectedOption, category, searchValue, currentPage,offerId]);
 
 	const handleProductClick = (productId) => {
 		navigate(`/product/${productId}`);

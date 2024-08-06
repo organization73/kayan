@@ -1,6 +1,6 @@
 "use client";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
-import { useState } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { useState, useEffect } from "react";
 import {
 	Dialog,
 	DialogBackdrop,
@@ -41,6 +41,10 @@ export default function ShopSection({ offer }) {
 	const queryParams = new URLSearchParams(location.search);
 	const currentCategory = queryParams.get("category");
 
+	// Initialize the selected category to the first item in subCategories if no category is selected
+	const [selectedCategory, setSelectedCategory] = useState(
+		currentCategory || subCategories[0].value
+	);
 	const [selectedOption, setSelectedOption] = useState(sortOptions[0]);
 
 	const handleMenuItemClick = (option) => {
@@ -49,9 +53,17 @@ export default function ShopSection({ offer }) {
 
 	const handleCategoryClick = (categoryValue, event) => {
 		event.preventDefault();
+		setSelectedCategory(categoryValue); // Update selected category
 		navigate(`/shop?category=${categoryValue}`);
 		setMobileFiltersOpen(false); // Close the form when a category is selected
 	};
+
+	// Effect to update the selected category when the URL changes
+	useEffect(() => {
+		if (currentCategory) {
+			setSelectedCategory(currentCategory);
+		}
+	}, [currentCategory]);
 
 	return (
 		<div>
@@ -94,19 +106,19 @@ export default function ShopSection({ offer }) {
 										})
 										.map((category) => (
 											<li key={category.name}>
-												<a
+												<button
 													onClick={(e) => {
 														handleCategoryClick(category.value, e);
 														setMobileFiltersOpen(false); // Close the form when a category is selected
 													}}
 													className={`cursor-pointer p-2 rounded-md ${
-														currentCategory === category.value
+														selectedCategory === category.value
 															? "text-black bg-gray-50"
 															: ""
-													} block w-full`}
+													} w-full text-right`}
 												>
 													{category.name}
-												</a>
+												</button>
 											</li>
 										))}
 								</ul>
@@ -148,17 +160,17 @@ export default function ShopSection({ offer }) {
 											}
 											return (
 												<MenuItem key={option.name}>
-													<a
+													<button
 														onClick={() => handleMenuItemClick(option)}
 														className={classNames(
 															selectedOption.value === option.value
 																? "font-medium text-gray-900"
 																: "text-gray-500",
-															"block px-4 py-2 text-sm data-[focus]:bg-gray-100"
+															"block px-4 py-2 text-sm data-[focus]:bg-gray-100 text-right w-full"
 														)}
 													>
 														{option.name}
-													</a>
+													</button>
 												</MenuItem>
 											);
 										})}
@@ -193,19 +205,19 @@ export default function ShopSection({ offer }) {
 											return offer.categories.includes(category.value);
 										})
 										.map((category) => (
-											<li key={category.name}>
-												<a
+											<li key={category.name} >
+												<button
 													onClick={(e) =>
 														handleCategoryClick(category.value, e)
 													}
 													className={`cursor-pointer p-2 rounded-md ${
-														currentCategory === category.value
+														selectedCategory === category.value
 															? "text-black bg-gray-50"
 															: ""
-													} block w-full`}
+													}  w-full text-right`}
 												>
 													{category.name}
-												</a>
+												</button>
 											</li>
 										))}
 								</ul>
