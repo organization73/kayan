@@ -113,7 +113,7 @@ export default function ShopSection({ offer }) {
 													}}
 													className={`cursor-pointer p-2 rounded-md ${
 														selectedCategory === category.value
-															? "text-black bg-gray-50"
+															? "text-black bg-gray-200"
 															: ""
 													} w-full text-right`}
 												>
@@ -212,7 +212,7 @@ export default function ShopSection({ offer }) {
 													}
 													className={`cursor-pointer p-2 rounded-md ${
 														selectedCategory === category.value
-															? "text-black bg-gray-50"
+															? "text-black bg-gray-200"
 															: ""
 													}  w-full text-right`}
 												>
