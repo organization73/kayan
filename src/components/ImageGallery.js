@@ -15,7 +15,7 @@ function ImageGallery({ images }) {
 					<img
 						src={mainImageSrc}
 						alt="Product"
-						className="w-full h-64 lg:h-auto lg:max-h-[500px] lg:max-w-[500px] rounded-lg shadow-md mb-4"
+						className="w-full h-80 lg:h-auto rounded-lg shadow-md mb-4"
 					/>
 					<div className="flex gap-4 py-4 justify-start overflow-x-auto">
 						{images.map((image, index) => (
