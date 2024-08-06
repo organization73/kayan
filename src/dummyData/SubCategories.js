@@ -7,8 +7,9 @@ import cat6 from "../assets/img/c6.png";
 import cat7 from "../assets/img/c7.png";
 import cat8 from "../assets/img/c8.png";
 
+
 const subCategories = [
-	{ name: "كل النتجات", value: " " },
+	{ name: "كل المنتجات", value: " " },
 	{ src: cat1, alt: "مكتب", name: "مكاتب", value: "office" },
 	{ src: cat2, alt: "غرف نوم", name: "غرف نوم", value: "bedroom" },
 	{

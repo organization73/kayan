@@ -1,11 +1,8 @@
 import React from "react";
-import subCategories from "../dummyData/SubCategories";
+import getDisplayName from "../utils/GetDisplayName";
 
 function ShopHeader({ offer }) {
-	const getDisplayName = (category) => {
-		const subCategory = subCategories.find((sub) => sub.value === category);
-		return subCategory ? subCategory.name : category;
-	};
+	
 
 	return (
 		<>
