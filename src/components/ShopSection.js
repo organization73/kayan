@@ -11,7 +11,7 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, FunnelIcon } from "@heroicons/react/20/solid";
+import { ChevronDownIcon, } from "@heroicons/react/20/solid";
 import ProductsGrid from "./ProductsGrid";
 import subCategories from "../dummyData/SubCategories";
 import getDisplayName from "../utils/GetDisplayName";
@@ -157,7 +157,7 @@ export default function ShopSection({ offer }) {
                     {selectedOption ? selectedOption.name : "تصنيف"}
                     <ChevronDownIcon
                       aria-hidden="true"
-                      className=" h-5 w-5 flex-shrink-0 text-gray-400 group-hover:text-gray-500"
+                      className=" h-5 w-5  text-gray-400 group-hover:text-gray-500"
                     />
                   </MenuButton>
                 </div>
@@ -198,10 +198,12 @@ export default function ShopSection({ offer }) {
               <button
                 type="button"
                 onClick={() => setMobileFiltersOpen(true)}
-                className="-m-2 mr-4 p-2 text-gray-400 hover:text-gray-500 sm:ml-6 lg:hidden"
+                className="-m-3 mr-4 text-gray-700 hover:text-gray-900 text-sm font-medium sm:ml-6 lg:hidden"
               >
-                <span className="sr-only">Filters</span>
-                <FunnelIcon aria-hidden="true" className="h-5 w-5" />
+                <span className="flex items-center space-x-2">
+                  <span>التصنيفات</span>
+                  <ChevronDownIcon aria-hidden="true" className="h-5 w-5  text-gray-400 group-hover:text-gray-500" />
+                </span>
               </button>
             </div>
           </div>
