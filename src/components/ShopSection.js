@@ -11,7 +11,7 @@ import {
   MenuItems,
 } from "@headlessui/react";
 import { XMarkIcon } from "@heroicons/react/24/outline";
-import { ChevronDownIcon, } from "@heroicons/react/20/solid";
+import { ChevronDownIcon } from "@heroicons/react/20/solid";
 import ProductsGrid from "./ProductsGrid";
 import subCategories from "../dummyData/SubCategories";
 import getDisplayName from "../utils/GetDisplayName";
@@ -65,7 +65,7 @@ export default function ShopSection({ offer }) {
     setSelectedCategory(categoryValue); // Update selected category
 
     // navigate(`/shop?category=${categoryValue}`);
-		const pathlist = location.pathname.split("/");
+    const pathlist = location.pathname.split("/");
 
     if (pathlist[1] === "offer") {
       navigate(`/offer/${pathlist[2]}?category=${categoryValue}`);
@@ -116,6 +116,20 @@ export default function ShopSection({ offer }) {
               <form className="mt-4 border-t border-gray-200">
                 <h3 className="sr-only">Categories</h3>
                 <ul className="space-y-1 m-4 font-small text-gray-900">
+                {offer&&
+                    <li>
+                      <button
+                        onClick={(e) => handleCategoryClick(" ", e)}
+                        className={`cursor-pointer p-2 rounded-md ${
+                          selectedCategory === ""
+                            ? "text-black bg-gray-200"
+                            : ""
+                        }  w-full text-right`}
+                      >
+                        كل المنتجات
+                      </button>
+                    </li>
+                  }
                   {subCategories
                     .filter((category) => {
                       if (!offer || !offer.categories) return true;
@@ -202,7 +216,10 @@ export default function ShopSection({ offer }) {
               >
                 <span className="flex items-center space-x-2">
                   <span>التصنيفات</span>
-                  <ChevronDownIcon aria-hidden="true" className="h-5 w-5  text-gray-400 group-hover:text-gray-500" />
+                  <ChevronDownIcon
+                    aria-hidden="true"
+                    className="h-5 w-5  text-gray-400 group-hover:text-gray-500"
+                  />
                 </span>
               </button>
             </div>
@@ -218,6 +235,20 @@ export default function ShopSection({ offer }) {
               <form className="hidden lg:block">
                 <h3 className="sr-only">Categories</h3>
                 <ul className="space-y-1 border-b border-gray-200 pb-6 text-sm font-medium text-gray-900">
+                  {offer&&
+                    <li>
+                      <button
+                        onClick={(e) => handleCategoryClick(" ", e)}
+                        className={`cursor-pointer p-2 rounded-md ${
+                          selectedCategory === ""
+                            ? "text-black bg-gray-200"
+                            : ""
+                        }  w-full text-right`}
+                      >
+                        كل المنتجات
+                      </button>
+                    </li>
+                  }
                   {subCategories
                     .filter((category) => {
                       if (!offer || !offer.categories) return true;
