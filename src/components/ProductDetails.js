@@ -140,6 +140,10 @@ export default function ProductDetails({ productId }) {
 								</div>
 							</div>
 						</div>
+						{productDetails.isOutOfStock && 
+						<div className="text-yellow-600 text-sm font-bold text-center my-5 p-3 border-2 border-yellow-600 rounded bg-yellow-100">
+				متاح للطلب المسبق 
+				</div>}
 
 						<div className="py-10 lg:col-start-1 lg:border-r lg:border-gray-200 lg:pb-16 lg:pr-8 lg:pt-6">
 							{/* Description and details */}
