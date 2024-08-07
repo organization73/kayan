@@ -241,7 +241,7 @@ export default function NavBar() {
 						<ul className="mt-8 flex justify-start gap-6 md:gap-8">
 							<li>
 								<a
-									href="https://www.facebook.com/"
+									href="https://www.facebook.com/share/Kievepf3aaWh36iH/?mibextid=qi2Omg"
 									rel="noreferrer"
 									target="_blank"
 									className="text-white transition hover:opacity-75"
@@ -263,7 +263,7 @@ export default function NavBar() {
 							</li>
 							<li>
 								<a
-									href="https://www.instagram.com/"
+									href="https://www.instagram.com/kayan_modern.furniture?igsh=dnUzcDV1eW10cWNv"
 									rel="noreferrer"
 									target="_blank"
 									className="text-pink-500 transition hover:text-pink-700"
@@ -284,8 +284,28 @@ export default function NavBar() {
 								</a>
 							</li>
 							<li>
+							<a
+								href="https://www.tiktok.com/@kayan_modern?_t=8oefrQDsaaj&_r=1"
+								rel="noreferrer"
+								target="_blank"
+								className="text-black transition hover:text-gray-700"
+							>
+								<span className="sr-only">TikTok</span>
+								<svg
+									className="h-6 w-6"
+									fill="currentColor"
+									viewBox="0 0 24 24"
+									aria-hidden="true"
+								>
+									<path
+										d="M19.589 6.686a4.793 4.793 0 0 1-3.77-4.245V2h-3.445v13.672a2.896 2.896 0 0 1-5.201 1.743l-.002-.001.002.001a2.895 2.895 0 0 1 3.183-4.51v-3.5a6.329 6.329 0 0 0-5.394 10.692 6.33 6.33 0 0 0 10.857-4.424V8.687a8.182 8.182 0 0 0 4.773 1.526V6.79a4.831 4.831 0 0 1-1.003-.104z"
+									/>
+								</svg>
+							</a>
+						</li>
+							<li>
 								<a
-									href="https://wa.me/201553029842"
+									href="https://wa.me/201150568885"
 									rel="noreferrer"
 									target="_blank"
 									className="text-green-500 transition hover:text-green-700"
@@ -325,7 +345,7 @@ export default function NavBar() {
 							</li>
 							<li>
 								<a
-									href="https://maps.app.goo.gl/Ka9sUQCVTMDLZi2x5"
+									href="https://maps.app.goo.gl/6akt4LcAa4TtpAV77"
 									rel="noreferrer"
 									target="_blank"
 									className="text-white transition hover:text-gray-600"

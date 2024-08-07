@@ -4,7 +4,7 @@ const LocationButton = () => {
 	return (
 		<div>
 			<a
-				href="https://maps.app.goo.gl/Ka9sUQCVTMDLZi2x5"
+				href="https://maps.app.goo.gl/6akt4LcAa4TtpAV77"
 				target="_blank"
 				rel="noreferrer"
 				className="bg-gray-300 text-black p-4 rounded-full shadow-md transition hover:bg-gray-500 hover:text-white flex items-center justify-center"

@@ -65,7 +65,7 @@ function AboutContactCards() {
 								تواصل معنا
 							</div>
 							<div className="w-72 text-center text-neutral-900 text-base font-semibold leading-relaxed">
-								01022336699
+							 <span>1150568885</span> <span>20+</span>
 							</div>
 						</div>
 					</div>
