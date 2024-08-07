@@ -2,6 +2,9 @@ import React, { useState, useContext, useEffect, useRef } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { SearchContext } from "../components/SearchContext";
 import useScrollToTop from "./useScrollToTop";
+// import kayanIcon from "../assets/img/kayan.ico";
+import kayanIcon from "../assets/img/kayan-removebg-preview-192x192.png";
+
 
 const navigation = [
 	{ name: "الصفحة الرئيسية", href: "/" },
@@ -153,9 +156,9 @@ export default function NavBar() {
 	return (
 		<>
 			<nav className="relative px-4 flex justify-between items-center my-2.5 lg:my-0">
-				<a className="text-lg leading-none" href="/">
-					<h3>كيان</h3>
-				</a>
+			<a className="text-lg leading-none" href="/">
+  <img src={kayanIcon} alt="Kayan Icon" className="w-24 h-auto" />
+</a>
 				<div
 					className={`relative lg:hidden w-full px-6 text-sm ${
 							isMenuOpen ? "hidden" : "block"

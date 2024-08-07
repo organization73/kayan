@@ -9,7 +9,7 @@ function HomeSubHeader() {
 				ببساطة أفضل
 			</div>
 			<div className="flex items-center justify-end lg:col-span-2 font-semibold text-neutral-700 text-sm lg:text-lg ml-10 lg:ml-0">
-				كيان هو واحد من افضل الاماكن الموجودة لتوفير جميع احتياجات الاثاث
+				كيان مودرن هو واحد من افضل الاماكن الموجودة لتوفير جميع احتياجات الاثاث
 			</div>
 		</div>
 	);

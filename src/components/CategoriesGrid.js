@@ -7,7 +7,7 @@ function CategoriesGrid() {
 			<div className="h-52*2 rounded-lg bg-yellow-200 lg:col-span-2 lg:row-span-2">
 				<div className="relative h-full">
 					<img
-						src="https://via.placeholder.com/548x319"
+						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/saloon.jpg"
 						className="absolute inset-0 w-full h-full object-cover"
 						alt="Placeholder"
 					/>
@@ -25,7 +25,7 @@ function CategoriesGrid() {
 			<div className="h-52 rounded-lg bg-blue-200">
 				<div className="relative h-full">
 					<img
-						src="https://via.placeholder.com/548x319"
+						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/bedroom.jpg"
 						className="absolute inset-0 w-full h-full object-cover"
 						alt="Placeholder"
 					/>
@@ -43,7 +43,7 @@ function CategoriesGrid() {
 			<div className="h-52 rounded-lg bg-red-200">
 				<div className="relative h-full">
 					<img
-						src="https://via.placeholder.com/548x319"
+						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/sofra.jpg"
 						className="absolute inset-0 w-full h-full object-cover"
 						alt="Placeholder"
 					/>

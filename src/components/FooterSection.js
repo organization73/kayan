@@ -13,10 +13,10 @@ function FooterSection() {
         <div className="lg:flex lg:items-end lg:justify-between">
           <div>
             <div className="flex justify-center text-white lg:justify-start dark:text-white h4">
-              <h4>كيان</h4>
+              <h4>كيان مودرن</h4>
             </div>
             <p className="mx-auto mt-6 max-w-md text-center leading-relaxed text-gray-200 lg:text-right ">
-              في موبيليات كيان، نقدم تشكيلة رائعة من الأثاث الدمياطي عالي الجودة
+              في موبيليات كيان مودرن، نقدم تشكيلة رائعة من الأثاث الدمياطي عالي الجودة
               التي يمكن أن تحول منزلك إلى ملاذ مريح وممتع على الدوام..
             </p>
           </div>
@@ -144,7 +144,7 @@ function FooterSection() {
           </ul>
         </div>
         <p className="mt-12 text-center text-sm text-gray-200 lg:text-right">
-          جميع حقوق النشر © محفوظة لشركة كيان
+          جميع حقوق النشر © محفوظة لشركة كيان مودرن
         </p>
       </div>
     </footer>
