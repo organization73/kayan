@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { motion } from "framer-motion";
 
 // Handler hook for when Outside click dropdown close
 let useClickOutside = (handler) => {
@@ -29,7 +30,13 @@ const Video = () => {
 
 	return (
 		<section className="py-10">
-			<div ref={domNode}>
+			<motion.div
+				ref={domNode}
+				initial={{ opacity: 0, y: 50 }}
+				whileInView={{ opacity: 1, y: 0 }}
+				viewport={{ once: true, amount: 0.5 }}
+				transition={{ duration: 0.5 }}
+			>
 				<div className=" flex flex-wrap justify-center">
 					<div className="w-full mx-3 lg:w-full lg:mx-36">
 						<div className="relative z-20 h-[300px] overflow-hidden rounded-lg md:h-[450px]">
@@ -421,13 +428,14 @@ const Video = () => {
 						</div>
 					</div>
 				</div>
-			</div>
+			</motion.div>
 
 			{videoOpen && (
 				<div className="fixed left-0 top-0 z-50 flex h-screen w-full items-center justify-center bg-black bg-opacity-70">
 					<div className="mx-auto w-full max-w-[550px] bg-white">
 						<>
-							<iframe title="HomeVideo"
+							<iframe
+								title="HomeVideo"
 								className="h-[320px] w-full"
 								src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1"
 							/>

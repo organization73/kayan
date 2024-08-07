@@ -1,10 +1,35 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+
+const containerVariants = {
+	hidden: { opacity: 1 },
+	show: {
+		opacity: 1,
+		transition: {
+			staggerChildren: 0.3,
+		},
+	},
+};
+
+const itemVariants = {
+	hidden: { opacity: 0, y: 50 }, // Changed from x to y for vertical animation
+	show: { opacity: 1, y: 0, transition: { duration: 0.5 } }, // Adjusted for vertical animation
+};
 
 function CategoriesGrid() {
 	return (
-		<div className="grid grid-cols-1 grid-rows-3 lg:grid-cols-3 lg:grid-rows-2 gap-4 mx-3 lg:mx-36">
-			<div className="h-52*2 rounded-lg bg-yellow-200 lg:col-span-2 lg:row-span-2">
+		<motion.div
+			className="grid grid-cols-1 grid-rows-3 lg:grid-cols-3 lg:grid-rows-2 gap-4 mx-3 lg:mx-36"
+			variants={containerVariants}
+			initial="hidden"
+			whileInView="show"
+			viewport={{ once: true, amount: 0.1 }}
+		>
+			<motion.div
+				className="h-52*2 rounded-lg bg-yellow-200 lg:col-span-2 lg:row-span-2"
+				variants={itemVariants}
+			>
 				<div className="relative h-full">
 					<img
 						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/saloon.jpg"
@@ -21,8 +46,11 @@ function CategoriesGrid() {
 						</Link>
 					</div>
 				</div>
-			</div>
-			<div className="h-52 rounded-lg bg-blue-200">
+			</motion.div>
+			<motion.div
+				className="h-52 rounded-lg bg-blue-200"
+				variants={itemVariants}
+			>
 				<div className="relative h-full">
 					<img
 						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/bedroom.jpg"
@@ -39,8 +67,11 @@ function CategoriesGrid() {
 						</Link>
 					</div>
 				</div>
-			</div>
-			<div className="h-52 rounded-lg bg-red-200">
+			</motion.div>
+			<motion.div
+				className="h-52 rounded-lg bg-red-200"
+				variants={itemVariants}
+			>
 				<div className="relative h-full">
 					<img
 						src="https://elsharabasy.blob.core.windows.net/kayan-metadata/sofra.jpg"
@@ -57,8 +88,8 @@ function CategoriesGrid() {
 						</Link>
 					</div>
 				</div>
-			</div>
-		</div>
+			</motion.div>
+		</motion.div>
 	);
 }
 
