@@ -32,6 +32,8 @@ const ShopPage = () => {
         .catch((error) => {
           console.error("Error fetching offer details:", error);
         });
+    }else {
+      setOffer(null);
     }
   }, [offerId]);
 
