@@ -48,7 +48,6 @@ exports.postAddProduct = async (req, res, next) => {
     ? req.files["images"].map((file) => file)
     : undefined;
 
-  // console.log(title, price, description, category, image, images);
   try {
     //Data validation
     await productSchema.validate({
@@ -94,8 +93,6 @@ exports.postAddProduct = async (req, res, next) => {
 
 exports.getProducts = async (req, res, next) => {
   const { categoryValue, searchValue} = req.query;
-  console.log("get")
-  console.log(categoryValue, searchValue);
   const search = searchValue || "";
   const category = categoryValue || "";
 
@@ -106,7 +103,6 @@ exports.getProducts = async (req, res, next) => {
   if (search) {
     filter.title = { $regex: search, $options: "i" };
   }
-  console.log(filter);
 
   const page = req.query.page || 1;
 
@@ -118,12 +114,12 @@ exports.getProducts = async (req, res, next) => {
 
     const totalItems = await Product.find().countDocuments();
 
-    console.log("hasNextPage", PRODUCTS_PER_Admin_PAGE * page < totalItems);
-    console.log("totalItems", totalItems);
-    console.log("hasPreviousPage", page > 1);
-    console.log("nextPage", +page + 1);
-    console.log("previousPage", page - 1);
-    console.log("lastPage", Math.ceil(totalItems / PRODUCTS_PER_Admin_PAGE));
+    // console.log("hasNextPage", PRODUCTS_PER_Admin_PAGE * page < totalItems);
+    // console.log("totalItems", totalItems);
+    // console.log("hasPreviousPage", page > 1);
+    // console.log("nextPage", +page + 1);
+    // console.log("previousPage", page - 1);
+    // console.log("lastPage", Math.ceil(totalItems / PRODUCTS_PER_Admin_PAGE));
 
     res.render("shop/products", {
       prods: products,
@@ -146,7 +142,7 @@ exports.getProducts = async (req, res, next) => {
 
 exports.deleteProduct = async (req, res, next) => {
   const { productId } = req.params;
-  console.log(productId);
+
   try {
     //delete product
     const product = await Product.findByIdAndDelete(productId);
@@ -208,22 +204,13 @@ exports.getEditProduct = async (req, res, next) => {
 
 exports.postEditProduct = async (req, res, next) => {
   const { productId } = req.params;
-  const { title, price, rating, category, description, highlights } = req.body;
+  const { title, price, rating, category, description, highlights, isOutOfStock } = req.body;
+
   const image = req.files["image"] ? req.files["image"][0] : undefined;
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
     : undefined;
-  console.log(
-    productId,
-    title,
-    price,
-    rating,
-    description,
-    highlights,
-    category,
-    image,
-    images
-  );
+
   try {
     //Data validation
     await productSchema.validate({
@@ -235,7 +222,7 @@ exports.postEditProduct = async (req, res, next) => {
     });
     //find product
     const product = await Product.findById(productId);
-    console.log(product);
+
     if (!product) {
       const error = new Error("Product not found");
       error.statusCode = 404;
@@ -248,6 +235,7 @@ exports.postEditProduct = async (req, res, next) => {
     product.description = description;
     product.highlights = highlights;
     product.rating = rating;
+    product.isOutOfStock = isOutOfStock? true : false;
     if (image) {
       //upload new image
       await fileHelper.uploadToAzureHandler(image);
@@ -280,13 +268,6 @@ exports.postEditProduct = async (req, res, next) => {
 
 exports.addReview = async (req, res, next) => {
   const { productId, creator, rating, review } = req.body;
-  console.log(
-    "productId, creator, rating, review",
-    productId,
-    creator,
-    rating,
-    review
-  );
 
   try {
     // Validate the request body
@@ -402,11 +383,11 @@ exports.approveReview = async (req, res, next) => {
     await review.save();
     //update product rating
     product.reviews.push(review);
-    console.log(
-      `${product.rating} * ${numberOfApprovedReviews} + ${review.rating} / ${
-        numberOfApprovedReviews + 1
-      }`
-    );
+    // console.log(
+    //   `${product.rating} * ${numberOfApprovedReviews} + ${review.rating} / ${
+    //     numberOfApprovedReviews + 1
+    //   }`
+    // );
     const newRating =
       (product.rating * numberOfApprovedReviews + review.rating) /
       (numberOfApprovedReviews + 1);
@@ -486,7 +467,6 @@ exports.getClientProduct = async (req, res, next) => {
     product.highlightsList = product.highlights?.split("@");
     product.highlightsList = product.highlightsList?.map((item) => item.trim());
     product.rattersNumber = productData.reviews.length;
-    console.log(product);
     res.status(200).json({ product });
   } catch (error) {
     next(error);

@@ -18,7 +18,7 @@ exports.getAddOffer = async (req, res, next) => {
 exports.postAddOffer = async (req, res, next) => {
   const { title, categories } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
-  console.log(title, categories, image);
+
   try {
     //Data validation
     if (!image) {
@@ -69,7 +69,7 @@ exports.getOffers = async (req, res, next) => {
 };
 exports.deleteOffer = async (req, res, next) => {
   const { offerId } = req.params;
-  console.log(offerId);
+
   try {
     //delete offer
     const offer = await Offer.findByIdAndDelete(offerId);
@@ -113,8 +113,7 @@ exports.getManageOrders = async (req, res, next) => {
       }
       return 0;
     });
-    console.log(offer);
-    console.log("weve get a problem");
+
     //send response
     res.render("shop/manage-offers", {
       pageTitle: "Manage Offers",
@@ -130,7 +129,7 @@ exports.getManageOrders = async (req, res, next) => {
 exports.putEditOffer = async (req, res, next) => {
   const { offerId, title, categories } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
-  console.log(offerId, title, categories, image);
+
   try {
     //validate data
     if (!offerId) {
@@ -167,7 +166,6 @@ exports.putEditOffer = async (req, res, next) => {
 
 exports.postAddProductOffer = async (req, res, next) => {
   const { productId, offerId } = req.body;
-  console.log(productId, offerId);
 
   try {
     //validate data
@@ -213,7 +211,6 @@ exports.postAddProductOffer = async (req, res, next) => {
 exports.deleteProductOffer = async (req, res, next) => {
   const { productId, offerId } = req.body;
 
-  console.log(productId, offerId);
   try {
     //validate data
     if (!productId || !offerId) {
@@ -262,7 +259,6 @@ exports.getClientOffers = async (req, res, next) => {
 };
 
 exports.getClientOffer = async (req, res, next) => {
-  console.log("we are here");
   let { category, sortBY, search, page } = req.query;
   const { offerId } = req.params;
   page = +page || 1;
@@ -334,7 +330,6 @@ exports.getClientOffer = async (req, res, next) => {
 };
 
 exports.getClientOfferDetails = async (req, res, next) => {
-  console.log("hi");
   const { offerId } = req.params;
   try {
     const offer = await Offer.findById(offerId);

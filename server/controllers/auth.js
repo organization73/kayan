@@ -27,7 +27,6 @@ const transporter = nodemailer.createTransport({
 });
 
 exports.getRegister = async (req, res, next) => {
-  console.log("GET /auth/register");
   res.render("auth/register", {
     pageTitle: "Register",
     path: "/register",
@@ -37,7 +36,6 @@ exports.getRegister = async (req, res, next) => {
 
 exports.postRegister = async (req, res, next) => {
   const { userName, email, password, confirmPassword } = req.body;
-  console.log(userName, email, password, confirmPassword);
 
   try {
     //validate data
@@ -102,7 +100,6 @@ exports.postRegister = async (req, res, next) => {
     // console.log("Message sent: %s", info.messageId);
 
     const result = await newAdmin.save();
-    console.log(result);
     res.status(201).json({ message: "Admin registered successfully" });
   } catch (error) {
     next(error);
@@ -111,8 +108,7 @@ exports.postRegister = async (req, res, next) => {
 
 exports.getLogin = async (req, res, next) => {
   const register = req.query.register;
-  console.log("register:", register);
-  console.log("loading login page");
+
   res.render("auth/login", {
     pageTitle: "login",
     path: "/login",
@@ -123,7 +119,6 @@ exports.getLogin = async (req, res, next) => {
 
 exports.postLogin = async (req, res, next) => {
   const { email, password } = req.body;
-  console.log(process.env.JWT_SECRET);
 
   try {
     //check if admin exists
@@ -157,7 +152,6 @@ exports.postLogin = async (req, res, next) => {
     admin.authenticationTokenExpiration =
       Date.now() + 1000 * 60 * TOKEN_VALID_MIN;
     await admin.save();
-    console.log(admin);
     res.cookie("token", token, {
       httpOnly: true,
       maxAge: 1000 * 60 * TOKEN_VALID_MIN,
@@ -169,7 +163,6 @@ exports.postLogin = async (req, res, next) => {
 };
 
 exports.getForgetPassword = async (req, res, next) => {
-  console.log("GET /auth/reset-password");
   res.render("auth/forget-password", {
     pageTitle: "Reset Password",
     isAuthenticated: false,
@@ -243,7 +236,6 @@ exports.getResetPassword = async (req, res, next) => {
       throw error;
     }
 
-    console.log("GET /auth/reset-password");
     res.render("auth/reset-password", {
       pageTitle: "Reset Password",
       isAuthenticated: false,

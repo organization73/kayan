@@ -5,8 +5,8 @@ const mongoose = require("mongoose");
 const cookieParser = require("cookie-parser");
 const multer = require("multer");
 const cors = require("cors");
+const cron = require("node-cron");
 require("dotenv").config();
-
 
 const app = express();
 const PORT = process.env.PORT || 8080;
@@ -44,10 +44,9 @@ const fileFilter = (req, file, cb) => {
 app.use(
   cors({
     origin: "*",
+    // origin: "https://kayan-modern.egypts.live",
   })
 );
-
-
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -55,7 +54,7 @@ app.use(cookieParser());
 const upload = multer({
   storage: multer.memoryStorage(),
   fileFilter: fileFilter,
-  // limits: { fileSize: 1 * 1024 * 1024 }, // 10MB
+  limits: { fileSize: 1 * 1024 * 1024 }, // 10MB
 });
 
 app.use(
@@ -72,24 +71,6 @@ app.use("/api/", express.static("public"));
 app.use("/api/images", express.static("images"));
 
 app.use(morgan("dev"));
-
-
-// Generate a nonce for each request
-app.use((req, res, next) => {
-  res.locals.nonce = Buffer.from(Date.now().toString()).toString('base64');
-  res.locals.ok = "ok";
-  next();
-});
-// Configure helmet with CSP
-app.use(helmet({
-  contentSecurityPolicy: {
-    directives: {
-      defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", (req, res) => `'nonce-${res.locals.nonce}'`],
-      imgSrc: ["'self'", "*"],
-    },
-  },
-}));
 
 app.get("/api/ping", async (req, res) => {
   const admin = await Admin.find().select("-password");
@@ -119,19 +100,17 @@ async function startServer() {
     //if the local db data is lost fetch the backup from the online version.
 
     await mongoose.connect(process.env.LOCAL_MONGO_URI + dbName);
-    console.log("Connected to the local MongoDB.");
 
     //check if kayandb exist
     const listDatabases = await getDatabaseList(mongoose);
     //if kayandb is not in the list, fetch the data from the online backup
     if (!listDatabases.includes(dbName)) {
-      console.log("Database does not exist in local MongoDB.");
       await fetchDataFromOnlineBackup();
       console.log("Data fetched from online MongoDB.");
     }
 
     // Schedule the sync function to run every 5 minutes
-    cron.schedule("*/2 * * * *", () => syncData(mongoose));
+    cron.schedule("*/1 * * * *", () => syncData(mongoose));
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);

@@ -12,7 +12,6 @@ form.addEventListener("submit", async (event) => {
   const emailValue = email.value;
   const passwordValue = password.value;
   const confirmPasswordValue = confirmPassword.value;
-  console.log(userNameValue, emailValue, passwordValue, confirmPasswordValue);
 
   if (
     !userNameValue ||

@@ -14,11 +14,9 @@ const deleteProduct = async (btn) => {
     "Are you sure you want to delete this item?"
   );
   if (!userConfirmed) {
-    console.log("Delete request was cancelled.");
     return;
   }
   const prodId = btn.parentNode.querySelector("[name=productId]").value;
-  console.log(prodId);
   // const csrf = btn.parentNode.querySelector('[name=_csrf]').value;
 
   const productElement = btn.closest("article");

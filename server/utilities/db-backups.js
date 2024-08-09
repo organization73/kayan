@@ -1,4 +1,6 @@
 const { MongoClient } = require("mongodb");
+const fs = require("fs").promises;
+const path = require("path");
 
 const localUri = process.env.LOCAL_MONGO_URI;
 const atlasUri = process.env.ONLINE_MONGO_URI;
@@ -48,7 +50,9 @@ async function syncData(mongoose) {
         const tempCollection = tempDb.collection(collectionName);
 
         // Drop temporary collection if it already exists
-        await tempCollection.drop();
+        if (await tempDb.listCollections({ name: collectionName }).hasNext()) {
+          await tempCollection.drop();
+        }
 
         // Insert data into temporary collection
         await tempCollection.insertMany(localData);
@@ -61,15 +65,24 @@ async function syncData(mongoose) {
           await tempCollection.find().toArray()
         );
 
-        // Delete temporary collection
+        // Delete temporary collection after the backup is complete
         // await tempCollection.drop();
       } else {
-        //if local empty make online empty
         await onlineCollection.deleteMany({});
-        console.log(`No data to sync for collection ${collectionName}`);
-      }
+        // Write to log file
+        const timestamp = new Date().toISOString();
+        const logMessage = `${timestamp}: Collection "${collectionName}" was empty\n
+        -----------------------------------\n`;
+        const logFilePath = path.join(__dirname, "empty_collections_log.txt");
 
-      console.log("Data synced from local to online MongoDB");
+        console.log(`No data to sync for collection ${collectionName}`);
+        try {
+          await fs.appendFile(logFilePath, logMessage);
+          console.log(`Log written for empty collection ${collectionName}`);
+        } catch (error) {
+          console.error(`Error writing to log file: ${error}`);
+        }
+      }
     }
     console.log("Data synced from local to online MongoDB");
     // Close clients
@@ -100,13 +113,6 @@ async function fetchDataFromOnlineBackup() {
 
     await localClient.connect();
     await atlasClient.connect();
-
-    //get the database names in the connection.
-    // const databasesList = await localClient.db().admin().listDatabases();
-    // console.log("Databases:");
-    // databasesList.databases.forEach((db) => console.log(` - ${db.name}`));
-
-    //
 
     const localDb = localClient.db(dbName);
     const atlasDb = atlasClient.db(dbName);

@@ -20,6 +20,10 @@ const productSchema = new Schema(
       required: true,
       trim: true,
     },
+    isOutOfStock: {
+      type: Boolean,
+      default: false,
+    },
     category: {
       type: String,
       required: true,

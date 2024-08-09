@@ -6,7 +6,6 @@ const priceInput = document.getElementById("price");
 const descriptionInput = document.getElementById("description");
 const categoryInput = document.getElementById("category");
 const productId = document.getElementById("productId");
-console.log(form);
 
 function validateFileCount(input) {
   if (input.files.length > 6) {
@@ -38,7 +37,6 @@ form.addEventListener("submit", async (event) => {
     const url = editing
       ? `/api/edit-product/${productIdValue}`
       : "/api/add-product";
-      console.log(url);
     const response = await fetch(url, {
       method: "POST",
       body: new FormData(form),
@@ -53,7 +51,6 @@ form.addEventListener("submit", async (event) => {
     }
 
     const responseData = await response.json();
-    console.log("Request succeeded with JSON response", responseData);
     if (editing) {
       alert("Product was edited successfully");
     }else{

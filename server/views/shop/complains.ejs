@@ -68,7 +68,7 @@
       </section>
 
       <!--end  -->
-      <script nonce="<%= nonce %>">
+      <script>
         function deleteProduct(btn) {
           const productId = btn.previousElementSibling.value;
           fetch('/api/complain/' + productId, {

@@ -25,7 +25,6 @@ const PRODUCTS_PER_PAGE = 4;
 
 exports.getHomePage = async (req, res, next) => {
   const list = await listImagesInContainer();
-  console.log(list);
   list.sort();
   let imageNumber = 0;
   //get the images from the db
@@ -51,7 +50,14 @@ exports.getHomePage = async (req, res, next) => {
     dbImagesList.push(offer.Image);
   });
   dbImagesList.sort();
-
+  const productCounts = {};
+  products.forEach((product) => {
+    if (product.category in productCounts) {
+      productCounts[product.category]++;
+    } else {
+      productCounts[product.category] = 1;
+    }
+  });
   //get images that in the azure but not in the db
   const imagesNotInDb = list.filter((image) => !dbImagesList.includes(image));
 
@@ -69,12 +75,12 @@ exports.getHomePage = async (req, res, next) => {
     numberOfOffers: offers.length,
     numberOfReviews: reviews.length,
     numberOfcomplaints,
+    productCounts,
   });
 };
 
 exports.getAddGallaryPage = async (req, res, next) => {
   const galleryReviews = await GalleryReview.find();
-  console.log("getAddProductPage");
   res.render("shop/add-gallary-review", {
     pageTitle: "Add Gallary Review",
     path: "/add-gallary-review",
@@ -99,7 +105,6 @@ exports.postAddGallaryPage = async (req, res, next) => {
     const galleryReview = new GalleryReview({
       image: image[0].path,
     });
-    console.log(galleryReview);
     await galleryReview.save();
     res.status(201).json({ message: "Image uploaded successfully" });
   } catch (error) {
