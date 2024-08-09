@@ -43,8 +43,7 @@ async function syncData(mongoose) {
       //take the data from the local database and insert it into the online database for each collection
       const localData = await localCollection.find().toArray();
       console.log("collectionName:", collectionName);
-      console.log("localData:", localData);
-
+      
       if (localData.length > 0) {
         // Create a temporary collection
         const tempCollection = tempDb.collection(collectionName);

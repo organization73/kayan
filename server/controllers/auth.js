@@ -196,7 +196,7 @@ exports.postForgetPassword = async (req, res, next) => {
 
     //send confirmation email
     const info = await transporter.sendMail({
-      from: `"kayan🛋️"`,
+      from: `"kayan🛋️"<${process.env.EMAIL_FROM}>`,
       to: email,
       subject: "إعادة تعيين كلمة المرور ✔",
       text: "مرحباً بك!",

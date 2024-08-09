@@ -98,7 +98,7 @@ app.use((error, req, res, next) => {
 async function startServer() {
   try {
     //if the local db data is lost fetch the backup from the online version.
-
+    console.log("Connecting to local MongoDB...");
     await mongoose.connect(process.env.LOCAL_MONGO_URI + dbName);
 
     //check if kayandb exist
@@ -110,7 +110,7 @@ async function startServer() {
     }
 
     // Schedule the sync function to run every 5 minutes
-    cron.schedule("*/1 * * * *", () => syncData(mongoose));
+    cron.schedule("0 */2 * * *", () => syncData(mongoose));
 
     app.listen(PORT, () => {
       console.log(`Server is running on port ${PORT}`);
