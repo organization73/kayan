@@ -11,6 +11,7 @@ const validCategories = [
   "salon",
   "table",
   "cabinet",
+  "antreeh",
 ];
 
 const productSchema = new Schema(

@@ -32,7 +32,7 @@
 
             <form name="product" class="product-form" id="add-offer" enctype="multipart/form-data">
               <div class="form-control">
-                <label for="title">Title</label>
+                <label for="title" dir="rtl" >Title</label>
                 <input type="text" name="title" id="title" value="<%= offer.title %>">
               </div>
               <input type="hidden" name="offerId" id="offerId" value="<%= offer._id %>">
@@ -45,6 +45,9 @@
                 <label for="categories">Categories</label>
                 <table>
                   <tr>
+                    <td><span>انتريه</span></td>
+                    <td><input type="checkbox" name="categories" value="antreeh"
+                        <%=offer.categories.includes("antreeh")? 'checked' : '' %> > </td>
                     <td><span>نيش</span></td>
                     <td><input type="checkbox" name="categories" value="cabinet"
                         <%=offer.categories.includes("cabinet")? 'checked' : '' %> > </td>
