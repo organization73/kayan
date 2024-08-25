@@ -17,8 +17,8 @@ import subCategories from "../dummyData/SubCategories";
 import getDisplayName from "../utils/GetDisplayName";
 
 const sortOptions = [
-  { name: "الاكثر شعبية", value: "popular" },
   { name: "الاجدد", value: "recent" },
+  { name: "الاكثر شعبية", value: "popular" },
   {
     name: "السعر : من الاقل الي الاعلي",
     value: "price-asc",

@@ -6,11 +6,14 @@ import cat5 from "../assets/img/c5.png";
 import cat6 from "../assets/img/c6.png";
 import cat7 from "../assets/img/c7.png";
 import cat8 from "../assets/img/c8.png";
+import cat9 from "../assets/img/c9.png";
+
 
 
 const subCategories = [
 	{ name: "كل المنتجات", value: " " },
-	{ src: cat1, alt: "مكتب", name: "مكاتب", value: "office" },
+	{src: cat9, alt: "انتريهات", name: "انتريهات", value: "antreeh"},
+	// { src: cat1, alt: "مكتب", name: "مكاتب", value: "office" },
 	{ src: cat2, alt: "غرف نوم", name: "غرف نوم", value: "bedroom" },
 	{
 		src: cat3,

@@ -80,7 +80,7 @@ export default function ImageCarousel() {
         slidesPerView={1}
         pagination={{ clickable: true }}
         navigation
-        autoplay={{ delay: 80000 }}
+        autoplay={{ delay: 10000 }}
         modules={[Pagination, Navigation, Autoplay]}
       >
         {offersList.map((offer) => (

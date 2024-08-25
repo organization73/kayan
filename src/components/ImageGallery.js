@@ -21,7 +21,7 @@ function ImageGallery({ images }) {
 						<img
 							src={mainImageSrc}
 							alt="Product"
-							className="w-full h-80 lg:h-auto rounded-lg shadow-md mb-4"
+							className="w-full h-auto lg:h-auto rounded-lg shadow-md mb-4"
 						/>
 						<button
 							className="absolute top-2 right-2 bg-gray-50 opacity-70 p-2 rounded-full shadow-md hover:bg-gray-200 hover:opacity-80"
