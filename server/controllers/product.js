@@ -424,7 +424,10 @@ exports.getClientProducts = async (req, res, next) => {
     sortOption = { price: 1 };
   } else if (sortBY === "price-dsc") {
     sortOption = { price: -1 };
+  }else{
+    sortOption = { createdAt: -1 };
   }
+  console.log(sortOption);
 
   try {
     const products = await Product.find(filter)

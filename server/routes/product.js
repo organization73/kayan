@@ -1,64 +1,64 @@
-const express = require("express");
-const router = express.Router();
+  const express = require("express");
+  const router = express.Router();
 
-const productController = require("../controllers/product");
+  const productController = require("../controllers/product");
 
-const authMiddleware = require("../middleware/auth");
+  const authMiddleware = require("../middleware/auth");
 
-router.get("/add-product", authMiddleware, productController.getAddProduct);
+  router.get("/add-product", authMiddleware, productController.getAddProduct);
 
-router.post("/add-product", authMiddleware, productController.postAddProduct);
+  router.post("/add-product", authMiddleware, productController.postAddProduct);
 
-router.delete(
-  "/product/:productId",
-  authMiddleware,
-  productController.deleteProduct
-);
+  router.delete(
+    "/product/:productId",
+    authMiddleware,
+    productController.deleteProduct
+  );
 
-router.get("/products", authMiddleware, productController.getProducts);
-// router.post("/products", authMiddleware, (req, res) => {
-//   const { categoryValue, searchValue } = req.body;
-//   console.log(categoryValue, searchValue);
-//   res.redirect(`/api/products?category=${categoryValue}&searchValue=${searchValue}`);
+  router.get("/products", authMiddleware, productController.getProducts);
+  // router.post("/products", authMiddleware, (req, res) => {
+  //   const { categoryValue, searchValue } = req.body;
+  //   console.log(categoryValue, searchValue);
+  //   res.redirect(`/api/products?category=${categoryValue}&searchValue=${searchValue}`);
 
-// });
+  // });
 
-router.get(
-  "/edit-product/:productId",
-  authMiddleware,
-  productController.getEditProduct
-);
+  router.get(
+    "/edit-product/:productId",
+    authMiddleware,
+    productController.getEditProduct
+  );
 
-router.post(
-  "/edit-product/:productId",
-  authMiddleware,
-  productController.postEditProduct
-);
+  router.post(
+    "/edit-product/:productId",
+    authMiddleware,
+    productController.postEditProduct
+  );
 
-router.post("/add-review", productController.addReview);
+  router.post("/add-review", productController.addReview);
 
-router.get("/products-reviews", authMiddleware, productController.getReviews);
+  router.get("/products-reviews", authMiddleware, productController.getReviews);
 
-router.delete(
-  "/product-review/:reviewId",
-  authMiddleware,
-  productController.deleteReview
-);
+  router.delete(
+    "/product-review/:reviewId",
+    authMiddleware,
+    productController.deleteReview
+  );
 
-router.patch(
-  "/approve-product-review/:reviewId",
-  authMiddleware,
-  productController.approveReview
-);
+  router.patch(
+    "/approve-product-review/:reviewId",
+    authMiddleware,
+    productController.approveReview
+  );
 
-//client routes
-router.get("/client/products", productController.getClientProducts);
+  //client routes
+  router.get("/client/products", productController.getClientProducts);
 
-router.get("/client/product/:productId", productController.getClientProduct);
+  router.get("/client/product/:productId", productController.getClientProduct);
 
-router.get(
-  "/client/product-reviews/:productId",
-  productController.getClientProductReviews
-);
+  router.get(
+    "/client/product-reviews/:productId",
+    productController.getClientProductReviews
+  );
 
-module.exports = router;
+  module.exports = router;

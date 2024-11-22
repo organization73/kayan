@@ -33,7 +33,7 @@ const fileFilter = (req, file, cb) => {
   if (
     file.mimetype === "image/png" ||
     file.mimetype === "image/jpg" ||
-    file.mimetype === "image/jpeg"||
+    file.mimetype === "image/jpeg" ||
     file.mimetype === "image/webp"
   ) {
     cb(null, true);
@@ -44,8 +44,11 @@ const fileFilter = (req, file, cb) => {
 
 app.use(
   cors({
-    origin: "*",
-    // origin: "https://kayan-modern.egypts.live",
+    // origin:"*"
+    origin: [
+      "https://kayan-modern.egypts.live",
+      "https://www.kayan-modern.egypts.live",
+    ],
   })
 );
 app.use(express.json());
