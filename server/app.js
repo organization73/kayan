@@ -43,20 +43,32 @@ const fileFilter = (req, file, cb) => {
 };
 
 app.use(
-  cors({
-    // origin:"*"
-    origin: [
-      "https://kayan-modern.egypts.live",
-      "https://www.kayan-modern.egypts.live",
-    ],
-  })
+  cors()
+  //   {
+  //   // origin:"*"
+  //   origin: [
+  //     "https://kayan-modern.egypts.live",
+  //     "https://www.kayan-modern.egypts.live",
+  //   ],
+  // }
 );
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const upload = multer({
-  storage: multer.memoryStorage(),
+  // storage: multer.memoryStorage(),
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const dir = file.fieldname === "image" ? "images" : "images";
+      fs.mkdirSync(dir, { recursive: true });
+      cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, `${file.fieldname}-${uniqueSuffix}-${file.originalname}`);
+    },
+  }),
   fileFilter: fileFilter,
   limits: { fileSize: 1 * 1024 * 1024 }, // 10MB
 });

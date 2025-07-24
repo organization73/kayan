@@ -19,18 +19,22 @@
             <h2>Product Categories:</h2>
             <ul>
                 <% for(const category in productCounts) { %>
-                    <li><h3><%= category %>: <%= productCounts[category] %></h3></li>
-                <% } %>
+                    <li>
+                        <h3>
+                            <%= category %>: <%= productCounts[category] %>
+                        </h3>
+                    </li>
+                    <% } %>
             </ul>
 
-            <% if (imagesNotInDb.length> 0) { %>
+            <!-- <% if (typeof imagesNotInDb !== 'undefined' && imagesNotInDb.length > 0) { %>
                 <h2>There are <%= imagesNotInDb.length %> images not in the database.</h2>
                 <% for(const image of imagesNotInDb) { %>
                     <h3>
                         <%= image %>
                     </h3>
-                    <% } %>
-                        <%}%>
-                        
+                <% } %>
+            <% } %> -->
 
-                            <%- include('../includes/end.ejs') %>
+
+            <%- include('../includes/end.ejs') %>

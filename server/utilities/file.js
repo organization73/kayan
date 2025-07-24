@@ -31,6 +31,8 @@ const containerClient = blobServiceClient.getContainerClient(
   azureStorageConfig.containerName
 );
 
+const LOCAL_IMAGE_PATH = path.join(__dirname, "..", "images");
+
 exports.uploadToAzure = async (req, res, next) => {
   try {
     if (!req.files) {
@@ -127,7 +129,6 @@ exports.deleteFromAzureHandler = (file) => {
   });
 };
 
-
 exports.listImagesInContainer = async () => {
   const { accountName, sasToken, containerName } = azureStorageConfig;
 
@@ -136,7 +137,8 @@ exports.listImagesInContainer = async () => {
 
   try {
     // Create a BlobServiceClient
-    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString);
+    const blobServiceClient =
+      BlobServiceClient.fromConnectionString(connectionString);
 
     // Get a reference to the container
     const containerClient = blobServiceClient.getContainerClient(containerName);
@@ -148,17 +150,52 @@ exports.listImagesInContainer = async () => {
       if (/\.(jpg|jpeg|png|gif|bmp)$/i.test(blob.name)) {
         // Construct the URL for the blob
         const blobUrl = containerClient.getBlobClient(blob.name).url;
-        const cleanUrl = blobUrl.split('?')[0].replace(/%20/g, ' ');
+        const cleanUrl = blobUrl.split("?")[0].replace(/%20/g, " ");
         imageUrls.push(cleanUrl);
       }
     }
 
     return imageUrls;
   } catch (error) {
-    if (error.statusCode === 403 && error.details.errorCode === 'AuthorizationResourceTypeMismatch') {
-      throw new Error('The SAS token does not have the required permissions to list blobs in this container.');
+    if (
+      error.statusCode === 403 &&
+      error.details.errorCode === "AuthorizationResourceTypeMismatch"
+    ) {
+      throw new Error(
+        "The SAS token does not have the required permissions to list blobs in this container."
+      );
     } else {
       throw error;
     }
   }
+};
+
+exports.uploadToLocal = async (file) => {
+  return new Promise((resolve, reject) => {
+    try {
+      if (!file) {
+        throw new Error("No file provided");
+      }
+
+      if (!fs.existsSync(LOCAL_IMAGE_PATH)) {
+        fs.mkdirSync(LOCAL_IMAGE_PATH, { recursive: true });
+      }
+
+      // Change the file name to a unique name
+      file.originalname =
+        new Date().toISOString().replace(/:/g, "-") + "-" + file.originalname;
+      const filePath = path.join(LOCAL_IMAGE_PATH, file.originalname);
+
+      // Save the file locally
+      fs.writeFileSync(filePath, file.buffer);
+
+      resolve({
+        message: "File saved locally.",
+        fileName: file.originalname,
+        filePath,
+      });
+    } catch (error) {
+      reject(error);
+    }
+  });
 };
