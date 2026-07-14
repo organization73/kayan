@@ -92,7 +92,10 @@ export default function ProductDetails({ productId }) {
         {/* Image gallery and product info */}
         <div className="lg:flex lg:max-w-7xl lg:mx-auto lg:px-8 lg:gap-x-8">
           <div className="lg:w-1/2">
-            <ImageGallery images={productDetails.images}></ImageGallery>
+            <ImageGallery
+              images={productDetails.images}
+              mainImageUrl={productDetails.mainImageUrl}
+            ></ImageGallery>
           </div>
 
           {/* Product info */}
