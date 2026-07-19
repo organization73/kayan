@@ -1,6 +1,6 @@
 # Kayan Modern - Furniture E-Commerce Platform
 
-![Kayan Modern Showroom](./kayan_backend/images/banner.jpg)
+![Kayan Modern Showroom](https://github.com/organization73/kayan/blob/backend-local-storage-file/about-main.png)
 
 > A modern, full-stack furniture gallery and e-commerce platform built with Node.js, Express, MongoDB, and React. Kayan Modern specializes in premium furniture solutions with an intuitive admin dashboard for inventory management.
 
