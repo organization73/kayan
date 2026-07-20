@@ -1,4 +1,5 @@
 server/node_modules
 server/nodemon.json
+node_modules
 server/images
 server/test.js
