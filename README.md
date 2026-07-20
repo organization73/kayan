@@ -1,6 +1,6 @@
 # Kayan Modern
 
-![Kayan Modern Furniture Storefront](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/about-main.png)
+![Kayan Modern Furniture Storefront](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/home-main.png)
 
 **Backend-first furniture marketplace and admin platform with a React storefront, full product workflows, and image-backed catalog management.**
 
@@ -16,7 +16,7 @@ The structure of this README puts the product page first, the home page second, 
 
 ## 1. Product Page (Primary showcase)
 
-![Product Page Screenshot](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/dashbord.png)
+![Product Page Screenshot](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/productPage-main.png)
 
 The product page is the repository’s main commercial experience. It shows the catalog, product detail, stock status, and review flow.
 
@@ -116,7 +116,7 @@ GET    /client/galary-review
 
 The control panel UI screenshots are included below. Use the raw GitHub URLs so images render on GitHub and fall back to local files when viewed in the repository.
 
-![Control Panel Screenshot](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/controlpanel.png)
+![Control Panel Screenshot](https://raw.githubusercontent.com/organization73/kayan/backend-local-storage-file/controlPanel.png)
 
 If you prefer local references while working in the repository, the file `controlpanel.png` is included in the project root images list and will render when opening `README.md` locally in VS Code.
 The about page is last because this repo prioritizes product discovery and sales workflow first.
