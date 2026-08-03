@@ -1,0 +1,144 @@
+const fs = require("fs");
+const express = require("express");
+const morgan = require("morgan");
+const mongoose = require("mongoose");
+const cookieParser = require("cookie-parser");
+const multer = require("multer");
+const cors = require("cors");
+const cron = require("node-cron");
+require("dotenv").config();
+
+const app = express();
+const PORT = process.env.PORT || 8080;
+
+const authRoutes = require("./routes/auth");
+const adminRoutes = require("./routes/admin");
+const productRoutes = require("./routes/product");
+const offerRoutes = require("./routes/offer");
+
+const errorController = require("./controllers/error");
+const authMiddleware = require("./middleware/auth");
+const Admin = require("./models/admin");
+const {
+  syncData,
+  fetchDataFromOnlineBackup,
+  getDatabaseList,
+} = require("./utilities/db-backups");
+
+const localUri = process.env.LOCAL_MONGO_URI;
+const atlasUri = process.env.ONLINE_MONGO_URI;
+const dbName = process.env.DB_NAME;
+
+const fileFilter = (req, file, cb) => {
+  if (
+    file.mimetype === "image/png" ||
+    file.mimetype === "image/jpg" ||
+    file.mimetype === "image/jpeg" ||
+    file.mimetype === "image/webp"
+  ) {
+    cb(null, true);
+  } else {
+    cb(null, false);
+  }
+};
+
+app.use(
+  cors(),
+  //   {
+  //   // origin:"*"
+  //   origin: [
+  //     "https://kayan-modern.egypts.live",
+  //     "https://www.kayan-modern.egypts.live",
+  //   ],
+  // }
+);
+app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
+app.use(cookieParser());
+
+const upload = multer({
+  // storage: multer.memoryStorage(),
+  storage: multer.diskStorage({
+    destination: (req, file, cb) => {
+      const dir = file.fieldname === "image" ? "images" : "images";
+      fs.mkdirSync(dir, { recursive: true });
+      cb(null, dir);
+    },
+    filename: (req, file, cb) => {
+      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
+      cb(null, `${file.fieldname}-${uniqueSuffix}-${file.originalname}`);
+    },
+  }),
+  fileFilter: fileFilter,
+  limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
+});
+
+app.use(
+  upload.fields([
+    { name: "image", maxCount: 1 },
+    { name: "images", maxCount: 10 },
+  ]),
+);
+
+app.set("view engine", "ejs");
+app.set("views", "views");
+
+app.use("/api/", express.static("public"));
+app.use("/api/images", express.static("images"));
+
+app.use(morgan("dev"));
+
+app.get("/api/ping", async (req, res) => {
+  const admin = await Admin.find().select("-password");
+  res.status(200).json({
+    message: "I am working fine.",
+    admin,
+    email: process.env.EMAIL_FROM,
+  });
+});
+app.get("/api/hello", async (req, res) => {
+  res.status(200).json({
+    message: "Hello from Kayan Modern API!",
+  });
+});
+
+app.use("/api", authRoutes);
+app.use("/api", adminRoutes);
+app.use("/api", productRoutes);
+app.use("/api", offerRoutes);
+app.use("/api/500", errorController.get500);
+app.get("/", authMiddleware, errorController.get404);
+
+app.use((error, req, res, next) => {
+  const status = error.statusCode || 500;
+  let message = error.message;
+  console.log(error);
+  res.status(status).json({ message: message });
+});
+
+async function startServer() {
+  try {
+    //if the local db data is lost fetch the backup from the online version.
+    console.log("Connecting to local MongoDB...");
+    await mongoose.connect(process.env.ONLINE_MONGO_URI + dbName);
+
+    //check if kayandb exist
+    // const listDatabases = await getDatabaseList(mongoose);
+    // //if kayandb is not in the list, fetch the data from the online backup
+    // if (!listDatabases.includes(dbName)) {
+    //   await fetchDataFromOnlineBackup();
+    //   console.log("Data fetched from online MongoDB.");
+    // }
+
+    // // Schedule the sync function to run every 5 minutes
+    // cron.schedule("0 */2 * * *", () => syncData(mongoose));
+
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  } catch (err) {
+    console.error("Error starting server:", err);
+  }
+}
+//test
+startServer();

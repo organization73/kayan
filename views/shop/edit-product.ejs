@@ -1,0 +1,193 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/api/css/forms.css">
+  <link rel="stylesheet" href="/api/css/product.css">
+  <link rel="stylesheet" href="/api/css/articale.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  <script src="/api/js/add-edit-product.js" defer></script>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+
+        <form name="product" class="product-form" id="add-edit-product" enctype="multipart/form-data">
+          <div class="form-control">
+            <label for="title">Title</label>
+            <input type="text" name="title" id="title" dir="rtl"
+              value="<% if (editing || hasErrors) { %><%= product.title %><% } %>">
+          </div>
+          <div class="form-control out-of-stock-control">
+            <span>Out of Stock</span>
+            <input type="checkbox" name="isOutOfStock" id="isOutOfStock" <% if (editing || hasErrors) { %>
+            <%= product.isOutOfStock ? 'checked' : '' %>
+              <% } %> >
+          </div>
+          <label for="category">Category</label>
+          <select name="category" id="category">
+            <option value="">اختر فئة</option>
+            <option value="antreeh" <%=(editing || hasErrors) && product.category==='antreeh' ? 'selected' : '' %>
+              >انتريه</option>
+            <option value="bedroom" <%=(editing || hasErrors) && product.category==='bedroom' ? 'selected' : '' %> >غرف
+              نوم</option>
+            <option value="office" <%=(editing || hasErrors) && product.category==='office' ? 'selected' : '' %> >مكتب
+            </option>
+            <option value="kids-room" <%=(editing || hasErrors) && product.category==='kids-room' ? 'selected' : '' %>
+              >غرف أطفال</option>
+            <option value="dining-room" <%=(editing || hasErrors) && product.category==='dining-room' ? 'selected' : ''
+              %> >غرف سفرة</option>
+            <option value="sofa" <%=(editing || hasErrors) && product.category==='sofa' ? 'selected' : '' %> >ركنات
+            </option>
+            <option value="salon" <%=(editing || hasErrors) && product.category==='salon' ? 'selected' : '' %> >صالونات
+            </option>
+            <option value="table" <%=(editing || hasErrors) && product.category==='table' ? 'selected' : '' %> >طاولة
+            </option>
+            <option value="cabinet" <%=(editing || hasErrors) && product.category==='cabinet' ? 'selected' : '' %> >نيش
+            </option>
+          </select>
+
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image">
+          </div>
+          <div class="form-control">
+
+          </div>
+          <div class="form-control">
+            <label for="images">Images list</label>
+            <input type="file" name="images" id="images" multiple onchange="handleImagesList(this)">
+          </div>
+
+
+          <!-- <div class="form-control">
+                <label for="imageUrl">Image URL</label>
+                <input  type="text" name="imageUrl" id="imageUrl"
+                  value="<% if (editing || hasErrors) { %><%= product.imageUrl %><% } %>">
+              </div> -->
+
+          <div class="form-control">
+            <label for="price">Price</label>
+            <input type="number" name="price" id="price" step="0.01"
+              value="<% if (editing || hasErrors) { %><%= product.price %><% } %>">
+          </div>
+          <%if (editing){%>
+            <div class="form-control">
+              <label for="rating">Rating</label>
+              <input type="number" name="rating" id="rating" step="0.01"
+                value="<% if (editing || hasErrors) { %><%= product.rating %><% } %>">
+            </div>
+            <% } %>
+              <div class="form-control">
+                <label for="description">Description</label>
+                <textarea name="description" id="description" dir="rtl" rows="8"
+                  rows="5"><% if (editing || hasErrors) { %><%= product.description %><% } %></textarea>
+              </div>
+              <div class="form-control">
+                <label for="highlights">Highlights</label>
+                <textarea name="highlights" id="highlights" dir="rtl" rows="8"
+                  rows="5"><% if (editing || hasErrors) { %><%= product.highlights %><% } %></textarea>
+              </div>
+
+              <% if (editing) { %>
+                <input type="hidden" value="<%= product._id %>" name="productId" id="productId">
+                <% } %>
+
+                  <button class="btn" type="submit">
+                    <% if (editing) { %>Update Product<% } else { %>Add Product<% } %>
+                  </button>
+        </form>
+
+
+
+        <% if (editing) {%>
+          <hr>
+          <!--start  -->
+
+          <section id="testimonials">
+            <!--heading--->
+            <div class="testimonial-heading">
+              <span>Reviews</span>
+              <h4>Clients Says</h4>
+            </div>
+            <!--testimonials-box-container------>
+            <% if(reviews.length> 0){ %>
+              <div class="testimonial-box-container">
+                <!--BOX-1-------------->
+                <% for (const review of reviews) {%>
+                  <div class="testimonial-box">
+                    <!--top------------------------->
+                    <div class="box-top">
+
+                      <!--profile----->
+                      <div class="profile">
+                        <!--img---->
+                        <div class="profile-img">
+                          <img src="https://cdn3.iconfinder.com/data/icons/avatars-15/64/_Ninja-2-512.png" />
+                        </div>
+                        <!--name-and-username-->
+                        <div class="name-user">
+                          <strong><%- review.creator.name %></strong>
+                          <span><%- review.creator.email%></span>
+                          <span><%- review.productId.title%></span>
+
+                        </div>
+                      </div>
+                      <!-- reviews -->
+
+                      <div class="reviews">
+                        <% for (let i=0; i < 5; i++){%>
+                          <% if(i < review.rating){%>
+                            <i class="fas fa-star"></i>
+                            <%} else {%>
+                              <i class="far fa-star"></i>
+                              <%}%>
+                                <%}%>
+                      </div>
+                    </div>
+                    <!--Comments---------------------------------------->
+                    <div class="client-comment">
+                      <p><%- review.review %></p>
+                    </div>
+                    <div class="button-container">
+                      <input type="hidden" value="<%= review._id %>" name="reviewId">
+                      <button class="btn danger" type="button" onclick="deleteReview(this)">Delete</button>
+                    </div>
+                    <!-- <div class="button-container">
+                  <button class="btn" style="margin-right: 15px;">Edit</button>
+                  <button class="btn danger">Delete</button>
+                </div> -->
+                  </div>
+                  <% } %>
+
+              </div>
+              <% } else { %>
+                <h1> NO Reviews.</h1>
+                <%}%>
+          </section>
+
+          <% } %>
+
+      </main>
+      <script>
+        function deleteReview(btn) {
+          const reviewId = btn.previousElementSibling.value;
+          fetch('/api/product-review/' + reviewId, {
+            method: 'DELETE',
+          })
+            .then(result => {
+              return result.json();
+            })
+            .then(data => {
+              console.log(data);
+              location.reload();
+            })
+            .catch(err => {
+              alert('Failed!');
+              console.log(err);
+            });
+        }
+
+      </script>
+
+
+      <%- include('../includes/end.ejs') %>

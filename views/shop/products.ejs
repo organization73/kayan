@@ -1,0 +1,89 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/api/css/product.css">
+  <link rel="stylesheet" href="/api/css/forms.css">
+  <script src="/api/js/delete-product.js" defer></script>
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+        <form class="product-form"  id="search-form">
+          <div class="form-control">
+            <input type="text" name="searchValue" placeholder="Search products..." value="<%= search %>" class="input-field">
+            <button class="btn" type="submit">Search</button>
+          </div>
+        </form>
+        <% if (prods.length> 0) { %>
+          <div class="grid">
+            <% for (let product of prods) { %>
+              <article class="card product-item">
+                <header class="card__header">
+                  <h1 class="product__title">
+                    <%= product.title %>
+                  </h1>
+                </header>
+                <div class="card__image">
+                  <img src="<%= product.mainImageUrl %>" alt="<%= product.title %>"><!-- local/image/name -->
+                  <!-- <img src="<%= product.imageUrl %>" alt="<%= product.title %>"> //local/admin/image/name -->
+                </div>
+                <div class="card__content">
+                  <h2 class="product__price">$
+                    <%= product.price %>
+                  </h2>
+                  <p class="product__price">
+                    <%= product._id %>
+                  </p>
+                  <p class="product__description">
+                    <%= product.description %>
+                  </p>
+                </div>
+                <div class="card__actions">
+                  <a href="/api/edit-product/<%= product._id %>?edit=true" class="btn">Edit</a>
+                  <input type="hidden" value="<%= product._id %>" name="productId">
+                  <button class="btn danger" type="button" onclick="deleteProduct(this)">Delete</button>
+                </div>
+              </article>
+              <% } %>
+          </div>
+          <section class="pagination">
+            <% if (currentPage !==1 && previousPage !==1) { %>
+              <a href="?page=1&searchValue=<%= search %>">1</a>
+              <% } %>
+                <% if (hasPreviousPage) { %>
+                  <a href="?page=<%= previousPage %>&searchValue=<%= search %>">
+                    <%= previousPage %>
+                  </a>
+                  <% } %>
+                    <a href="?page=<%= currentPage %>&searchValue=<%= search %>" class="active">
+                      <%= currentPage %>
+                    </a>
+                    <% if (hasNextPage) { %>
+                      <a href="?page=<%= nextPage %>&searchValue=<%= search %>">
+                        <%= nextPage %>
+                      </a>
+                      <% } %>
+                        <% if (lastPage !==currentPage && nextPage !==lastPage) { %>
+                          <a href="?page=<%= lastPage %>&searchValue=<%= search %>">
+                            <%= lastPage %>
+                          </a>
+                          <% } %>
+          </section>
+          <% } else { %>
+            <h1>No Products Found!</h1>
+            <% } %>
+      </main>
+      <script>
+
+        document.addEventListener('DOMContentLoaded', function () {
+          const descriptions = document.querySelectorAll('p.product__description');
+
+          descriptions.forEach(p => {
+            const text = p.textContent;
+            if (text.length > 50) {
+              p.textContent = text.substring(0, 100) + '...';
+            }
+          });
+        });
+      </script>
+      <%- include('../includes/end.ejs') %>

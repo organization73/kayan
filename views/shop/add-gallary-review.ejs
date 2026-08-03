@@ -1,0 +1,125 @@
+<%- include('../includes/head.ejs') %>
+  <link rel="stylesheet" href="/api/css/forms.css">
+  <link rel="stylesheet" href="/api/css/product.css">
+  </head>
+
+  <body>
+    <%- include('../includes/navigation.ejs') %>
+
+      <main>
+
+        <form name="product" class="product-form" id="add-offer" enctype="multipart/form-data">
+
+          <div class="form-control">
+            <label for="image">Image</label>
+            <input type="file" name="image" id="image" %>">
+          </div>
+
+
+          <button class="btn" type="submit"> Add Offer </button>
+        </form>
+        <hr>
+        <% if (reviews.length> 0) { %>
+          <div class="grid">
+            <% for (let review of reviews) { %>
+              <article class="card product-item">
+                <header class="card__header">
+                  <h1 class="product__title">
+                    <%= review.title %>
+                  </h1>
+                </header>
+
+                <div class="card__image">
+                  <img src="<%= review.image %>" alt="Loading"><!-- local/image/name -->
+                </div>
+                <div class="card__actions">
+                  <input type="hidden" value="<%= review._id %>" name="reviewId">
+                  <button class="btn danger" type="button" onclick="deleteReview(this)">Delete</button>
+                </div>
+              </article>
+              <% } %>
+          </div>
+          <% } else { %>
+            <h1>No Reviews Found!</h1>
+            <% } %>
+
+      </main>
+
+      <script>
+        const form = document.getElementById("add-offer");
+        const imageInput = document.getElementById("image");
+
+        console.log(form);
+
+        form.addEventListener("submit", async (event) => {
+          event.preventDefault();
+
+          const imageFiles = imageInput.files;
+          if (!imageFiles || imageFiles.length === 0) {
+            alert("Please fill in all fields");
+            return;
+          }
+
+
+          console.log(imageFiles);
+          try {
+            const response = await fetch("/api/add-gallary-review", {
+              method: "POST",
+              body: new FormData(form),
+            });
+
+            if (response.status !== 201) {
+              const errorData = await response.json();
+              throw new Error(
+                errorData.message ||
+                `Request failed with status code ${response.status}`
+              );
+            }
+
+            const responseData = await response.json();
+            console.log("Request succeeded with JSON response", responseData);
+            alert("Offer added successfully");
+            window.location.href = "/api/add-gallary-review";
+            return responseData;
+          } catch (error) {
+            console.log(error);
+            alert(`Error: ${error.message}`);
+          }
+        });
+
+      </script>
+      <script>
+        const deleteReview = async (btn) => {
+          const reviewId = btn.parentNode.querySelector("[name=reviewId]").value;
+          console.log(reviewId);
+          // const csrf = btn.parentNode.querySelector('[name=_csrf]').value;
+
+          const productElement = btn.closest("article");
+
+          try {
+            const response = await fetch(`/api/gallary-review/${reviewId}`, {
+              method: "DELETE",
+            });
+
+            if (response.status !== 200) {
+              const errorData = await response.json();
+              throw new Error(
+                errorData.message ||
+                `Request failed with status code ${response.status}`
+              );
+            }
+
+            const responseData = await response.json();
+            console.log("Request succeeded with JSON response", responseData);
+            alert("review deleted successfully");
+            window.location.href = "/api/add-gallary-review";
+            return responseData;
+          } catch (error) {
+            console.log(error);
+            alert(`Error: ${error.message}`);
+            window.location.href = "/api/add-gallary-review";
+          }
+        };
+
+      </script>
+      <%- include('../includes/end.ejs') %>
