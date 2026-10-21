@@ -90,7 +90,8 @@ exports.getAddGallaryPage = async (req, res, next) => {
 };
 
 exports.postAddGallaryPage = async (req, res, next) => {
-  const { image } = req.files;
+  const image = req.files?.image;
+  let uploadedImage;
 
   try {
     if (!image) {
@@ -98,16 +99,22 @@ exports.postAddGallaryPage = async (req, res, next) => {
       error.statusCode = 422;
       throw error;
     }
-    //upload image to azure
-    // await fileHelper.uploadToAzureHandler(image[0]);
+    uploadedImage = await fileHelper.uploadImage(image[0]);
 
     //store image path in database
     const galleryReview = new GalleryReview({
-      image: image[0].path,
+      image: uploadedImage,
     });
     await galleryReview.save();
     res.status(201).json({ message: "Image uploaded successfully" });
   } catch (error) {
+    if (uploadedImage) {
+      try {
+        await fileHelper.deleteImage(uploadedImage);
+      } catch (cleanupError) {
+        console.error("Failed to clean up uploaded gallery image:", cleanupError);
+      }
+    }
     next(error);
   }
 };
@@ -120,8 +127,7 @@ exports.deleteGallaryReview = async (req, res, next) => {
       error.statusCode = 404;
       throw error;
     }
-    //delete image from azure
-    await fileHelper.deleteFromAzureHandler(review.image);
+    await fileHelper.deleteImage(review.image);
     await GalleryReview.findByIdAndDelete(id);
     res.status(201).json({ message: "Review deleted successfully" });
   } catch (error) {

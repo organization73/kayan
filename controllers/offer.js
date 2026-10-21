@@ -18,6 +18,7 @@ exports.getAddOffer = async (req, res, next) => {
 exports.postAddOffer = async (req, res, next) => {
   const { title, categories } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
+  let uploadedImage;
 
   try {
     //Data validation
@@ -31,18 +32,25 @@ exports.postAddOffer = async (req, res, next) => {
       error.statusCode = 422;
       throw error;
     }
-    // await fileHelper.uploadToAzureHandler(image);
+    uploadedImage = await fileHelper.uploadImage(image);
     //create offer
     const offer = new Offer({
       title,
       categories,
-      Image: image.path,
+      Image: uploadedImage,
       creator: req.admin,
     });
     //save to database
     await offer.save();
     res.status(201).json({ message: "Offer created successfully" });
   } catch (error) {
+    if (uploadedImage) {
+      try {
+        await fileHelper.deleteImage(uploadedImage);
+      } catch (cleanupError) {
+        console.error("Failed to clean up uploaded offer image:", cleanupError);
+      }
+    }
     next(error);
   }
 };
@@ -79,7 +87,7 @@ exports.deleteOffer = async (req, res, next) => {
       throw error;
     }
     //delete offer image
-    await fileHelper.deleteLocalFile({ path: offer.Image });
+    await fileHelper.deleteImage(offer.Image);
     //send response
     res.status(201).json({ message: "Offer deleted successfully", offer });
   } catch (error) {
@@ -129,6 +137,9 @@ exports.getManageOrders = async (req, res, next) => {
 exports.putEditOffer = async (req, res, next) => {
   const { offerId, title, categories } = req.body;
   const image = req.files["image"] ? req.files["image"][0] : undefined;
+  let uploadedImage;
+  let oldImage;
+  let saved = false;
 
   try {
     //validate data
@@ -148,18 +159,26 @@ exports.putEditOffer = async (req, res, next) => {
       offer.categories = categories;
     }
     if (image) {
-      const oldImage = offer.Image;
-      //upload new image and add path to the image variable.
-      // await fileHelper.uploadToAzureHandler(image);
-      offer.Image = image.path;
-      //delete old image
-      await fileHelper.deleteLocalFile({ path: oldImage });
+      uploadedImage = await fileHelper.uploadImage(image);
+      oldImage = offer.Image;
+      offer.Image = uploadedImage;
     }
     //save to database
     await offer.save();
+    saved = true;
+    if (oldImage) {
+      await fileHelper.deleteImage(oldImage);
+    }
     //send response
     res.status(201).json({ message: "Offer updated successfully" });
   } catch (error) {
+    if (uploadedImage && !saved) {
+      try {
+        await fileHelper.deleteImage(uploadedImage);
+      } catch (cleanupError) {
+        console.error("Failed to clean up uploaded offer image:", cleanupError);
+      }
+    }
     next(error);
   }
 };
