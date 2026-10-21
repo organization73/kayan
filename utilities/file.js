@@ -165,10 +165,33 @@ const uploadToCloudinary = async (file) => {
   );
 
   if (!result.secure_url || !result.public_id) {
-    throw new Error("Cloudinary upload response did not include the image URL.");
+    throw new Error(
+      "Cloudinary upload response did not include the image URL and identifier."
+    );
   }
 
-  return result.secure_url;
+  const uploadedUrl = new URL(result.secure_url);
+  if (uploadedUrl.hostname !== "res.cloudinary.com") {
+    throw new Error("Cloudinary returned an unexpected image URL.");
+  }
+
+  const uploadedPath = uploadedUrl.pathname.split("/").filter(Boolean);
+  const uploadIndex = uploadedPath.indexOf("upload");
+  const assetParts = uploadedPath.slice(uploadIndex + 1);
+  if (uploadIndex === -1 || uploadedPath[0] !== cloudName) {
+    throw new Error("Cloudinary returned an unsupported image URL.");
+  }
+  if (/^v\d+$/.test(assetParts[0] || "")) {
+    assetParts.shift();
+  }
+  if (
+    assetParts.length < 2 ||
+    assetParts.slice(0, -1).join("/") !== CLOUDINARY_UPLOAD_FOLDER
+  ) {
+    throw new Error("Cloudinary returned an image outside the images folder.");
+  }
+
+  return assetParts.map((part) => decodeURIComponent(part)).join("/");
 };
 
 const deleteFromCloudinary = async (imageUrl) => {
