@@ -47,6 +47,7 @@ exports.postAddProduct = async (req, res, next) => {
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
     : undefined;
+  const uploadedImages = [];
 
   try {
     //Data validation
@@ -63,16 +64,19 @@ exports.postAddProduct = async (req, res, next) => {
       error.statusCode = 422;
       throw error;
     }
-    if (images.length < 1) {
+    if (!images || images.length < 1) {
       const error = new Error("Images are required");
       error.statusCode = 422;
       throw error;
     }
-    //upload image to azure
-    // // await fileHelper.uploadToAzureHandler(image);
-    // await Promise.all(
-    //   images.map((img) => fileHelper.uploadToAzureHandler(img))
-    // );
+    const mainImageUrl = await fileHelper.uploadImage(image);
+    uploadedImages.push(mainImageUrl);
+    const imageUrls = [];
+    for (const img of images) {
+      const imageUrl = await fileHelper.uploadImage(img);
+      uploadedImages.push(imageUrl);
+      imageUrls.push(imageUrl);
+    }
 
     //create object
     const product = new Product({
@@ -81,19 +85,22 @@ exports.postAddProduct = async (req, res, next) => {
       category,
       description,
       highlights,
-      mainImageUrl: image.path,
-      images: images.map((img) => img.path),
+      mainImageUrl,
+      images: imageUrls,
       creator: req.admin,
     });
     //save to database
     await product.save();
     res.status(201).json({ message: "Product created successfully" });
   } catch (error) {
-    fileHelper.deleteLocalFile(image);
-    if (images) {
-      images.forEach((img) => fileHelper.deleteLocalFile(img));
-    }
-
+    const cleanup = await Promise.allSettled(
+      uploadedImages.map((imageUrl) => fileHelper.deleteImage(imageUrl))
+    );
+    cleanup
+      .filter((result) => result.status === "rejected")
+      .forEach((result) =>
+        console.error("Failed to clean up uploaded image:", result.reason)
+      );
     next(error);
   }
 };
@@ -151,30 +158,19 @@ exports.deleteProduct = async (req, res, next) => {
   const { productId } = req.params;
 
   try {
-    //delete product
-    const product = await Product.findByIdAndDelete(productId);
+    const product = await Product.findById(productId);
     if (!product) {
       const error = new Error("Product not found");
       error.statusCode = 404;
       throw error;
     }
-    // Delete product images
-    try {
-      //azure
-      // await fileHelper.deleteFromAzureHandler(product.mainImageUrl);
-      // await Promise.all(
-      //   product.images.map((img) => fileHelper.deleteFromAzureHandler(img))
-      // );
-      //local
-      fileHelper.deleteLocalFile({ path: product.mainImageUrl });
-      product.images.forEach((img) =>
-        fileHelper.deleteLocalFile({ path: img })
-      );
-    } catch (fileError) {
-      console.error("Error deleting product images:", fileError);
-      // Handle the file deletion error, but continue
-      next(fileError);
-    }
+
+    await Promise.all([
+      fileHelper.deleteImage(product.mainImageUrl),
+      ...product.images.map((img) => fileHelper.deleteImage(img)),
+    ]);
+
+    await Product.findByIdAndDelete(productId);
     //delete prodcuct from offers.
     await Offer.updateMany(
       { products: { $in: [productId] } },
@@ -231,6 +227,9 @@ exports.postEditProduct = async (req, res, next) => {
   const images = req.files["images"]
     ? req.files["images"].map((file) => file)
     : undefined;
+  const uploadedImages = [];
+  let saved = false;
+  let oldImagesToDelete = [];
 
   try {
     //Data validation
@@ -258,33 +257,50 @@ exports.postEditProduct = async (req, res, next) => {
     product.rating = rating;
     product.isOutOfStock = isOutOfStock ? true : false;
     if (image) {
-      //upload new image
-      // await fileHelper.uploadToAzureHandler(image);
+      const imageUrl = await fileHelper.uploadImage(image);
+      uploadedImages.push(imageUrl);
       const oldImage = product.mainImageUrl;
-      product.mainImageUrl = image.path;
-      //delete old image
-      await fileHelper.deleteLocalFile({ path: oldImage });
+      product.mainImageUrl = imageUrl;
+      oldImagesToDelete.push(oldImage);
     }
 
-    if (images) {
-      const oldImages = [...product.images];
-      //upload new images and create image path
-      // await Promise.all(
-      //   images.map((img) => fileHelper.uploadToAzureHandler(img))
-      // );
-      product.images = images.map((img) => img.path);
-      //delete old images
-      // oldImages.forEach((img) => fileHelper.deleteFile(img));
-      await Promise.all(
-        oldImages.map((img) => fileHelper.deleteLocalFile({ path: img }))
-      );
+    if (images && images.length) {
+      oldImagesToDelete = oldImagesToDelete.concat(product.images);
+      const imageUrls = [];
+      for (const img of images) {
+        const imageUrl = await fileHelper.uploadImage(img);
+        uploadedImages.push(imageUrl);
+        imageUrls.push(imageUrl);
+      }
+      product.images = imageUrls;
     }
     //save to database
     await product.save();
-    res.status(201).json({ message: "Product updated successfully" });
+    saved = true;
+  } catch (error) {
+    if (!saved) {
+      const cleanup = await Promise.allSettled(
+        uploadedImages.map((imageUrl) => fileHelper.deleteImage(imageUrl))
+      );
+      cleanup
+        .filter((result) => result.status === "rejected")
+        .forEach((result) =>
+          console.error("Failed to clean up uploaded image:", result.reason)
+        );
+    }
+    next(error);
+    return;
+  }
+
+  try {
+    await Promise.all(
+      oldImagesToDelete.map((imageUrl) => fileHelper.deleteImage(imageUrl))
+    );
   } catch (error) {
     next(error);
+    return;
   }
+  res.status(201).json({ message: "Product updated successfully" });
 };
 
 exports.addReview = async (req, res, next) => {

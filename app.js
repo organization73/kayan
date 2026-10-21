@@ -1,4 +1,3 @@
-const fs = require("fs");
 const express = require("express");
 const morgan = require("morgan");
 const mongoose = require("mongoose");
@@ -18,6 +17,7 @@ const offerRoutes = require("./routes/offer");
 
 const errorController = require("./controllers/error");
 const authMiddleware = require("./middleware/auth");
+const cloudinaryImageRedirect = require("./middleware/cloudinary-image");
 const Admin = require("./models/admin");
 const {
   syncData,
@@ -57,18 +57,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 
 const upload = multer({
-  // storage: multer.memoryStorage(),
-  storage: multer.diskStorage({
-    destination: (req, file, cb) => {
-      const dir = file.fieldname === "image" ? "images" : "images";
-      fs.mkdirSync(dir, { recursive: true });
-      cb(null, dir);
-    },
-    filename: (req, file, cb) => {
-      const uniqueSuffix = Date.now() + "-" + Math.round(Math.random() * 1e9);
-      cb(null, `${file.fieldname}-${uniqueSuffix}-${file.originalname}`);
-    },
-  }),
+  storage: multer.memoryStorage(),
   fileFilter: fileFilter,
   limits: { fileSize: 2 * 1024 * 1024 }, // 2MB
 });
@@ -83,6 +72,7 @@ app.use(
 app.set("view engine", "ejs");
 app.set("views", "views");
 
+app.get("/api/images/:imageName", cloudinaryImageRedirect);
 app.use("/api/", express.static("public"));
 app.use("/api/images", express.static("images"));
 
